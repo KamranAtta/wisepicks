@@ -1,8 +1,9 @@
 import Axios from 'axios';
-import { AUTH_TOKEN } from '../utils/constant';
+import { getLocalStorage } from './localStorage';
+import { AUTH_TOKEN, LOCAL_STORAGE } from '../utils/constant';
 
 export const doGet = async (path: string, headers: object = {}, baseURL: string) => {
-  const token = '';
+  const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: `${path}`,
@@ -22,7 +23,7 @@ export const doGet = async (path: string, headers: object = {}, baseURL: string)
 };
 
 export const doPost = async (path: string, data: object, headers: object = {}, baseURL: string) => {
-  const token = '';
+  const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: path,
@@ -43,7 +44,7 @@ export const doPost = async (path: string, data: object, headers: object = {}, b
 };
 
 export const doPut = async (path: string, data: object, headers: object = {}, baseURL: string) => {
-  const token = '';
+  const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: path,
@@ -95,7 +96,7 @@ export const doDelete = async (
   headers: object = {},
   baseURL: string,
 ) => {
-  const token = '';
+  const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: path,

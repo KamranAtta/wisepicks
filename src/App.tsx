@@ -1,20 +1,17 @@
 import './App.css';
 import { theme } from './theme';
+import { store } from './store/store';
+
 import { ConfigProvider } from 'antd';
-import ButtonComponent from './components/common/Button';
+import { Provider } from 'react-redux';
+import Home from './views/home';
 
 function App() {
   return (
     <ConfigProvider theme={theme}>
-      <ButtonComponent
-        type='primary'
-        onClick={() => {
-          return true;
-        }}
-        style={{ width: '187px', height: '53px', margin: '30px' }}
-      >
-        ResourceAlly
-      </ButtonComponent>
+      <Provider store={store}>
+        <Home />
+      </Provider>
     </ConfigProvider>
   );
 }

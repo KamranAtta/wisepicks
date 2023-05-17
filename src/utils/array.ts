@@ -1,4 +1,8 @@
 /**
+ * All helper function realted to array
+ */
+
+/**
  * compare both array of type T ,return true if both array contain similar elements in same order
  * @param src
  * @param target
