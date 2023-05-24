@@ -19,5 +19,7 @@ deploy:
   only:
     - main
   script:
+    - cp $GCP_SERVICE_ACCT_KEY  /tmp/serivce-acct.json #Used for auth.
+    - gcloud auth activate-service-account --key-file=/tmp/serivce-acct.json
     - gcloud config set project $GCP_PROJECT_ID
     - gsutil cp -r build/* gs://$GCP_BUCKET_NAME
