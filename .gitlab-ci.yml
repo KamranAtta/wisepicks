@@ -19,8 +19,5 @@ deploy:
   only:
     - main
   script:
-    - apt-get update && apt-get install -yq curl
-    - curl https://sdk.cloud.google.com | bash
-    - exec -l $SHELL
     - gcloud config set project $GCP_PROJECT_ID
     - gsutil cp -r build/* gs://$GCP_BUCKET_NAME
