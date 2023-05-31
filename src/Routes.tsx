@@ -1,16 +1,25 @@
 import { Fragment } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import ResourceList from './views/ResouceList';
+import AddProject from './views/addProject';
+import SelectDropDown from './components/common/Select';
 import HeaderComponent from './components/Header';
-
+import EditProject from './views/editProject';
+import CloneProject from './views/cloneProject';
+import RequestResource from './views/requestResource';
+import ResourceList from './views/ResouceList';
 const Router = () => {
   return (
     <Fragment>
-      <HeaderComponent />
+      <HeaderComponent></HeaderComponent>
       <Routes>
         <Route path='/' element={<ResourceList />} />
         <Route path='/resources' element={<ResourceList />} />
+        <Route path='/test' element={<SelectDropDown />} />
+        <Route path='/addProject' element={<AddProject />} />
+        <Route path='/editProject' element={<EditProject />} />
+        <Route path='/cloneProject' element={<CloneProject />} />
+        <Route path='/requestResource' element={<RequestResource />} />
       </Routes>
     </Fragment>
   );
