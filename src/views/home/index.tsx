@@ -1,9 +1,10 @@
 import React from 'react';
+import HeaderComponent from '../../components/Header';
 
 export default function Home() {
   return (
     <React.Fragment>
-      <div>Resource Ally Heading</div>
+      <HeaderComponent></HeaderComponent>
     </React.Fragment>
   );
 }
