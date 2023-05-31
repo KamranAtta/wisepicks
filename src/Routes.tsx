@@ -2,14 +2,14 @@ import { Fragment } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Home from './views/Home';
-import SelectDropDown from './components/common/Select';
+import ResourceList from './views/ResouceList';
 
 const Router = () => {
   return (
     <Fragment>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/test' element={<SelectDropDown />} />
+        <Route path='/test' element={<ResourceList />} />
       </Routes>
     </Fragment>
   );
