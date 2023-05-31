@@ -16,8 +16,10 @@ export default function ResourceTable({ resourceQuery }: any) {
   const [singleResourceData, setsingleResourceData] = useState<resourceListDataType | null>(null);
 
   const fetchResources = async () => {
+    setLoader(true);
     const resourceList = await getResources(resourceQuery.query);
     setResources(resourceList);
+    setLoader(false);
   };
 
   useEffect(() => {

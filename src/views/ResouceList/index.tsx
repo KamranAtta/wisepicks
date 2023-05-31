@@ -1,14 +1,12 @@
-import { Typography } from 'antd';
 import React, { Fragment, useState, FormEvent } from 'react';
 import { CheckCircleOutlined, QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
 import SearchBar from '../../components/common/Search';
+import TypographyTitle from '../../components/common/Title';
 import ButtonComponent from '../../components/common/Button';
 import ResourceTable from '../../components/Table/ResourceTable';
 
 import './index.css';
-
-const { Title } = Typography;
 
 interface ResourceQuery {
   query: string;
@@ -41,7 +39,9 @@ export default function ResourceList() {
       <div className='component-content'>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1em' }}>
           <div style={{ display: 'flex', alignContent: 'center' }}>
-            <Title level={3}>Resources</Title>
+            <TypographyTitle level={3} style={{ marginTop: '0px', marginBottom: '0px' }}>
+              Resources
+            </TypographyTitle>
             <ButtonComponent
               className='over-allocated-menu-button'
               icon={<QuestionCircleOutlined />}
