@@ -8,12 +8,14 @@ import EditProject from './views/editProject';
 import CloneProject from './views/cloneProject';
 import RequestResource from './views/requestResource';
 import ResourceList from './views/ResouceList';
+import ProjectList from './views/ProjectList';
 const Router = () => {
   return (
     <Fragment>
       <HeaderComponent></HeaderComponent>
       <Routes>
         <Route path='/' element={<ResourceList />} />
+        <Route path='/projects' element={<ProjectList />} />
         <Route path='/resources' element={<ResourceList />} />
         <Route path='/test' element={<SelectDropDown />} />
         <Route path='/addProject' element={<AddProject />} />
