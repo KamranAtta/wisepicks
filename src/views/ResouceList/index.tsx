@@ -7,7 +7,8 @@ import ButtonComponent from '../../components/common/Button';
 import ResourceTable from '../../components/Table/ResourceTable';
 
 import './index.css';
-
+import ResourceDetail from '../../components/Drawer/ResourceDetail';
+import { resourceListDataType as ResourceListDataType } from '../../components/Table/ResourceTable/interfaces/resourceListInterface';
 interface ResourceQuery {
   query: string;
   status: string;
@@ -16,7 +17,9 @@ interface ResourceQuery {
 export default function ResourceList() {
   const RESOURCE_QUERY_INITIAL = { query: '', status: '' };
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [resourceDrawerOpen, setResourceDrawerOpen] = useState<boolean>(false);
   const [resourceQuery, setResourceQuery] = useState<ResourceQuery>(RESOURCE_QUERY_INITIAL);
+  const [resourceDetails, setResourceDetails] = useState<ResourceListDataType | null>(null);
 
   const handleSearchQueryChange = (event: FormEvent<HTMLElement>) => {
     setSearchQuery((event.target as HTMLInputElement).value);
@@ -32,6 +35,11 @@ export default function ResourceList() {
 
   const handleResetSearchQuery = () => {
     setResourceQuery(RESOURCE_QUERY_INITIAL);
+  };
+
+  const showResourceDetailDrawer = (element: ResourceListDataType) => {
+    setResourceDetails(element);
+    setResourceDrawerOpen(true);
   };
 
   return (
@@ -77,8 +85,21 @@ export default function ResourceList() {
             Search
           </ButtonComponent>
         </div>
-        <ResourceTable resourceQuery={resourceQuery} />
+        <ResourceTable
+          resourceQuery={resourceQuery}
+          handleResourceDetail={(element: ResourceListDataType) =>
+            showResourceDetailDrawer(element)
+          }
+        />
       </div>
+      {resourceDrawerOpen && (
+        <ResourceDetail
+          title='Resource Details'
+          onClose={() => setResourceDrawerOpen(false)}
+          open={resourceDrawerOpen}
+          data={resourceDetails as ResourceListDataType}
+        />
+      )}
     </Fragment>
   );
 }

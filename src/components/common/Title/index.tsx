@@ -11,3 +11,7 @@ export default function TypographyTitle({ level, style, children }: Title) {
     </TitleComponent>
   );
 }
+
+TypographyTitle.defaultProps = {
+  style: {},
+};

@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { List, Space, Tag, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
-import { resourceListDataType } from './interfaces/resourceListInterface';
 import { getResources } from '../../../apis';
+import { resourceListDataType } from './interfaces/resourceListInterface';
 
-export default function ResourceTable({ resourceQuery }: any) {
-  const [input, setInput] = useState<string>('');
-  const [open, setOpen] = useState<boolean>(false);
+export default function ResourceTable({ resourceQuery, handleResourceDetail }: any) {
   const [resources, setResources] = useState<any>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [formOpen, setFormOpen] = useState<boolean>(false);
@@ -37,15 +35,10 @@ export default function ResourceTable({ resourceQuery }: any) {
     setFormOpen(true);
   };
 
-  const showDrawer = (element: resourceListDataType) => {
-    setsingleResourceData(element);
-    setOpen(true);
-  };
-
   const columns: ColumnsType<resourceListDataType> = [
     {
       title: 'Name',
-      render: (element) => <a onClick={() => showDrawer(element)}>{element?.name}</a>,
+      render: (element) => <a onClick={() => handleResourceDetail(element)}>{element?.name}</a>,
       sorter: (a, b) => columnsSort(a.name, b.name),
     },
     {
