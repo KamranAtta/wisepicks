@@ -10,6 +10,7 @@ import SearchBar from '../../components/common/Search';
 import TypographyTitle from '../../components/common/Title';
 import ButtonComponent from '../../components/common/Button';
 import ProjectTable from '../../components/Table/ProjectTable';
+import { useNavigate } from 'react-router-dom';
 
 interface ResourceQuery {
   query: string;
@@ -17,6 +18,7 @@ interface ResourceQuery {
 }
 
 export default function ProjectList() {
+  const navigation = useNavigate();
   const RESOURCE_QUERY_INITIAL = { query: '', status: '' };
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [resourceQuery, setResourceQuery] = useState<ResourceQuery>(RESOURCE_QUERY_INITIAL);
@@ -75,7 +77,7 @@ export default function ProjectList() {
             <ButtonComponent
               type='primary'
               className='clear-menu-button'
-              onClick={() => handleResetSearchQuery()}
+              onClick={() => navigation('/addProject')}
               icon={<PlusOutlined />}
             >
               Add Project
