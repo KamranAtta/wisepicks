@@ -1,16 +1,17 @@
+import { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { useMediaQuery } from '../../hooks/MediaQuery.hook';
-import { MenuOutlined } from '@ant-design/icons';
+
 import { customTheme } from '../../theme';
-import { useState } from 'react';
 import logo from '../../assets/logo/logo.png';
 import DrawerComponent from '../common/Drawer';
+import { MenuOutlined } from '@ant-design/icons';
+import { useMediaQuery } from '../../hooks/MediaQuery.hook';
+
 const { Header } = Layout;
 
 export default function HeaderComponent() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [headerDrawerOpen, setheaderDrawerOpen] = useState<boolean>(false);
+  const [headerDrawerOpen, setHeaderDrawerOpen] = useState<boolean>(false);
   const matches = useMediaQuery('(min-width: 830px)');
   const styles = {
     headerDrawer: {
@@ -18,7 +19,8 @@ export default function HeaderComponent() {
       borderRight: 'none',
     },
   };
-  const menu = (
+
+  const MenuItems = (
     <>
       <Menu.Item key='resources'>
         <Link to='/resources'>Resources</Link>
@@ -28,6 +30,7 @@ export default function HeaderComponent() {
       </Menu.Item>
     </>
   );
+
   return (
     <Header
       style={{
@@ -47,21 +50,26 @@ export default function HeaderComponent() {
       </a>
       {matches ? (
         <Menu mode='horizontal' defaultSelectedKeys={['2']} style={{ width: '200px' }}>
-          {menu}
+          {MenuItems}
         </Menu>
       ) : (
-        <div onClick={() => setheaderDrawerOpen(true)}>
+        <div onClick={() => setHeaderDrawerOpen(true)}>
           <MenuOutlined style={{ color: customTheme.token.colorPrimary }} />
         </div>
       )}
       <DrawerComponent
         title='Resource Ally'
         open={headerDrawerOpen}
-        onClose={() => setheaderDrawerOpen(false)}
+        onClose={() => setHeaderDrawerOpen(false)}
       >
         {
-          <Menu mode='vertical' defaultSelectedKeys={['2']} style={styles.headerDrawer}>
-            {menu}
+          <Menu
+            onClick={() => setHeaderDrawerOpen(false)}
+            mode='vertical'
+            defaultSelectedKeys={['2']}
+            style={styles.headerDrawer}
+          >
+            {MenuItems}
           </Menu>
         }
       </DrawerComponent>
