@@ -1,6 +1,6 @@
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo/logo.png';
 import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 import { MenuOutlined } from '@ant-design/icons';
 import { customTheme } from '../../theme';
