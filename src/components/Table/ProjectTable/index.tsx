@@ -4,26 +4,31 @@ import type { ColumnsType } from 'antd/es/table';
 import React, { Fragment, useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
-import { resourceListDataType } from './interfaces/resourceListInterface';
-import { getResources } from '../../../apis';
+
+import { getAllProjects, getResources } from '../../../apis';
+import { projectListDataType } from './interfaces/projectListInterface';
+import { resourceListDataType } from '../ResourceTable/interfaces/resourceListInterface';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 export default function ProjectTable({ resourceQuery }: any) {
   const [input, setInput] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
-  const [resources, setResources] = useState<any>([]);
+  const [projects, setProjects] = useState<any>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [formOpen, setFormOpen] = useState<boolean>(false);
-  const [singleResourceData, setsingleResourceData] = useState<resourceListDataType | null>(null);
+  const [singleProjectData, setSingleProjectData] = useState<projectListDataType | null>(null);
 
-  const fetchResources = async () => {
+  const fetchProjects = async () => {
     setLoader(true);
-    const resourceList = await getResources(resourceQuery.query);
-    setResources(resourceList);
+    const projectList = await getAllProjects(resourceQuery.query);
+    // const resourceList = await getResources(resourceQuery.query);
+    setProjects(projectList);
     setLoader(false);
   };
 
   useEffect(() => {
-    fetchResources();
+    fetchProjects();
   }, [resourceQuery]);
 
   const renderCustomCell = (object: Array<string>) => {
@@ -32,87 +37,73 @@ export default function ProjectTable({ resourceQuery }: any) {
     );
   };
 
-  const showFormDrawer = (element: resourceListDataType) => {
-    setsingleResourceData(element);
-    setFormOpen(true);
-  };
-
-  const showDrawer = (element: resourceListDataType) => {
-    setsingleResourceData(element);
+  const showDrawer = (element: projectListDataType) => {
+    setSingleProjectData(element);
     setOpen(true);
   };
 
-  const columns: ColumnsType<resourceListDataType> = [
+  const columns: ColumnsType<projectListDataType> = [
     {
-      title: 'Name',
+      title: 'Project Name',
       render: (element) => <a onClick={() => showDrawer(element)}>{element?.name}</a>,
       sorter: (a, b) => columnsSort(a.name, b.name),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      sorter: (a, b) => columnsSort(a.email, b.email),
+      title: 'Client Name',
+      dataIndex: 'client',
+      key: 'client',
+      sorter: (a, b) => columnsSort(a.client, b.client),
     },
     {
-      title: 'Team',
-      dataIndex: 'team',
-      key: 'team',
-      sorter: (a, b) => columnsSort(a.team, b.team),
+      title: (
+        <>
+          <span>{'Resources'}</span>
+          <br />
+          <span>{'(Allocated / Planned)'}</span>
+        </>
+      ),
+      dataIndex: 'resources',
+      key: 'resources',
+      render: (text, record) => (
+        <span>{record.allocatedResources + ' / ' + record.plannedResources}</span>
+      ),
     },
     {
-      title: 'Level',
-      dataIndex: 'level',
-      key: 'level',
-      sorter: (a, b) => columnsSort(a.level, b.level),
+      title: (
+        <>
+          <span>{'Hours'}</span>
+          <br />
+          <span>{'(Allocated / Planned)'}</span>
+        </>
+      ),
+      dataIndex: 'hours',
+      key: 'hours',
+      render: (text, record) => <span>{record.allocatedHours + ' / ' + record.plannedHours}</span>,
     },
     {
-      title: 'Joining Date',
-      dataIndex: 'joiningDate',
-      key: 'joiningDate',
-      sorter: (a, b) => columnsSort(a.joiningDate, b.joiningDate),
+      title: 'Start Date',
+      dataIndex: 'startDate',
+      key: 'startdate',
+      sorter: (a, b) => columnsSort(a.startDate, b.startDate),
     },
     {
-      title: 'Assigned Projects',
-      dataIndex: 'assignedProjects',
-      key: 'assignedProjects',
-      filters: [
-        {
-          text: 'Erase',
-          value: 'Erase',
-        },
-        {
-          text: 'PES Spills',
-          value: 'PES Spills',
-        },
-        {
-          text: 'SNG',
-          value: 'SNG',
-        },
-      ],
-      filterMode: 'tree',
-      filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.assignedProjects.includes(value);
-      },
-      render: (element) => renderCustomCell(element),
+      title: 'End Date',
+      dataIndex: 'endDate',
+      key: 'enddate',
+      sorter: (a, b) => columnsSort(a.endDate, b.endDate),
     },
     {
-      title: 'Type',
+      title: 'Project Type',
       dataIndex: 'type',
       key: 'type',
       filters: [
         {
-          text: 'Assigned',
-          value: 'Assigned',
+          text: 'Scoped',
+          value: 'Scoped',
         },
         {
-          text: 'Benched',
-          value: 'Benched',
-        },
-        {
-          text: 'Free',
-          value: 'Free',
+          text: 'Recurring',
+          value: 'Recurring',
         },
       ],
       filterMode: 'tree',
@@ -124,10 +115,10 @@ export default function ProjectTable({ resourceQuery }: any) {
     },
     {
       title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => (
-        <Tag color={status === 'Normal' ? 'green' : 'red'}>{status.toUpperCase()}</Tag>
+      render: (element) => (
+        <Tag color={element?.status === 'Normal' ? 'green' : 'red'}>
+          {element?.status.toUpperCase()}
+        </Tag>
       ),
       filters: [
         {
@@ -135,12 +126,12 @@ export default function ProjectTable({ resourceQuery }: any) {
           value: 'Normal',
         },
         {
-          text: 'Under Utilized',
-          value: 'Under Utilized',
+          text: 'Under Allocated',
+          value: 'Under Allocated',
         },
         {
-          text: 'Over Utilized',
-          value: 'Over Utilized',
+          text: 'Over Allocated',
+          value: 'Over Allocated',
         },
       ],
       filterMode: 'tree',
@@ -151,20 +142,75 @@ export default function ProjectTable({ resourceQuery }: any) {
       sorter: (a, b) => columnsSort(a.status, b.status),
     },
     {
+      title: 'Technologies',
+      dataIndex: 'technologies',
+      key: 'technologies',
+      filters: [
+        {
+          text: 'Javascript',
+          value: 'Javascript',
+        },
+        {
+          text: 'Python',
+          value: 'Python',
+        },
+        {
+          text: 'Java',
+          value: 'Java',
+        },
+      ],
+      filterMode: 'tree',
+      filterSearch: true,
+      onFilter: (value: any, record) => {
+        return record.technologies.includes(value);
+      },
+      render: (element) => renderCustomCell(element),
+    },
+    {
       title: 'Action',
       key: 'action',
-      render: (element) => (
-        <Space size='middle'>
-          <a onClick={() => showFormDrawer(element)}>Assign Project</a>
-        </Space>
-      ),
+      render: (element) => {
+        const endDate = moment(element.endDate);
+        const currentDate = moment();
+        if (element.active == null) {
+          return currentDate.isAfter(endDate) == false ? (
+            <Space size='middle'>
+              <Link to={'/assign?id=' + element.id}>Assign Resource</Link>
+            </Space>
+          ) : (
+            <Space size='middle'>
+              <Link
+                to='/assign'
+                style={{ pointerEvents: 'none', cursor: 'default', color: '#aaa' }}
+              >
+                Assign Resource
+              </Link>
+            </Space>
+          );
+        } else {
+          return element.active == true ? (
+            <Space size='middle'>
+              <Link to={'/assign?id=' + element.id}>Assign Resource</Link>
+            </Space>
+          ) : (
+            <Space size='middle'>
+              <Link
+                to='/assign'
+                style={{ pointerEvents: 'none', cursor: 'default', color: '#aaa' }}
+              >
+                Assign Resource
+              </Link>
+            </Space>
+          );
+        }
+      },
     },
   ];
 
   return (
     <Table
       columns={columns}
-      dataSource={resources}
+      dataSource={projects}
       loading={loader}
       scroll={{ x: 'max-content' }}
       bordered

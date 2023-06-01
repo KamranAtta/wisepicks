@@ -1,8 +1,8 @@
-import { resourceListDataType } from './resourceListInterface';
+import { projectListDataType } from './projectListInterface'
 
 export default interface propsInterface {
-  title: string;
-  data: resourceListDataType;
-  open: boolean;
-  onClose(): void;
+  title: string
+  data: projectListDataType
+  open: boolean
+  onClose(): void
 }
