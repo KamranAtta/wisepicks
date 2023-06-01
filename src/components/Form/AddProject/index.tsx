@@ -2,11 +2,11 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Col, DatePicker, Form, Input, Row, Select, Space, Divider } from 'antd';
 import { Fragment, useState, useEffect } from 'react';
 import { getProjectLeads, getClients, getTechnologies, createProject } from '../../../apis/index';
+import { MESSAGES } from '../../../utils/constant';
 import AlertBox from '../../common/Alert';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import AddClient from '../../Drawer/AddClient';
-import { MESSAGES } from '../../../utils/constant';
 
 const { RangePicker } = DatePicker;
 
@@ -68,14 +68,12 @@ const AddProjectForm = () => {
   };
   const getProjectLeadTypes = async () => {
     const res: any = await getProjectLeads();
-    // console.log(res);
     if (res.status == 200) {
       setProjectLeads(res.data.data);
     }
   };
   const getTechnologiesTypes = async () => {
     const res: any = await getTechnologies();
-    // console.log(res);
     if (res.status == 200) {
       setTechnologies(res.data.data);
     }
