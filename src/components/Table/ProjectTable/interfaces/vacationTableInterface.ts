@@ -1,5 +1,5 @@
 export default interface vacationTableInterface {
-  type: string
-  startDate: string
-  endDate: string
+  type: string;
+  startDate: string;
+  endDate: string;
 }
