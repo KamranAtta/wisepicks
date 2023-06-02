@@ -39,15 +39,22 @@ export default function ResourceList() {
     setResourceQuery(RESOURCE_QUERY_INITIAL);
   };
 
-  const showResourceDetailDrawer = (element: ResourceListDataType) => {
-    setResourceDetails(element);
-    setResourceDrawerOpen(true);
-  };
-  const showAssignProjectDrawer = (element: ResourceListDataType) => {
-    // setResourceDetails(element);
-    setAssignProjectDrawerOpen(true);
-    return element;
-  };
+  const showResourceDrawer =
+    (type = 'detail') =>
+    (element: ResourceListDataType) => {
+      setResourceDetails(element);
+      switch (type) {
+        case 'detail': {
+          setResourceDrawerOpen(true);
+          break;
+        }
+        case 'assign':
+          setAssignProjectDrawerOpen(true);
+          break;
+        default:
+          setResourceDrawerOpen(true);
+      }
+    };
 
   return (
     <Fragment>
@@ -95,9 +102,11 @@ export default function ResourceList() {
         <ResourceTable
           resourceQuery={resourceQuery}
           handleResourceDetail={(element: ResourceListDataType) =>
-            showResourceDetailDrawer(element)
+            showResourceDrawer('detail')(element)
           }
-          handleAssignProject={(element: ResourceListDataType) => showAssignProjectDrawer(element)}
+          handleAssignProject={(element: ResourceListDataType) =>
+            showResourceDrawer('assign')(element)
+          }
         />
       </div>
       {resourceDrawerOpen && (
@@ -113,7 +122,7 @@ export default function ResourceList() {
           title='Assign Project'
           open={assignProjectDrawerOpen}
           onClose={() => setAssignProjectDrawerOpen(false)}
-          data={{} as ResourceListDataType}
+          data={resourceDetails as ResourceListDataType}
         />
       )}
     </Fragment>
