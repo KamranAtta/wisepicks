@@ -2,15 +2,13 @@ import React, { Fragment, useState, FormEvent } from 'react';
 import { CheckCircleOutlined, QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
 import SearchBar from '../../components/common/Search';
+import ButtonLayout from '../../components/ButtonLayout';
 import TypographyTitle from '../../components/common/Title';
 import ButtonComponent from '../../components/common/Button';
 import ResourceTable from '../../components/Table/ResourceTable';
-
-import './index.css';
 import ResourceDetail from '../../components/Drawer/ResourceDetail';
-import { resourceListDataType as ResourceListDataType } from '../../components/Table/ResourceTable/interfaces/resourceListInterface';
 import AssignProject from '../../components/Drawer/AssignProject/AssignProject';
-import ButtonLayout from '../../components/ButtonLayout';
+import { resourceListDataType as ResourceListDataType } from '../../components/Table/ResourceTable/interfaces/resourceListInterface';
 interface ResourceQuery {
   query: string;
   status: string;
