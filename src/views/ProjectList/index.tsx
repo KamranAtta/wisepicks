@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React, { Fragment, useState, FormEvent } from 'react';
 import {
   CheckCircleOutlined,
@@ -10,7 +11,8 @@ import SearchBar from '../../components/common/Search';
 import TypographyTitle from '../../components/common/Title';
 import ButtonComponent from '../../components/common/Button';
 import ProjectTable from '../../components/Table/ProjectTable';
-import { useNavigate } from 'react-router-dom';
+import ProjectDetail from '../../components/Drawer/ProjectDetail';
+import { ProjectListDataType } from '../../components/Drawer/ProjectDetail/interfaces/projectListInterface';
 
 interface ResourceQuery {
   query: string;
@@ -22,6 +24,8 @@ export default function ProjectList() {
   const RESOURCE_QUERY_INITIAL = { query: '', status: '' };
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [resourceQuery, setResourceQuery] = useState<ResourceQuery>(RESOURCE_QUERY_INITIAL);
+  const [projDetailOpen, setProjectDetailOpen] = useState<boolean>(false);
+  const [projectDetail, setProjectDetail] = useState<ProjectListDataType | null>(null);
 
   const handleSearchQueryChange = (event: FormEvent<HTMLElement>) => {
     setSearchQuery((event.target as HTMLInputElement).value);
@@ -37,6 +41,11 @@ export default function ProjectList() {
 
   const handleResetSearchQuery = () => {
     setResourceQuery(RESOURCE_QUERY_INITIAL);
+  };
+
+  const handleProjectDetailOpen = (element: ProjectListDataType) => {
+    setProjectDetail(element);
+    setProjectDetailOpen(true);
   };
 
   return (
@@ -90,7 +99,18 @@ export default function ProjectList() {
             Search
           </ButtonComponent>
         </div>
-        <ProjectTable resourceQuery={resourceQuery} />
+        <ProjectTable
+          resourceQuery={resourceQuery}
+          handleProjectDetail={(element: ProjectListDataType) => handleProjectDetailOpen(element)}
+        />
+        {projDetailOpen && (
+          <ProjectDetail
+            title='Project Details'
+            onClose={() => setProjectDetailOpen(false)}
+            open={projDetailOpen}
+            data={projectDetail as ProjectListDataType}
+          />
+        )}
       </div>
     </Fragment>
   );

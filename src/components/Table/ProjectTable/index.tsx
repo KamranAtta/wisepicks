@@ -1,51 +1,34 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { List, Space, Tag, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { Fragment, useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
 
-import { getAllProjects, getResources } from '../../../apis';
+import { getAllProjects } from '../../../apis';
 import { projectListDataType } from './interfaces/projectListInterface';
-import { resourceListDataType } from '../ResourceTable/interfaces/resourceListInterface';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-export default function ProjectTable({ resourceQuery }: any) {
-  const [input, setInput] = useState<string>('');
-  const [open, setOpen] = useState<boolean>(false);
+export default function ProjectTable({ resourceQuery, handleProjectDetail }: any) {
   const [projects, setProjects] = useState<any>([]);
   const [loader, setLoader] = useState<boolean>(false);
-  const [formOpen, setFormOpen] = useState<boolean>(false);
-  const [singleProjectData, setSingleProjectData] = useState<projectListDataType | null>(null);
 
+  /**
+   * ==============================
+   * Methods
+   * ==============================
+   */
   const fetchProjects = async () => {
     setLoader(true);
     const projectList = await getAllProjects(resourceQuery.query);
-    // const resourceList = await getResources(resourceQuery.query);
     setProjects(projectList);
     setLoader(false);
-  };
-
-  useEffect(() => {
-    fetchProjects();
-  }, [resourceQuery]);
-
-  const renderCustomCell = (object: Array<string>) => {
-    return (
-      <List size='small' dataSource={object} renderItem={(item) => <List.Item>{item}</List.Item>} />
-    );
-  };
-
-  const showDrawer = (element: projectListDataType) => {
-    setSingleProjectData(element);
-    setOpen(true);
   };
 
   const columns: ColumnsType<projectListDataType> = [
     {
       title: 'Project Name',
-      render: (element) => <a onClick={() => showDrawer(element)}>{element?.name}</a>,
+      render: (element) => <a onClick={() => handleProjectDetail(element)}>{element?.name}</a>,
       sorter: (a, b) => columnsSort(a.name, b.name),
     },
     {
@@ -206,6 +189,20 @@ export default function ProjectTable({ resourceQuery }: any) {
       },
     },
   ];
+  const renderCustomCell = (object: Array<string>) => {
+    return (
+      <List size='small' dataSource={object} renderItem={(item) => <List.Item>{item}</List.Item>} />
+    );
+  };
+
+  /**
+   * ==============================
+   * Effects
+   * ==============================
+   */
+  useEffect(() => {
+    fetchProjects();
+  }, [resourceQuery]);
 
   return (
     <Table
