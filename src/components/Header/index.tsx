@@ -1,33 +1,40 @@
-import { useState } from 'react';
-import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { ConfigProvider, Layout } from 'antd';
 
-import { customTheme } from '../../theme';
+import Menu from '../common/Menu';
+import MenuItem from '../common/MenuItem';
 import logo from '../../assets/logo/logo.png';
 import DrawerComponent from '../common/Drawer';
 import { MenuOutlined } from '@ant-design/icons';
 import { useMediaQuery } from '../../hooks/MediaQuery.hook';
+import { ConfigConsumerProps } from 'antd/lib/config-provider';
 
 const { Header } = Layout;
 
+const styles = {
+  headerHamburger: (themeConfig: ConfigConsumerProps) => ({
+    color: themeConfig?.theme?.token?.colorPrimary,
+  }),
+  headerDrawer: {
+    width: 'auto',
+    borderRight: 'none',
+  },
+};
+
 export default function HeaderComponent() {
+  const themeConfiguration = useContext(ConfigProvider.ConfigContext);
   const [headerDrawerOpen, setHeaderDrawerOpen] = useState<boolean>(false);
   const matches = useMediaQuery('(min-width: 830px)');
-  const styles = {
-    headerDrawer: {
-      width: 'auto',
-      borderRight: 'none',
-    },
-  };
 
   const MenuItems = (
     <>
-      <Menu.Item key='resources'>
+      <MenuItem key='resources'>
         <Link to='/resources'>Resources</Link>
-      </Menu.Item>
-      <Menu.Item key='projects'>
+      </MenuItem>
+      <MenuItem key='projects'>
         <Link to='/projects'>Projects</Link>
-      </Menu.Item>
+      </MenuItem>
     </>
   );
 
@@ -54,7 +61,7 @@ export default function HeaderComponent() {
         </Menu>
       ) : (
         <div onClick={() => setHeaderDrawerOpen(true)}>
-          <MenuOutlined style={{ color: customTheme.token.colorPrimary }} />
+          <MenuOutlined style={styles.headerHamburger(themeConfiguration)} />
         </div>
       )}
       <DrawerComponent
