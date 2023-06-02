@@ -4,14 +4,14 @@ import { MenuOutlined } from '@ant-design/icons';
 
 import MenuDropDown from '../common/DropDown';
 import ButtonComponent from '../common/Button';
-import { ButtonLayout as ButtonLayoutI } from './ButtonLayout.interface';
 import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 import { ConfigConsumerProps } from 'antd/lib/config-provider';
+import { ButtonLayout as ButtonLayoutI } from './ButtonLayout.interface';
 
 const styles = {
   layoutWrapper: { display: 'flex', justifyContent: 'space-between', marginBottom: '1em' },
   leftWrapper: { display: 'flex', alignContent: 'center', gap: '10px' },
-  rightWrapper: { display: 'flex', justifyContent: 'space-between' },
+  rightWrapper: { display: 'flex', justifyContent: 'space-between', gap: '10px' },
   headerHamburger: (themeConfig: ConfigConsumerProps) => ({
     color: themeConfig?.theme?.token?.colorPrimary,
     paddingTop: '8px',

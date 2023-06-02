@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import React, { Fragment, useState, FormEvent } from 'react';
 import {
-  CheckCircleOutlined,
   PlusOutlined,
-  QuestionCircleOutlined,
   WarningOutlined,
+  CheckCircleOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
 
 import SearchBar from '../../components/common/Search';
+import ButtonLayout from '../../components/ButtonLayout';
 import TypographyTitle from '../../components/common/Title';
 import ButtonComponent from '../../components/common/Button';
 import ProjectTable from '../../components/Table/ProjectTable';
@@ -51,48 +52,52 @@ export default function ProjectList() {
   return (
     <Fragment>
       <div className='component-content'>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1em' }}>
-          <div style={{ display: 'flex', alignContent: 'center' }}>
+        <ButtonLayout
+          title={
             <TypographyTitle level={3} style={{ marginTop: '0px', marginBottom: '0px' }}>
               Project
             </TypographyTitle>
-            <ButtonComponent
-              className='over-allocated-menu-button'
-              icon={<QuestionCircleOutlined />}
-              onClick={() => handleResourceQueryChange('overUtilized')}
-            >
-              Over Utilized
-            </ButtonComponent>
-            <ButtonComponent
-              className='under-allocated-menu-button'
-              icon={<WarningOutlined />}
-              onClick={() => handleResourceQueryChange('underUtilized')}
-            >
-              Under Utilized
-            </ButtonComponent>
-            <ButtonComponent
-              className='normal-menu-button'
-              icon={<CheckCircleOutlined />}
-              onClick={() => handleResourceQueryChange('normal')}
-            >
-              Normal
-            </ButtonComponent>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {/* <MenuDropDown items={menuItems} /> */}
-            <ButtonComponent className='clear-menu-button' onClick={() => handleResetSearchQuery()}>
-              Clear Filters
-            </ButtonComponent>
-            <ButtonComponent
-              type='primary'
-              className='clear-menu-button'
-              onClick={() => navigation('/addProject')}
-              icon={<PlusOutlined />}
-            >
-              Add Project
-            </ButtonComponent>
-          </div>
-        </div>
+          }
+          left={[
+            {
+              children: 'Under Allocated',
+              props: {
+                icon: <WarningOutlined style={{ color: 'orange' }} />,
+                onClick: () => handleResourceQueryChange('underUtilized'),
+              },
+            },
+            {
+              children: 'Over Allocated',
+              props: {
+                icon: <QuestionCircleOutlined style={{ color: 'red' }} />,
+                onClick: () => handleResourceQueryChange('overUtilized'),
+              },
+            },
+            {
+              children: 'Normal',
+              props: {
+                icon: <CheckCircleOutlined style={{ color: 'green' }} />,
+                onClick: () => handleResourceQueryChange('normal'),
+              },
+            },
+          ]}
+          right={[
+            {
+              children: 'Clear Filters',
+              props: {
+                onClick: () => handleResetSearchQuery(),
+              },
+            },
+            {
+              children: 'Add Project',
+              props: {
+                type: 'primary',
+                icon: <PlusOutlined />,
+                onClick: () => navigation('/addProject'),
+              },
+            },
+          ]}
+        />
         <div style={{ display: 'flex', marginBottom: '20px' }}>
           <SearchBar value={searchQuery} onChange={(e) => handleSearchQueryChange(e)} />
           <ButtonComponent type='primary' onClick={submitSearchInput}>
