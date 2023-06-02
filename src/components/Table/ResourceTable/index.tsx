@@ -7,7 +7,11 @@ import { columnsSort } from '../utils';
 import { getResources } from '../../../apis';
 import { resourceListDataType } from './interfaces/resourceListInterface';
 
-export default function ResourceTable({ resourceQuery, handleResourceDetail }: any) {
+export default function ResourceTable({
+  resourceQuery,
+  handleResourceDetail,
+  handleAssignProject,
+}: any) {
   const [resources, setResources] = useState<any>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [formOpen, setFormOpen] = useState<boolean>(false);
@@ -148,7 +152,7 @@ export default function ResourceTable({ resourceQuery, handleResourceDetail }: a
       key: 'action',
       render: (element) => (
         <Space size='middle'>
-          <a onClick={() => showFormDrawer(element)}>Assign Project</a>
+          <a onClick={() => handleAssignProject(element)}>Assign Project</a>
         </Space>
       ),
     },

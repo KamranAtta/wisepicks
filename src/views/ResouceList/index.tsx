@@ -9,6 +9,7 @@ import ResourceTable from '../../components/Table/ResourceTable';
 import './index.css';
 import ResourceDetail from '../../components/Drawer/ResourceDetail';
 import { resourceListDataType as ResourceListDataType } from '../../components/Table/ResourceTable/interfaces/resourceListInterface';
+import AssignProject from '../../components/Drawer/AssignProject/AssignProject';
 interface ResourceQuery {
   query: string;
   status: string;
@@ -18,6 +19,7 @@ export default function ResourceList() {
   const RESOURCE_QUERY_INITIAL = { query: '', status: '' };
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [resourceDrawerOpen, setResourceDrawerOpen] = useState<boolean>(false);
+  const [assignProjectDrawerOpen, setAssignProjectDrawerOpen] = useState<boolean>(false);
   const [resourceQuery, setResourceQuery] = useState<ResourceQuery>(RESOURCE_QUERY_INITIAL);
   const [resourceDetails, setResourceDetails] = useState<ResourceListDataType | null>(null);
 
@@ -40,6 +42,11 @@ export default function ResourceList() {
   const showResourceDetailDrawer = (element: ResourceListDataType) => {
     setResourceDetails(element);
     setResourceDrawerOpen(true);
+  };
+  const showAssignProjectDrawer = (element: ResourceListDataType) => {
+    // setResourceDetails(element);
+    setAssignProjectDrawerOpen(true);
+    return element;
   };
 
   return (
@@ -90,6 +97,7 @@ export default function ResourceList() {
           handleResourceDetail={(element: ResourceListDataType) =>
             showResourceDetailDrawer(element)
           }
+          handleAssignProject={(element: ResourceListDataType) => showAssignProjectDrawer(element)}
         />
       </div>
       {resourceDrawerOpen && (
@@ -98,6 +106,14 @@ export default function ResourceList() {
           onClose={() => setResourceDrawerOpen(false)}
           open={resourceDrawerOpen}
           data={resourceDetails as ResourceListDataType}
+        />
+      )}
+      {assignProjectDrawerOpen && (
+        <AssignProject
+          title='Assign Project'
+          open={assignProjectDrawerOpen}
+          onClose={() => setAssignProjectDrawerOpen(false)}
+          data={{} as ResourceListDataType}
         />
       )}
     </Fragment>

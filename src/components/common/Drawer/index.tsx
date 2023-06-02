@@ -1,24 +1,33 @@
-import { Drawer, DrawerProps } from 'antd';
+import { Drawer as DrawerComponent, DrawerProps } from 'antd';
 
-export default function DrawerComponent({
+export default function Drawer({
   title,
   placement,
   open,
   onClose,
   children,
+  bodyStyle,
   ...otherProps
 }: DrawerProps) {
   return (
-    <Drawer title={title} placement={placement} onClose={onClose} open={open} {...otherProps}>
+    <DrawerComponent
+      bodyStyle={bodyStyle}
+      title={title}
+      placement={placement}
+      onClose={onClose}
+      open={open}
+      {...otherProps}
+    >
       {children}
-    </Drawer>
+    </DrawerComponent>
   );
 }
 
-DrawerComponent.defaultProps = {
+Drawer.defaultProps = {
   type: 'Sample Drawer',
   placement: 'right',
   onClose: false,
   open: true,
   children: <></>,
+  bodyStyle: { padding: 0 },
 };
