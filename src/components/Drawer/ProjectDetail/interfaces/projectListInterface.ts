@@ -1,3 +1,5 @@
+import ResourcesInterface from '../../../Steps/interfaces/resourceInterface';
+
 export interface ProjectListDataType {
   key: string;
   id: number;
@@ -12,5 +14,5 @@ export interface ProjectListDataType {
   type: string;
   status: string;
   technologies: string[];
-  resources: object[];
+  resources: ResourcesInterface[];
 }

@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import type { ColumnsType } from 'antd/es/table';
-import { Button, Col, Collapse, Form, Row, Space, Table, Typography } from 'antd';
+import { Button, Col, Collapse, Form, Row, Space, Table } from 'antd';
 
+import Drawer from '../../common/Drawer';
+import TypographyText from '../../common/Text';
+import { columnsSort } from '../../Table/utils';
+import TypographyTitle from '../../common/Title';
 import propsInterface from './interfaces/propsInterface';
 import VacationTableInterface from './interfaces/vacationTableInterface';
-import { Link } from 'react-router-dom';
-import { columnsSort } from '../../Table/utils';
-import Drawer from '../../common/Drawer';
 
-const { Title, Text } = Typography;
 const { Panel } = Collapse;
 
 const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
@@ -43,18 +44,18 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
               <Space direction={'vertical'}>
                 <Row gutter={16}>
                   <Col span={24}>
-                    <Title level={5}>Project Name</Title>
+                    <TypographyTitle level={5}>Project Name</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <Text>{data?.name}</Text>
+                    <TypographyText>{data?.name}</TypographyText>
                   </Col>
                 </Row>
                 <Row gutter={16}>
                   <Col span={24}>
-                    <Title level={5}>Client</Title>
+                    <TypographyTitle level={5}>Client</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <Text>{data?.client}</Text>
+                    <TypographyText>{data?.client}</TypographyText>
                   </Col>
                 </Row>
               </Space>
@@ -63,33 +64,35 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
               <Space direction={'vertical'}>
                 <Row gutter={16}>
                   <Col span={24}>
-                    <Title level={5}>Start Date</Title>
+                    <TypographyTitle level={5}>Start Date</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <Text>{data?.startDate || '-'}</Text>
+                    <TypographyText>{data?.startDate || '-'}</TypographyText>
                   </Col>
                 </Row>
                 <Row gutter={16}>
                   <Col span={24}>
-                    <Title level={5}>End Date</Title>
+                    <TypographyTitle level={5}>End Date</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <Text>{data?.endDate || '-'}</Text>
+                    <TypographyText>{data?.endDate || '-'}</TypographyText>
                   </Col>
                 </Row>
               </Space>
             </Col>
           </Row>
           <div className='drawer-components'>
-            <Title level={5}>Resources</Title>
+            <TypographyTitle level={5}>Resources</TypographyTitle>
             {data?.resources?.map((element: any) => (
               <Collapse key={element.key}>
                 <Panel key={''} header={element.name}>
-                  <Title level={5}>{element.level + '-' + element.team + ' Engineer'}</Title>
-                  <Text>
+                  <TypographyTitle level={5}>
+                    {element.level + '-' + element.team + ' Engineer'}
+                  </TypographyTitle>
+                  <TypographyText>
                     {'Deployed from ' + element.startDate + ' to ' + element.endDate + '\n'}
-                  </Text>
-                  <Text>{'Hours Per Week: ' + element.hoursPerWeek}</Text>
+                  </TypographyText>
+                  <TypographyText>{'Hours Per Week: ' + element.hoursPerWeek}</TypographyText>
                   <Table
                     columns={vacationColumns}
                     dataSource={element.vacations}
