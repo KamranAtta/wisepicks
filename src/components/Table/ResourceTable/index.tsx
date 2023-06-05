@@ -1,21 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { List, Space, Tag, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
 import { getResources } from '../../../apis';
+import { ResourceTableI } from './interfaces/ResourceTableInterface';
 import { resourceListDataType } from './interfaces/resourceListInterface';
 
 export default function ResourceTable({
   resourceQuery,
   handleResourceDetail,
   handleAssignProject,
-}: any) {
-  const [resources, setResources] = useState<any>([]);
+}: ResourceTableI) {
+  const [resources, setResources] = useState<unknown>([]);
   const [loader, setLoader] = useState<boolean>(false);
-  const [formOpen, setFormOpen] = useState<boolean>(false);
-  const [singleResourceData, setsingleResourceData] = useState<resourceListDataType | null>(null);
 
   const fetchResources = async () => {
     setLoader(true);
@@ -32,11 +30,6 @@ export default function ResourceTable({
     return (
       <List size='small' dataSource={object} renderItem={(item) => <List.Item>{item}</List.Item>} />
     );
-  };
-
-  const showFormDrawer = (element: resourceListDataType) => {
-    setsingleResourceData(element);
-    setFormOpen(true);
   };
 
   const columns: ColumnsType<resourceListDataType> = [
@@ -89,8 +82,8 @@ export default function ResourceTable({
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.assignedProjects.includes(value);
+      onFilter: (value, record) => {
+        return record.assignedProjects.includes(value as string);
       },
       render: (element) => renderCustomCell(element),
     },
@@ -114,8 +107,8 @@ export default function ResourceTable({
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.type.startsWith(value);
+      onFilter: (value, record) => {
+        return record.type.startsWith(value as string);
       },
       sorter: (a, b) => columnsSort(a.type, b.type),
     },
@@ -142,8 +135,8 @@ export default function ResourceTable({
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.status.startsWith(value);
+      onFilter: (value, record) => {
+        return record.status.startsWith(value as string);
       },
       sorter: (a, b) => columnsSort(a.status, b.status),
     },
@@ -161,7 +154,7 @@ export default function ResourceTable({
   return (
     <Table
       columns={columns}
-      dataSource={resources}
+      dataSource={resources as resourceListDataType[]}
       loading={loader}
       scroll={{ x: 'max-content' }}
       bordered

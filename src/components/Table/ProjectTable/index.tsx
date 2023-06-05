@@ -6,14 +6,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
 import { getAllProjects } from '../../../apis';
-import { ResourceQuery } from './interfaces/ResourceQueryInterface';
+import { ProjectTableI } from './interfaces/ProjectTableInterface';
 import { projectListDataType } from './interfaces/projectListInterface';
-import { ProjectListDataType } from '../../Drawer/ProjectDetail/interfaces/projectListInterface';
-
-interface ProjectTableI {
-  resourceQuery: ResourceQuery;
-  handleProjectDetail: (element: ProjectListDataType) => void;
-}
 
 export default function ProjectTable({ resourceQuery, handleProjectDetail }: ProjectTableI) {
   const [projects, setProjects] = useState<unknown>([]);
