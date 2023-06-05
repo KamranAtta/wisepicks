@@ -1,7 +1,6 @@
-import { Alert } from 'antd';
-import propsInterface from './interface';
+import { Alert, AlertProps } from 'antd';
 
-const AlertBox = ({ message, type }: propsInterface) => {
+const AlertBox = ({ message, type }: AlertProps) => {
   return <Alert message={message} type={type} />;
 };
 
