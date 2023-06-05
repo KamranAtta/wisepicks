@@ -158,12 +158,12 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: any
         if (element.active == null) {
           return currentDate.isAfter(endDate) == false ? (
             <Space size='middle'>
-              <Link to={'/assign?id=' + element.id}>Assign Resource</Link>
+              <Link to={'/assign-resource?id=' + element.id}>Assign Resource</Link>
             </Space>
           ) : (
             <Space size='middle'>
               <Link
-                to='/assign'
+                to='/assign-resource'
                 style={{ pointerEvents: 'none', cursor: 'default', color: '#aaa' }}
               >
                 Assign Resource
@@ -173,12 +173,12 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: any
         } else {
           return element.active == true ? (
             <Space size='middle'>
-              <Link to={'/assign?id=' + element.id}>Assign Resource</Link>
+              <Link to={'/assign-resource?id=' + element.id}>Assign Resource</Link>
             </Space>
           ) : (
             <Space size='middle'>
               <Link
-                to='/assign'
+                to='/assign-resource'
                 style={{ pointerEvents: 'none', cursor: 'default', color: '#aaa' }}
               >
                 Assign Resource

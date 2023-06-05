@@ -120,7 +120,7 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
             </Form.Item>
 
             <Form.Item>
-              <Link to={'/requestResource?id=' + data?.id}>
+              <Link to={'/request-resource?id=' + data?.id}>
                 <Button type='primary'>Request Resources</Button>
               </Link>
             </Form.Item>

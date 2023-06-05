@@ -1,13 +1,14 @@
 import { Fragment } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import HeaderComponent from './components/Header';
-import EditProject from './views/EditProject';
-import CloneProject from './views/CloneProject';
-import RequestResource from './views/RequestResource';
-import ResourceList from './views/ResouceList';
-import ProjectList from './views/ProjectList';
 import AddProject from './views/AddProject';
+import EditProject from './views/EditProject';
+import ProjectList from './views/ProjectList';
+import ResourceList from './views/ResouceList';
+import CloneProject from './views/CloneProject';
+import HeaderComponent from './components/Header';
+import RequestResource from './views/RequestResource';
+import AssignResource from './views/AssignResource';
 
 const Router = () => {
   return (
@@ -20,7 +21,8 @@ const Router = () => {
         <Route path='/addProject' element={<AddProject />} />
         <Route path='/editProject' element={<EditProject />} />
         <Route path='/cloneProject' element={<CloneProject />} />
-        <Route path='/requestResource' element={<RequestResource />} />
+        <Route path='/request-resource' element={<RequestResource />} />
+        <Route path='/assign-resource' element={<AssignResource />} />
       </Routes>
     </Fragment>
   );

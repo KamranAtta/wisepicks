@@ -8,7 +8,7 @@ import Loader from '../../common/Loader';
 import AlertBox from '../../common/Alert';
 import { columnsSort } from '../../Table/utils';
 import TypographyTitle from '../../common/Title';
-import { assignResource } from '../../../apis/resources';
+import { assignResource } from '../../../apis/resources.api';
 import propsInterface from './interfaces/propsInterface';
 import vacationTableInterface from './interfaces/vacationTableInterface';
 
