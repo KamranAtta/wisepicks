@@ -2,7 +2,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import ButtonComponent from '.';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 export default {
-  title: 'Example/Button',
+  title: 'Button',
   component: ButtonComponent,
 } as ComponentMeta<typeof ButtonComponent>;
 
