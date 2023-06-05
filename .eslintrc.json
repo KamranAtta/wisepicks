@@ -19,14 +19,14 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier"],
   "rules": {
-    "no-console":"error",
+    "no-console": "error",
     "@typescript-eslint/no-unused-vars": "error",
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
     "spaced-comment": "error",
     "quotes": ["error", "single"],
     "no-duplicate-imports": "error",
-    "semi": "warn"
+    "semi": "off"
   },
   "settings": {
     "import/resolver": {
