@@ -91,12 +91,7 @@ export const doPatch = async (
   };
 };
 
-export const doDelete = async (
-  path: string,
-  data: object,
-  headers: object = {},
-  baseURL: string,
-) => {
+export const doDelete = async (path: string, data: object, headers: object = {}, baseURL = '') => {
   const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
