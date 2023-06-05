@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { ColumnsType } from 'antd/es/table';
 import { Fragment, useEffect, useState } from 'react';
-import { Button, Col, Form, Row, Select, Table } from 'antd';
+import { AlertProps, Button, Col, Form, Row, Select, Table } from 'antd';
 
 import Drawer from '../../common/Drawer';
 import Loader from '../../common/Loader';
@@ -18,14 +18,14 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
   const [project, setProject] = useState<string>('');
   const [loader, setLoader] = useState<boolean>(false);
   const [vacationData, setVacationData] = useState<vacationTableInterface[]>([]);
-  const [alertBoxState, setAlertBoxState] = useState<any>({
+  const [alertBoxState, setAlertBoxState] = useState<AlertProps>({
     message: '',
-    type: '',
+    type: undefined,
   });
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: object) => {
     setLoader(true);
-    const response: any = await assignResource(values);
+    const response = await assignResource(values);
     if (response.status == 200) {
       setLoader(false);
       setAlertBoxState({ message: 'Resource has been assigned', type: 'success' });
