@@ -15,11 +15,11 @@ export default function StepsComponent({ id }: StepsProps) {
   const [steps] = useState<string[]>([]);
   const [current, setCurrent] = useState(0);
   const [teamsToUse] = useState<StepProps[]>([]);
-  const [resources, setResources] = useState<any>([]);
+  const [resources, setResources] = useState<unknown>([]);
   const [projectPlan, setProjectPlan] = useState<ProjectPlanInterface[]>([]);
 
   const getProjectPlanData = async (projectId: number) => {
-    const response: any = await getProjectPlan(projectId);
+    const response = await getProjectPlan(projectId);
     setProjectPlan(response);
   };
 
@@ -74,7 +74,7 @@ export default function StepsComponent({ id }: StepsProps) {
       title: 'Availability (Per Week)',
       dataIndex: 'hoursPerWeek',
       key: 'hoursPerWeek',
-      sorter: (a, b) => columnsSort(a.hoursPerWeek, b.hoursPerWeek),
+      sorter: (a, b) => columnsSort(a.hoursPerWeek?.toString(), b.hoursPerWeek?.toString()),
     },
     {
       title: 'Assigned Projects',
@@ -96,8 +96,8 @@ export default function StepsComponent({ id }: StepsProps) {
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.assignedProjects.includes(value);
+      onFilter: (value, record) => {
+        return record.assignedProjects.includes(value as string);
       },
       render: (element) => renderCustomCell(element),
     },
@@ -121,7 +121,7 @@ export default function StepsComponent({ id }: StepsProps) {
                     >
                       <Table
                         columns={columns}
-                        dataSource={resources}
+                        dataSource={resources as ResourcesInterface[]}
                         scroll={{ x: 'max-content' }}
                         bordered
                       ></Table>

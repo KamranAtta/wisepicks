@@ -1,2 +1,2 @@
-export const columnsSort = (a: any, b: any) =>
+export const columnsSort = (a: string, b: string) =>
   a?.trim()?.localeCompare(b?.trim(), undefined, { sensitivity: 'base' });
