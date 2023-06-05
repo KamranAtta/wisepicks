@@ -1,14 +1,14 @@
 import type { ColumnsType } from 'antd/es/table';
-import { List, Space, Table, Row, Typography } from 'antd';
+import { List, Space, Table, Row } from 'antd';
 import React, { Fragment, useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
-import ProjectResourcesInterface from './interface';
+import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
 import { getResources, deleteResource, getProjectDetails } from '../../../apis';
+import TypographyTitle from '../../common/Title';
 
-const { Title } = Typography;
-export default function ProjectResourcesTable({ resourceQuery }: any) {
-  const [resources, setResources] = useState<any>([]);
+export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
+  const [resources, setResources] = useState<unknown>([]);
   const [loader, setLoader] = useState<boolean>(false);
 
   const fetchResources = async () => {
@@ -20,11 +20,11 @@ export default function ProjectResourcesTable({ resourceQuery }: any) {
 
   const removeFromProject = async (id: number) => {
     setLoader(true);
-    const response: any = await deleteResource({ id: id });
+    const response = await deleteResource({ id: id });
     if (response.status == 200) {
       const urlParams = new URLSearchParams(window.location.search);
-      const projectId: any = urlParams.get('id');
-      const response: any = await getProjectDetails(projectId);
+      const projectId = urlParams.get('id');
+      const response = await getProjectDetails(projectId as unknown as number);
       setResources(response.resources);
       setLoader(false);
     }
@@ -85,8 +85,8 @@ export default function ProjectResourcesTable({ resourceQuery }: any) {
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.assignedProjects.includes(value);
+      onFilter: (value, record) => {
+        return record.assignedProjects.includes(value as string);
       },
       render: (element) => renderCustomCell(element),
     },
@@ -110,8 +110,8 @@ export default function ProjectResourcesTable({ resourceQuery }: any) {
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.type.startsWith(value);
+      onFilter: (value, record) => {
+        return record.type.startsWith(value as string);
       },
       sorter: (a, b) => columnsSort(a.type, b.type),
     },
@@ -129,11 +129,11 @@ export default function ProjectResourcesTable({ resourceQuery }: any) {
   return (
     <>
       <Row style={{ marginBottom: 8 }}>
-        <Title level={4}>Resources</Title>
+        <TypographyTitle level={4}>Resources</TypographyTitle>
       </Row>
       <Table
         columns={columns}
-        dataSource={resources}
+        dataSource={resources as ProjectResourcesInterface[]}
         loading={loader}
         scroll={{ x: 'max-content' }}
         bordered

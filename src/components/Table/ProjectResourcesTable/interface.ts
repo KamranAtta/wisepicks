@@ -10,3 +10,11 @@ export default interface ProjectResourcesInterface {
   type: string;
   status: string;
 }
+
+export interface ProjectResourceQueryI {
+  query: string;
+  status: string;
+}
+export interface ProjectResourceTableI {
+  resourceQuery: ProjectResourceQueryI;
+}
