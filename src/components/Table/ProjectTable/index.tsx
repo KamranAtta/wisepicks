@@ -1,16 +1,22 @@
+import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { List, Space, Tag, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { Fragment, useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
-
 import { getAllProjects } from '../../../apis';
+import { ResourceQuery } from './interfaces/ResourceQueryInterface';
 import { projectListDataType } from './interfaces/projectListInterface';
-import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { ProjectListDataType } from '../../Drawer/ProjectDetail/interfaces/projectListInterface';
 
-export default function ProjectTable({ resourceQuery, handleProjectDetail }: any) {
-  const [projects, setProjects] = useState<any>([]);
+interface ProjectTableI {
+  resourceQuery: ResourceQuery;
+  handleProjectDetail: (element: ProjectListDataType) => void;
+}
+
+export default function ProjectTable({ resourceQuery, handleProjectDetail }: ProjectTableI) {
+  const [projects, setProjects] = useState<unknown>([]);
   const [loader, setLoader] = useState<boolean>(false);
 
   /**
@@ -91,8 +97,8 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: any
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.type.startsWith(value);
+      onFilter: (value, record) => {
+        return record.type.startsWith(value as string);
       },
       sorter: (a, b) => columnsSort(a.type, b.type),
     },
@@ -119,8 +125,8 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: any
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.status.startsWith(value);
+      onFilter: (value, record) => {
+        return record.status.startsWith(value as string);
       },
       sorter: (a, b) => columnsSort(a.status, b.status),
     },
@@ -144,8 +150,8 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: any
       ],
       filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value: any, record) => {
-        return record.technologies.includes(value);
+      onFilter: (value, record) => {
+        return record.technologies.includes(value as string);
       },
       render: (element) => renderCustomCell(element),
     },
@@ -207,7 +213,7 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: any
   return (
     <Table
       columns={columns}
-      dataSource={projects}
+      dataSource={projects as projectListDataType[]}
       loading={loader}
       scroll={{ x: 'max-content' }}
       bordered

@@ -14,11 +14,7 @@ import ButtonComponent from '../../components/common/Button';
 import ProjectTable from '../../components/Table/ProjectTable';
 import ProjectDetail from '../../components/Drawer/ProjectDetail';
 import { ProjectListDataType } from '../../components/Drawer/ProjectDetail/interfaces/projectListInterface';
-
-interface ResourceQuery {
-  query: string;
-  status: string;
-}
+import { ResourceQuery } from '../../components/Table/ProjectTable/interfaces/ResourceQueryInterface';
 
 export default function ProjectList() {
   const navigation = useNavigate();
