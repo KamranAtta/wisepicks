@@ -13,12 +13,12 @@ const AddClient = ({
   setAlertBoxState,
   setClients,
 }: propsInterface) => {
-  const onFinish = async (values: any) => {
-    const response: any = await addClients(values);
+  const onFinish = async (values: object) => {
+    const response = await addClients(values);
     if (response.status == 200) {
       setAlertBoxState({ message: 'New Client Has Been Added', type: 'success' });
       setClientFormOpen(false);
-      const response: any = await getClients();
+      const response = await getClients();
       if (response.status == 200) {
         setClients(response.data.data);
       }

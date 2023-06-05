@@ -1,3 +1,4 @@
+import { AlertProps } from 'antd';
 import { Dispatch, SetStateAction } from 'react';
 
 export default interface propsInterface {
@@ -5,7 +6,7 @@ export default interface propsInterface {
   open: boolean;
   onClose(): void;
   setClientFormOpen: Dispatch<SetStateAction<boolean>>;
-  setAlertBoxState: Dispatch<SetStateAction<{ message: any; type: any }>>;
+  setAlertBoxState: Dispatch<SetStateAction<AlertProps>>;
   setClients: Dispatch<SetStateAction<[]>>;
   clients: [];
 }
