@@ -1,5 +1,17 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Col, DatePicker, Form, Input, Row, Select, Space, Divider } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Row,
+  Select,
+  Space,
+  Divider,
+  AlertProps,
+} from 'antd';
 import { Fragment, useState, useEffect } from 'react';
 import { getProjectLeads, getClients, getTechnologies, createProject } from '../../../apis/index';
 import { MESSAGES } from '../../../utils/constant';
@@ -36,9 +48,9 @@ const formItemLayout = {
 const AddProjectForm = () => {
   const [clientFormOpen, setClientFormOpen] = useState<boolean>(false);
   const [form] = Form.useForm();
-  const [alertBoxState, setAlertBoxState] = useState<any>({
+  const [alertBoxState, setAlertBoxState] = useState<AlertProps>({
     message: '',
-    type: '',
+    type: undefined,
   });
   const [clients, setClients] = useState<any>([]);
   const [projectLeads, setProjectLeads] = useState<any>([]);
