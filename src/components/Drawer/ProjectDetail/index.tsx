@@ -106,7 +106,7 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
           </div>
           <Row justify='end' style={{ marginTop: 16 }}>
             <Form.Item>
-              <Link to={'/cloneProject?id=' + data?.id}>
+              <Link to={'/clone-project?id=' + data?.id}>
                 <Button type='primary' style={{ marginRight: '10px' }}>
                   Clone Project
                 </Button>
@@ -114,7 +114,7 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
             </Form.Item>
 
             <Form.Item>
-              <Link to={'/editProject?id=' + data?.id}>
+              <Link to={'/edit-project?id=' + data?.id}>
                 <Button type='primary'>Edit Project</Button>
               </Link>
             </Form.Item>

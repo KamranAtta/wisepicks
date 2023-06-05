@@ -93,7 +93,7 @@ export default function ProjectList() {
               props: {
                 type: 'primary',
                 icon: <PlusOutlined />,
-                onClick: () => navigation('/addProject'),
+                onClick: () => navigation('/add-project'),
               },
             },
           ]}

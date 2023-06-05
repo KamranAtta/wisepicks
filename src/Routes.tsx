@@ -18,9 +18,9 @@ const Router = () => {
         <Route path='/' element={<ResourceList />} />
         <Route path='/projects' element={<ProjectList />} />
         <Route path='/resources' element={<ResourceList />} />
-        <Route path='/addProject' element={<AddProject />} />
-        <Route path='/editProject' element={<EditProject />} />
-        <Route path='/cloneProject' element={<CloneProject />} />
+        <Route path='/add-project' element={<AddProject />} />
+        <Route path='/edit-project' element={<EditProject />} />
+        <Route path='/clone-project' element={<CloneProject />} />
         <Route path='/request-resource' element={<RequestResource />} />
         <Route path='/assign-resource' element={<AssignResource />} />
       </Routes>
