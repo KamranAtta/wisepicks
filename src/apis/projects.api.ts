@@ -54,6 +54,15 @@ export const getAllProjects = async (input: string) => {
   }
 };
 
+export const getProjectList = async () => {
+  try {
+    const response = await doGet('/project');
+    return response?.data?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
 export const getProjectLeads = async () => {
   try {
     const response = await doGet('/getProjectLeads');

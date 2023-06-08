@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Fragment, useState, FormEvent } from 'react';
 import { CheckCircleOutlined, QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
@@ -69,32 +70,25 @@ export default function ResourceList() {
               children: 'Under Allocated',
               props: {
                 icon: <WarningOutlined style={{ color: 'orange' }} />,
-                onClick: () => handleResourceQueryChange('underUtilized'),
+                onClick: () => null,
               },
             },
             {
               children: 'Over Allocated',
               props: {
                 icon: <QuestionCircleOutlined style={{ color: 'red' }} />,
-                onClick: () => handleResourceQueryChange('overUtilized'),
+                onClick: () => null,
               },
             },
             {
               children: 'Normal',
               props: {
                 icon: <CheckCircleOutlined style={{ color: 'green' }} />,
-                onClick: () => handleResourceQueryChange('normal'),
+                onClick: () => null,
               },
             },
           ]}
-          right={[
-            {
-              children: 'Clear Filters',
-              props: {
-                onClick: () => handleResetSearchQuery(),
-              },
-            },
-          ]}
+          right={[]}
         />
         <div style={{ display: 'flex', marginBottom: '20px' }}>
           <SearchBar value={searchQuery} onChange={(e) => handleSearchQueryChange(e)} />
