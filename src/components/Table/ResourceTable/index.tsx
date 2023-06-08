@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { List, Space, Tag, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect } from 'react';
@@ -28,7 +26,6 @@ export default function ResourceTable({
   const [queryBag, setQueryBag] = useState({});
 
   const prepareQueryBag = (query: any) => {
-    console.log(query);
     let queryParams = `?name=${query?.name}`;
     if (query?.filter?.assignedProjects?.length > 0) {
       query?.filter?.assignedProjects?.forEach((projectId: string) => {
