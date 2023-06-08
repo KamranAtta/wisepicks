@@ -26,8 +26,8 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       const projectId = urlParams.get('id');
       const response = await getProjectDetails(projectId as unknown as number);
       setResources(response.resources);
-      setLoader(false);
     }
+    setLoader(false);
   };
 
   useEffect(() => {

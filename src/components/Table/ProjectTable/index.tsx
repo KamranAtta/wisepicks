@@ -13,11 +13,6 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
   const [projects, setProjects] = useState<unknown>([]);
   const [loader, setLoader] = useState<boolean>(false);
 
-  /**
-   * ==============================
-   * Methods
-   * ==============================
-   */
   const fetchProjects = async () => {
     setLoader(true);
     const projectList = await getAllProjects(resourceQuery.query);
@@ -40,14 +35,14 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
     {
       title: (
         <>
-          <span>{'Resources'}</span>
+          <span>Resources</span>
           <br />
           <span>{'(Allocated / Planned)'}</span>
         </>
       ),
       dataIndex: 'resources',
       key: 'resources',
-      render: (text, record) => (
+      render: (_, record) => (
         <span>{record.allocatedResources + ' / ' + record.plannedResources}</span>
       ),
     },
@@ -195,11 +190,6 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
     );
   };
 
-  /**
-   * ==============================
-   * Effects
-   * ==============================
-   */
   useEffect(() => {
     fetchProjects();
   }, [resourceQuery]);

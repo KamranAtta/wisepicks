@@ -47,7 +47,7 @@ export const getProjects = async (input: string) => {
 
 export const getAllProjects = async (input: string) => {
   try {
-    const response = await doGet(`/getAllProjects?input=${input}`);
+    const response = await doGet(`/project?input=${input}`);
     return response?.data;
   } catch (err) {
     return [];

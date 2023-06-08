@@ -5,6 +5,9 @@ export const requestResources = async (body: object) => {
     const response = await doPost('/requestResources/', body);
     return response?.data;
   } catch (err) {
+    // TODO: add sentry
+    // TODO: show alert
+    // TODO: never suppress an error
     return [];
   }
 };
