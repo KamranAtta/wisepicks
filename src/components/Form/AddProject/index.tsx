@@ -57,10 +57,7 @@ const AddProjectForm = () => {
   const [technologies, setTechnologies] = useState<any>([]);
   const [loader, setLoader] = useState<boolean>(false);
 
-  //   const navigate = useNavigate();
   const onFinish = async (values: any) => {
-    // eslint-disable-next-line no-console
-    console.log('Success:', values);
     setLoader(true);
     const response: any = await createProject(values);
     if (response.status == 200) {
@@ -95,8 +92,6 @@ const AddProjectForm = () => {
     getProjectLeadTypes();
     getTechnologiesTypes();
   }, []);
-
-  // useEffect(() => { console.log({ projectLeads }) }, [projectLeads])
 
   return (
     <div>

@@ -45,7 +45,6 @@ const RequestResourceForm = () => {
   }, []);
 
   const onFinish = async (values: any) => {
-    // console.log('Success:', values)
     setLoader(true);
     const response: any = await requestResources(values);
     if (response.status == 200) {

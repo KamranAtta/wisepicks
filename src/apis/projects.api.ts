@@ -50,7 +50,6 @@ export const getProjects = async (input: string) => {
 export const getAllProjects = async (query: object) => {
   try {
     const queryParams = createQueryParams(query);
-    console.log(queryParams);
     const response = await doGet(`/project?${queryParams}`);
     return response?.data?.data?.rows;
   } catch (err) {

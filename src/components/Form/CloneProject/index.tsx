@@ -84,14 +84,14 @@ const CloneProjectForm = () => {
   };
   const getProjectLeadTypes = async () => {
     const res: any = await getProjectLeads();
-    // console.log(res);
+
     if (res.status == 200) {
       setProjectLeads(res.data.data);
     }
   };
   const getTechnologiesTypes = async () => {
     const res: any = await getTechnologies();
-    // console.log(res);
+
     if (res.status == 200) {
       setTechnologies(res.data.data);
     }
@@ -105,7 +105,6 @@ const CloneProjectForm = () => {
     getTechnologiesTypes();
   }, []);
   const onFinish = async (values: any) => {
-    // console.log('Success:', values)
     setLoader(true);
     const response: any = await editProject(values);
     if (response.status == 200) {
@@ -117,8 +116,6 @@ const CloneProjectForm = () => {
       setLoader(false);
     }
   };
-
-  // useEffect(() => { console.log({ projectLeads }) }, [projectLeads])
 
   return (
     <div>

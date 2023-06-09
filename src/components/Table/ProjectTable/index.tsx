@@ -18,7 +18,6 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
   const fetchProjects = async () => {
     setLoader(true);
     const projectList = await getAllProjects(projectQuery.query);
-    console.log(projectList);
     setProjects(projectList);
     setLoader(false);
   };
