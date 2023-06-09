@@ -10,10 +10,7 @@ import ResourceTable from '../../components/Table/ResourceTable';
 import ResourceDetail from '../../components/Drawer/ResourceDetail';
 import AssignProject from '../../components/Drawer/AssignProject/AssignProject';
 import { resourceListDataType as ResourceListDataType } from '../../components/Table/ResourceTable/interfaces/resourceListInterface';
-interface ResourceQuery {
-  query: string;
-  status: string;
-}
+import { ResourceQuery } from '../../components/Table/ResourceTable/interfaces/ResourceQueryInterface';
 
 export default function ResourceList() {
   const RESOURCE_QUERY_INITIAL = { query: '', status: '' };

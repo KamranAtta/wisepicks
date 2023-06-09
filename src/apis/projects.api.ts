@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import { doGet, doPost } from '../utils/request';
+import { createQueryParams } from '../utils/createQueryParams';
 
 export const getProjectDetails = async (id: number) => {
   try {
@@ -45,10 +47,12 @@ export const getProjects = async (input: string) => {
   }
 };
 
-export const getAllProjects = async (input: string) => {
+export const getAllProjects = async (query: object) => {
   try {
-    const response = await doGet(`/project?input=${input}`);
-    return response?.data;
+    const queryParams = createQueryParams(query);
+    console.log(queryParams);
+    const response = await doGet(`/project?${queryParams}`);
+    return response?.data?.data?.rows;
   } catch (err) {
     return [];
   }

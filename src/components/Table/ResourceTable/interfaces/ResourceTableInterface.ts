@@ -1,5 +1,5 @@
 import { resourceListDataType } from './resourceListInterface';
-import { ResourceQuery } from '../../ProjectTable/interfaces/ResourceQueryInterface';
+import { ResourceQuery } from './ResourceQueryInterface';
 
 export interface ResourceTableI {
   resourceQuery: ResourceQuery;

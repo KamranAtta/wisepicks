@@ -2,7 +2,7 @@ export interface projectListDataType {
   key: string;
   id: number;
   name: string;
-  client: string;
+  client: any;
   plannedResources: number;
   allocatedResources: number;
   plannedHours: number;
@@ -13,4 +13,5 @@ export interface projectListDataType {
   status: string;
   technologies: string[];
   resources: object[];
+  projectResource: object[];
 }

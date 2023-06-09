@@ -14,13 +14,19 @@ import ButtonComponent from '../../components/common/Button';
 import ProjectTable from '../../components/Table/ProjectTable';
 import ProjectDetail from '../../components/Drawer/ProjectDetail';
 import { ProjectListDataType } from '../../components/Drawer/ProjectDetail/interfaces/projectListInterface';
-import { ResourceQuery } from '../../components/Table/ProjectTable/interfaces/ResourceQueryInterface';
+import { ProjectQuery } from '../../components/Table/ProjectTable/interfaces/ProjectQueryInterface';
 
 export default function ProjectList() {
   const navigation = useNavigate();
-  const RESOURCE_QUERY_INITIAL = { query: '', status: '' };
+  const PROJECT_QUERY_INITIAL = {
+    query: {
+      page: 1,
+      pageSize: 10,
+    },
+    status: '',
+  };
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [resourceQuery, setResourceQuery] = useState<ResourceQuery>(RESOURCE_QUERY_INITIAL);
+  const [projectQuery, setProjectQuery] = useState<ProjectQuery>(PROJECT_QUERY_INITIAL);
   const [projDetailOpen, setProjectDetailOpen] = useState<boolean>(false);
   const [projectDetail, setProjectDetail] = useState<ProjectListDataType | null>(null);
 
@@ -28,16 +34,23 @@ export default function ProjectList() {
     setSearchQuery((event.target as HTMLInputElement).value);
   };
 
-  const handleResourceQueryChange = (status: string) => {
-    setResourceQuery((prev) => ({ ...prev, status }));
+  const handleProjectQueryChange = (status: string) => {
+    setProjectQuery((prev) => ({ ...prev, status }));
   };
 
   const submitSearchInput = async () => {
-    setResourceQuery((prev) => ({ ...prev, query: searchQuery }));
+    setProjectQuery((prev) => ({
+      query: {
+        page: 1,
+        pageSize: 10,
+        searchQuery,
+      },
+      status: prev.status,
+    }));
   };
 
   const handleResetSearchQuery = () => {
-    setResourceQuery(RESOURCE_QUERY_INITIAL);
+    setProjectQuery(PROJECT_QUERY_INITIAL);
   };
 
   const handleProjectDetailOpen = (element: ProjectListDataType) => {
@@ -59,21 +72,21 @@ export default function ProjectList() {
               children: 'Under Allocated',
               props: {
                 icon: <WarningOutlined style={{ color: 'orange' }} />,
-                onClick: () => handleResourceQueryChange('underUtilized'),
+                onClick: () => handleProjectQueryChange('underUtilized'),
               },
             },
             {
               children: 'Over Allocated',
               props: {
                 icon: <QuestionCircleOutlined style={{ color: 'red' }} />,
-                onClick: () => handleResourceQueryChange('overUtilized'),
+                onClick: () => handleProjectQueryChange('overUtilized'),
               },
             },
             {
               children: 'Normal',
               props: {
                 icon: <CheckCircleOutlined style={{ color: 'green' }} />,
-                onClick: () => handleResourceQueryChange('normal'),
+                onClick: () => handleProjectQueryChange('normal'),
               },
             },
           ]}
@@ -101,7 +114,7 @@ export default function ProjectList() {
           </ButtonComponent>
         </div>
         <ProjectTable
-          resourceQuery={resourceQuery}
+          projectQuery={projectQuery}
           handleProjectDetail={(element: ProjectListDataType) => handleProjectDetailOpen(element)}
         />
         {projDetailOpen && (

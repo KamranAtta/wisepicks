@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { List, Space, Tag, Table } from 'antd';
@@ -9,13 +11,14 @@ import { getAllProjects } from '../../../apis';
 import { ProjectTableI } from './interfaces/ProjectTableInterface';
 import { projectListDataType } from './interfaces/projectListInterface';
 
-export default function ProjectTable({ resourceQuery, handleProjectDetail }: ProjectTableI) {
-  const [projects, setProjects] = useState<unknown>([]);
+export default function ProjectTable({ projectQuery, handleProjectDetail }: ProjectTableI) {
+  const [projects, setProjects] = useState<any>();
   const [loader, setLoader] = useState<boolean>(false);
 
   const fetchProjects = async () => {
     setLoader(true);
-    const projectList = await getAllProjects(resourceQuery.query);
+    const projectList = await getAllProjects(projectQuery.query);
+    console.log(projectList);
     setProjects(projectList);
     setLoader(false);
   };
@@ -28,7 +31,7 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
     },
     {
       title: 'Client Name',
-      dataIndex: 'client',
+      render: (element) => <>{element.client.name}</>,
       key: 'client',
       sorter: (a, b) => columnsSort(a.client, b.client),
     },
@@ -43,45 +46,35 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
       dataIndex: 'resources',
       key: 'resources',
       render: (_, record) => (
-        <span>{record.allocatedResources + ' / ' + record.plannedResources}</span>
+        <span>
+          {countAllocatedResources(record.projectResource) + ' / ' + record.projectResource.length}
+        </span>
       ),
     },
-    {
-      title: (
-        <>
-          <span>{'Hours'}</span>
-          <br />
-          <span>{'(Allocated / Planned)'}</span>
-        </>
-      ),
-      dataIndex: 'hours',
-      key: 'hours',
-      render: (text, record) => <span>{record.allocatedHours + ' / ' + record.plannedHours}</span>,
-    },
-    {
-      title: 'Start Date',
-      dataIndex: 'startDate',
-      key: 'startdate',
-      sorter: (a, b) => columnsSort(a.startDate, b.startDate),
-    },
-    {
-      title: 'End Date',
-      dataIndex: 'endDate',
-      key: 'enddate',
-      sorter: (a, b) => columnsSort(a.endDate, b.endDate),
-    },
+    // {
+    //   title: (
+    //     <>
+    //       <span>{'Hours'}</span>
+    //       <br />
+    //       <span>{'(Allocated / Planned)'}</span>
+    //     </>
+    //   ),
+    //   dataIndex: 'hours',
+    //   key: 'hours',
+    //   render: (text, record) => <span>{record.allocatedHours + ' / ' + record.plannedHours}</span>,
+    // },
     {
       title: 'Project Type',
-      dataIndex: 'type',
+      dataIndex: 'project_type',
       key: 'type',
       filters: [
         {
-          text: 'Scoped',
-          value: 'Scoped',
+          text: 'Billable',
+          value: 'Billable',
         },
         {
-          text: 'Recurring',
-          value: 'Recurring',
+          text: 'Non-Billable',
+          value: 'Non-Billable',
         },
       ],
       filterMode: 'tree',
@@ -91,38 +84,38 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
       },
       sorter: (a, b) => columnsSort(a.type, b.type),
     },
-    {
-      title: 'Status',
-      render: (element) => (
-        <Tag color={element?.status === 'Normal' ? 'green' : 'red'}>
-          {element?.status.toUpperCase()}
-        </Tag>
-      ),
-      filters: [
-        {
-          text: 'Normal',
-          value: 'Normal',
-        },
-        {
-          text: 'Under Allocated',
-          value: 'Under Allocated',
-        },
-        {
-          text: 'Over Allocated',
-          value: 'Over Allocated',
-        },
-      ],
-      filterMode: 'tree',
-      filterSearch: true,
-      onFilter: (value, record) => {
-        return record.status.startsWith(value as string);
-      },
-      sorter: (a, b) => columnsSort(a.status, b.status),
-    },
+    // {
+    //   title: 'Status',
+    //   render: (element) => (
+    //     <Tag color={element?.status === 'Normal' ? 'green' : 'red'}>
+    //       {element?.status.toUpperCase()}
+    //     </Tag>
+    //   ),
+    //   filters: [
+    //     {
+    //       text: 'Normal',
+    //       value: 'Normal',
+    //     },
+    //     {
+    //       text: 'Under Allocated',
+    //       value: 'Under Allocated',
+    //     },
+    //     {
+    //       text: 'Over Allocated',
+    //       value: 'Over Allocated',
+    //     },
+    //   ],
+    //   filterMode: 'tree',
+    //   filterSearch: true,
+    //   onFilter: (value, record) => {
+    //     return record.status.startsWith(value as string);
+    //   },
+    //   sorter: (a, b) => columnsSort(a.status, b.status),
+    // },
     {
       title: 'Technologies',
-      dataIndex: 'technologies',
-      key: 'technologies',
+      dataIndex: 'domain',
+      key: 'domain',
       filters: [
         {
           text: 'Javascript',
@@ -183,6 +176,30 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
         }
       },
     },
+    {
+      title: 'Expected Start Date',
+      dataIndex: 'start_date',
+      key: 'startdate',
+      sorter: (a, b) => columnsSort(a.startDate, b.startDate),
+    },
+    {
+      title: 'Expected End Date',
+      dataIndex: 'end_date',
+      key: 'enddate',
+      sorter: (a, b) => columnsSort(a.endDate, b.endDate),
+    },
+    {
+      title: 'Start Date',
+      dataIndex: 'expected_start_date',
+      key: 'expectedstartdate',
+      sorter: (a, b) => columnsSort(a.startDate, b.startDate),
+    },
+    {
+      title: 'End Date',
+      dataIndex: 'expected_end_date',
+      key: 'expectedenddate',
+      sorter: (a, b) => columnsSort(a.endDate, b.endDate),
+    },
   ];
   const renderCustomCell = (object: Array<string>) => {
     return (
@@ -190,14 +207,24 @@ export default function ProjectTable({ resourceQuery, handleProjectDetail }: Pro
     );
   };
 
+  const countAllocatedResources = (object: object[]) => {
+    let count = 0;
+    object.forEach((element: any) => {
+      if (element.resource_id != null) {
+        count++;
+      }
+    });
+    return count;
+  };
+
   useEffect(() => {
     fetchProjects();
-  }, [resourceQuery]);
+  }, [projectQuery]);
 
   return (
     <Table
       columns={columns}
-      dataSource={projects as projectListDataType[]}
+      dataSource={projects}
       loading={loader}
       scroll={{ x: 'max-content' }}
       bordered
