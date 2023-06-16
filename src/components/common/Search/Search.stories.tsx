@@ -12,5 +12,4 @@ Search.args = {
   value: '',
   disabled: false,
   placeholder: '',
-  handleClear: () => null,
 };
