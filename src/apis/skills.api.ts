@@ -3,7 +3,7 @@ import { doGet } from '../utils/request';
 export const getSkills = async () => {
   try {
     const response = await doGet('/skills');
-    return response?.data?.data?.skills;
+    if (response?.data?.statusCode) return response?.data?.data;
   } catch (err) {
     return [];
   }

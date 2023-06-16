@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { doGet, doPost } from '../utils/request';
+import { doGet, doPost, doPut } from '../utils/request';
 import { createQueryParams } from '../utils/createQueryParams';
 
 export const getProjectDetails = async (id: number) => {
@@ -22,19 +22,21 @@ export const getProjectPlan = async (id: number) => {
 
 export const createProject = async (body: object) => {
   try {
-    const response = await doPost('/getProjectPlan', body);
+    const response = await doPost('/project/', body);
+    console.log(response);
     return response?.data;
   } catch (err) {
-    return [];
+    console.log(err);
   }
 };
 
 export const editProject = async (body: object) => {
   try {
-    const response = await doPost('/editProject/', body);
+    const response = await doPut('/project/', body);
+    console.log(response);
     return response?.data;
   } catch (err) {
-    return [];
+    console.log(err);
   }
 };
 
@@ -51,7 +53,7 @@ export const getAllProjects = async (query: object) => {
   try {
     const queryParams = createQueryParams(query);
     const response = await doGet(`/project?${queryParams}`);
-    return response?.data?.data?.rows;
+    return response?.data;
   } catch (err) {
     return [];
   }

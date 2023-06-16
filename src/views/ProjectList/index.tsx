@@ -15,16 +15,11 @@ import ProjectTable from '../../components/Table/ProjectTable';
 import ProjectDetail from '../../components/Drawer/ProjectDetail';
 import { ProjectListDataType } from '../../components/Drawer/ProjectDetail/interfaces/projectListInterface';
 import { ProjectQuery } from '../../components/Table/ProjectTable/interfaces/ProjectQueryInterface';
+import { PROJECT_QUERY_INITIAL } from '../../utils/constant';
 
 export default function ProjectList() {
   const navigation = useNavigate();
-  const PROJECT_QUERY_INITIAL = {
-    query: {
-      page: 1,
-      pageSize: 10,
-    },
-    status: '',
-  };
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [projectQuery, setProjectQuery] = useState<ProjectQuery>(PROJECT_QUERY_INITIAL);
   const [projDetailOpen, setProjectDetailOpen] = useState<boolean>(false);

@@ -14,7 +14,8 @@ import {
 import { getTechnologies } from './technologies.api';
 import { getClients, addClients } from './clients.api';
 import { getResources, requestResources, deleteResource } from './resources.api';
-
+import { getSkills } from './skills.api';
+import { getTeams } from './teams.api';
 export {
   getResources,
   getProjectDetails,
@@ -29,4 +30,6 @@ export {
   getTechnologies,
   requestResources,
   deleteResource,
+  getSkills,
+  getTeams,
 };

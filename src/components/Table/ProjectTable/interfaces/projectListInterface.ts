@@ -13,5 +13,5 @@ export interface projectListDataType {
   status: string;
   technologies: string[];
   resources: object[];
-  projectResource: object[];
+  projectResources: object[];
 }

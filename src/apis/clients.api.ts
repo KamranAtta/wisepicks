@@ -1,19 +1,22 @@
+/* eslint-disable no-console */
 import { doGet, doPost } from '../utils/request';
 
 export const getClients = async () => {
   try {
-    const response = await doGet('/getClients');
-    return response?.data;
+    const response = await doGet('/client');
+    if (response?.data?.statusCode == 200) {
+      return response?.data?.data;
+    }
   } catch (err) {
-    return [];
+    console.log(err);
   }
 };
 
 export const addClients = async (body: object) => {
   try {
-    const response = await doPost('/getResources', body);
-    return response?.data;
+    const response = await doPost('/client', body);
+    return response?.data?.statusCode;
   } catch (err) {
-    return [];
+    console.log(err);
   }
 };

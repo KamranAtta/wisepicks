@@ -17,8 +17,11 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
 
   const fetchProjects = async () => {
     setLoader(true);
-    const projectList = await getAllProjects(projectQuery.query);
-    setProjects(projectList);
+    const response = await getAllProjects(projectQuery.query);
+    console.log(response);
+    if (response?.statusCode == 200) {
+      setProjects(response?.data?.rows);
+    }
     setLoader(false);
   };
 
@@ -46,7 +49,9 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       key: 'resources',
       render: (_, record) => (
         <span>
-          {countAllocatedResources(record.projectResource) + ' / ' + record.projectResource.length}
+          {countAllocatedResources(record.projectResources) +
+            ' / ' +
+            record.projectResources.length}
         </span>
       ),
     },
