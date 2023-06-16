@@ -41,7 +41,6 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
       sorter: (a, b) => columnsSort(a.end_date, b.end_date),
     },
   ];
-  console.log('data in project detail', data);
 
   return (
     <Fragment>

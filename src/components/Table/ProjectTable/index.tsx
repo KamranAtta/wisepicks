@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { List, Space, Tag, Table } from 'antd';
+import { List, Space, Tag, Table, notification } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { Fragment, useState, useEffect } from 'react';
 
@@ -10,6 +10,7 @@ import { columnsSort } from '../utils';
 import { getAllProjects } from '../../../apis';
 import { ProjectTableI } from './interfaces/ProjectTableInterface';
 import { projectListDataType } from './interfaces/projectListInterface';
+import { MESSAGES } from '../../../utils/constant';
 
 export default function ProjectTable({ projectQuery, handleProjectDetail }: ProjectTableI) {
   const [projects, setProjects] = useState<any>();
@@ -18,9 +19,12 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
   const fetchProjects = async () => {
     setLoader(true);
     const response = await getAllProjects(projectQuery.query);
-    console.log(response);
     if (response?.statusCode == 200) {
       setProjects(response?.data?.rows);
+    } else {
+      notification.open({
+        message: MESSAGES.ERROR,
+      });
     }
     setLoader(false);
   };

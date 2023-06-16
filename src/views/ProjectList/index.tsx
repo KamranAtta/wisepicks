@@ -51,8 +51,6 @@ export default function ProjectList() {
   };
 
   const handleProjectDetailOpen = (element: ProjectListDataType) => {
-    console.log('function called');
-    console.log(element);
     setProjectDetail(element);
     setProjectDetailOpen(true);
   };
