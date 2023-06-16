@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Fragment } from 'react';
 import { Button, Col, Form, Input, Row, notification } from 'antd';
 import { addClients, getClients } from '../../../apis';

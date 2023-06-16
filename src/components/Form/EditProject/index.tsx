@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* eslint-disable no-console */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -85,7 +84,7 @@ const EditProjectForm = () => {
       ...PROJECT_QUERY_INITIAL.query,
       id: projectId,
     };
-    console.log(queryParams);
+    queryParams;
     const response: any = await getAllProjects(queryParams);
     if (response.statusCode != 200) {
       notification.open({
@@ -94,7 +93,7 @@ const EditProjectForm = () => {
       return;
     }
     const data = response.data?.rows[0];
-    console.log(data);
+    data;
     data?.start_date != null ? (data.start_date = moment(data.start_date)) : null;
     data?.end_date != null ? (data.end_date = moment(data.end_date)) : null;
     data?.expected_start_date != null
@@ -115,8 +114,8 @@ const EditProjectForm = () => {
         : null;
     });
 
-    console.log('data is');
-    console.log(data);
+    ('data is');
+    data;
     form.setFieldsValue(data);
     setLoader(false);
   };
@@ -171,7 +170,7 @@ const EditProjectForm = () => {
       element.expected_start_date = element.expected_start_date?.format(FORMATS.DATE_FORMAT);
       element.expected_end_date = element.expected_end_date?.format(FORMATS.DATE_FORMAT);
     });
-    console.log(values);
+    values;
     values = { ...values, id: projectId };
     const response: response = await editProject(values);
     if (response.statusCode == 200) {

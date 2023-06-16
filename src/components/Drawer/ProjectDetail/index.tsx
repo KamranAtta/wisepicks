@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
@@ -12,6 +14,11 @@ import propsInterface from './interfaces/propsInterface';
 import VacationTableInterface from './interfaces/vacationTableInterface';
 
 const { Panel } = Collapse;
+const styles = {
+  button: {
+    width: '150px',
+  },
+};
 
 const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
   const vacationColumns: ColumnsType<VacationTableInterface> = [
@@ -23,65 +30,62 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
     },
     {
       title: 'Start Date',
-      dataIndex: 'startDate',
-      key: 'startDate',
-      sorter: (a, b) => columnsSort(a.startDate, b.startDate),
+      dataIndex: 'start_date',
+      key: 'start_date',
+      sorter: (a, b) => columnsSort(a.start_date, b.start_date),
     },
     {
       title: 'End Date',
-      dataIndex: 'endDate',
-      key: 'endDate',
-      sorter: (a, b) => columnsSort(a.endDate, b.endDate),
+      dataIndex: 'end_date',
+      key: 'end_date',
+      sorter: (a, b) => columnsSort(a.end_date, b.end_date),
     },
   ];
+  console.log('data in project detail', data);
 
   return (
     <Fragment>
       <Drawer title={title} placement='right' onClose={onClose} open={open}>
         <div className='drawer-content'>
           <Row gutter={16}>
-            <Col span={12}>
-              <Space direction={'vertical'}>
+            <Col span={24}>
+              <Space direction='vertical' size='small'>
                 <Row gutter={16}>
-                  <Col span={24}>
+                  <Col span={12}>
                     <TypographyTitle level={5}>Project Name</TypographyTitle>
-                  </Col>
-                  <Col span={24}>
                     <TypographyText>{data?.name}</TypographyText>
                   </Col>
-                </Row>
-                <Row gutter={16}>
-                  <Col span={24}>
-                    <TypographyTitle level={5}>Client</TypographyTitle>
-                  </Col>
-                  <Col span={24}>
-                    <TypographyText>{data?.client}</TypographyText>
+                  <Col span={12}>
+                    <TypographyTitle level={5}>Client Name</TypographyTitle>
+                    <TypographyText>{data?.client?.name}</TypographyText>
                   </Col>
                 </Row>
-              </Space>
-            </Col>
-            <Col span={12}>
-              <Space direction={'vertical'}>
+
                 <Row gutter={16}>
-                  <Col span={24}>
+                  <Col span={12}>
                     <TypographyTitle level={5}>Start Date</TypographyTitle>
+                    <TypographyText>{data?.start_date || '-'}</TypographyText>
                   </Col>
-                  <Col span={24}>
-                    <TypographyText>{data?.startDate || '-'}</TypographyText>
+                  <Col span={12}>
+                    <TypographyTitle level={5}>End Date</TypographyTitle>
+                    <TypographyText>{data?.end_date || '-'}</TypographyText>
                   </Col>
                 </Row>
+
                 <Row gutter={16}>
-                  <Col span={24}>
-                    <TypographyTitle level={5}>End Date</TypographyTitle>
+                  <Col span={12}>
+                    <TypographyTitle level={5}>Expected Start Date</TypographyTitle>
+                    <TypographyText>{data?.expected_start_date || '-'}</TypographyText>
                   </Col>
-                  <Col span={24}>
-                    <TypographyText>{data?.endDate || '-'}</TypographyText>
+                  <Col span={12}>
+                    <TypographyTitle level={5}>Expected End Date</TypographyTitle>
+                    <TypographyText>{data?.expected_end_date || '-'}</TypographyText>
                   </Col>
                 </Row>
               </Space>
             </Col>
           </Row>
-          <div className='drawer-components'>
+          {/* <div className='drawer-components'>
             <TypographyTitle level={5}>Resources</TypographyTitle>
             {data?.resources?.map((element: any) => (
               <Collapse key={element.key}>
@@ -90,7 +94,7 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
                     {element.level + '-' + element.team + ' Engineer'}
                   </TypographyTitle>
                   <TypographyText>
-                    {'Deployed from ' + element.startDate + ' to ' + element.endDate + '\n'}
+                    {'Deployed from ' + element.start_date + ' to ' + element.end_date + '\n'}
                   </TypographyText>
                   <TypographyText>{'Hours Per Week: ' + element.hoursPerWeek}</TypographyText>
                   <Table
@@ -98,7 +102,7 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
                     dataSource={element.vacations}
                     bordered
                     rowClassName={(record) =>
-                      Date.parse(record.endDate) < Date.parse(new Date().toString())
+                      Date.parse(record.end_date) < Date.parse(new Date().toString())
                         ? 'gray'
                         : 'black'
                     }
@@ -106,27 +110,33 @@ const ProjectDetail = ({ title, data, open, onClose }: propsInterface) => {
                 </Panel>
               </Collapse>
             ))}
-          </div>
+          </div> */}
           <Row justify='end' style={{ marginTop: 16 }}>
-            <Form.Item>
-              <Link to={'/clone-project?id=' + data?.id}>
-                <Button type='primary' style={{ marginRight: '10px' }}>
-                  Clone Project
-                </Button>
-              </Link>
-            </Form.Item>
+            <Col>
+              <Form.Item>
+                <Link to={'/clone-project?id=' + data?.id}>
+                  <Button type='primary' style={styles.button}>
+                    Clone Project
+                  </Button>
+                </Link>
+              </Form.Item>
 
-            <Form.Item>
-              <Link to={'/edit-project?id=' + data?.id}>
-                <Button type='primary'>Edit Project</Button>
-              </Link>
-            </Form.Item>
+              <Form.Item>
+                <Link to={'/edit-project?id=' + data?.id}>
+                  <Button type='primary' style={styles.button}>
+                    Edit Project
+                  </Button>
+                </Link>
+              </Form.Item>
 
-            <Form.Item>
-              <Link to={'/request-resource?id=' + data?.id}>
-                <Button type='primary'>Request Resources</Button>
-              </Link>
-            </Form.Item>
+              <Form.Item>
+                <Link to={'/request-resource?id=' + data?.id}>
+                  <Button type='primary' style={styles.button}>
+                    Request Resources
+                  </Button>
+                </Link>
+              </Form.Item>
+            </Col>
           </Row>
         </div>
       </Drawer>

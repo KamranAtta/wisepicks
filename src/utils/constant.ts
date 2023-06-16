@@ -9,6 +9,7 @@ export const MESSAGES = {
   PROJECT_ADD_SUCCESS: 'New Project Has Been Added',
   PROJECT_EDIT_SUCCESS: 'Project Has Been Edited',
   CLIENT_ADD_SUCCESS: 'New Client Has Been Added',
+  RESOURCE_REQUEST_SUCCESS: 'Resource Has Been Requested Successfully',
   ERROR: 'Some Error Occured',
 };
 

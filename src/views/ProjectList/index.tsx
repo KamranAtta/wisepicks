@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import { useNavigate } from 'react-router-dom';
 import React, { Fragment, useState, FormEvent } from 'react';
 import {
@@ -23,7 +25,7 @@ export default function ProjectList() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [projectQuery, setProjectQuery] = useState<ProjectQuery>(PROJECT_QUERY_INITIAL);
   const [projDetailOpen, setProjectDetailOpen] = useState<boolean>(false);
-  const [projectDetail, setProjectDetail] = useState<ProjectListDataType | null>(null);
+  const [projectDetail, setProjectDetail] = useState<ProjectListDataType>();
 
   const handleSearchQueryChange = (event: FormEvent<HTMLElement>) => {
     setSearchQuery((event.target as HTMLInputElement).value);
@@ -49,6 +51,8 @@ export default function ProjectList() {
   };
 
   const handleProjectDetailOpen = (element: ProjectListDataType) => {
+    console.log('function called');
+    console.log(element);
     setProjectDetail(element);
     setProjectDetailOpen(true);
   };

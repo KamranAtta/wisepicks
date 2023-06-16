@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* eslint-disable no-console */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Button,

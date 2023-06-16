@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { doGet, doPost } from '../utils/request';
 
 export const getClients = async () => {
@@ -8,7 +7,7 @@ export const getClients = async () => {
       return response?.data?.data;
     }
   } catch (err) {
-    console.log(err);
+    err;
   }
 };
 
@@ -17,6 +16,6 @@ export const addClients = async (body: object) => {
     const response = await doPost('/client', body);
     return response?.data?.statusCode;
   } catch (err) {
-    console.log(err);
+    err;
   }
 };

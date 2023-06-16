@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { doGet, doPost, doPut } from '../utils/request';
 import { createQueryParams } from '../utils/createQueryParams';
 
@@ -23,20 +22,20 @@ export const getProjectPlan = async (id: number) => {
 export const createProject = async (body: object) => {
   try {
     const response = await doPost('/project/', body);
-    console.log(response);
+    response;
     return response?.data;
   } catch (err) {
-    console.log(err);
+    err;
   }
 };
 
 export const editProject = async (body: object) => {
   try {
     const response = await doPut('/project/', body);
-    console.log(response);
+    response;
     return response?.data;
   } catch (err) {
-    console.log(err);
+    err;
   }
 };
 
