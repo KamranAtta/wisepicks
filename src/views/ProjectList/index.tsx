@@ -1,13 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { useNavigate } from 'react-router-dom';
 import React, { Fragment, useState, FormEvent } from 'react';
-import {
-  PlusOutlined,
-  WarningOutlined,
-  CheckCircleOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 import SearchBar from '../../components/common/Search';
 import ButtonLayout from '../../components/ButtonLayout';
@@ -31,10 +24,6 @@ export default function ProjectList() {
     setSearchQuery((event.target as HTMLInputElement).value);
   };
 
-  const handleProjectQueryChange = (status: string) => {
-    setProjectQuery((prev) => ({ ...prev, status }));
-  };
-
   const submitSearchInput = async () => {
     setProjectQuery((prev) => ({
       query: {
@@ -46,9 +35,9 @@ export default function ProjectList() {
     }));
   };
 
-  const handleResetSearchQuery = () => {
-    setProjectQuery(PROJECT_QUERY_INITIAL);
-  };
+  // const handleResetSearchQuery = () => {
+  //   setProjectQuery(PROJECT_QUERY_INITIAL);
+  // };
 
   const handleProjectDetailOpen = (element: ProjectListDataType) => {
     setProjectDetail(element);

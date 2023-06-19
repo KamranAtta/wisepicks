@@ -1,26 +1,43 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { List, Space, Tag, Table, notification } from 'antd';
+import { List, Space, Table, notification } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { Fragment, useState, useEffect } from 'react';
 
-import { columnsSort } from '../utils';
-import { getAllProjects, getSkills } from '../../../apis';
+import { getSkills } from '../../../apis';
 import { ProjectTableI } from './interfaces/ProjectTableInterface';
 import { projectListDataType } from './interfaces/projectListInterface';
 import { MESSAGES } from '../../../utils/constant';
+import { getAllProjectsQuery } from '../../../apis/projects.api';
 
 export default function ProjectTable({ projectQuery, handleProjectDetail }: ProjectTableI) {
   const [projects, setProjects] = useState<any>();
   const [loader, setLoader] = useState<boolean>(false);
   const [skills, setSkills] = useState([]);
+  const [queryBag, setQueryBag] = useState({});
+
+  const prepareQueryBag = (query: any) => {
+    let queryParams = `?name=${query?.name || ''}`;
+    queryParams += `&page=${query?.pagination?.current || 1}`;
+    queryParams += `&pageSize=${query?.pagination?.pageSize || 10}`;
+    if (query?.filter?.domain?.length > 0) {
+      query?.filter?.domain?.forEach((domainId: string) => {
+        queryParams += `&domain[]=${domainId}`;
+      });
+    }
+    if (query?.filter?.type?.length > 0) {
+      query?.filter?.type?.forEach((type: string) => {
+        queryParams += `&type[]=${type}`;
+      });
+    }
+    return queryParams;
+  };
 
   const fetchProjects = async () => {
     setLoader(true);
     try {
-      const response = await getAllProjects(projectQuery.query);
+      const queryParams = prepareQueryBag(queryBag);
+      const response = await getAllProjectsQuery(queryParams);
       if (response?.statusCode == 200) {
         setProjects(response?.data?.rows);
       } else {
@@ -29,7 +46,6 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
         });
       }
     } catch (err) {
-      console.log(err);
       setLoader(false);
     }
     setLoader(false);
@@ -95,9 +111,6 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
         },
       ],
       filterSearch: true,
-      onFilter: (value, record) => {
-        return record.type.startsWith(value as string);
-      },
     },
     // {
     //   title: 'Status',
@@ -136,9 +149,6 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
           ? skills?.map((element: any) => ({ text: element?.name, value: element?.id }))
           : [],
       filterSearch: true,
-      onFilter: (value, record) => {
-        return record?.technologies?.includes(value as string);
-      },
       render: (element) => {
         return renderCustomCell(element?.map((element: any) => element?.value));
       },
@@ -220,12 +230,21 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
   };
 
   useEffect(() => {
-    fetchProjects();
+    setQueryBag((prev) => ({
+      ...prev,
+      name: projectQuery?.query?.searchQuery,
+      page: projectQuery?.query?.page,
+      pageSize: projectQuery?.query?.pageSize,
+    }));
   }, [projectQuery]);
 
   useEffect(() => {
     preFetchingFilter();
   }, []);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [queryBag]);
 
   return (
     <Table
@@ -234,6 +253,9 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       loading={loader}
       scroll={{ x: 'max-content' }}
       bordered
+      onChange={(pagination: unknown, filter: unknown, sorter: unknown) => {
+        setQueryBag((prev) => ({ ...prev, pagination, filter, sorter }));
+      }}
     />
   );
 }

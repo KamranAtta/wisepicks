@@ -58,6 +58,15 @@ export const getAllProjects = async (query: object) => {
   }
 };
 
+export const getAllProjectsQuery = async (query: string) => {
+  try {
+    const response = await doGet(`/project${query}`);
+    return response?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
 export const getProjectList = async () => {
   try {
     const response = await doGet('/project');
