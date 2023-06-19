@@ -7,7 +7,7 @@ import type { ColumnsType } from 'antd/es/table';
 import React, { Fragment, useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
-import { getAllProjects } from '../../../apis';
+import { getAllProjects, getSkills } from '../../../apis';
 import { ProjectTableI } from './interfaces/ProjectTableInterface';
 import { projectListDataType } from './interfaces/projectListInterface';
 import { MESSAGES } from '../../../utils/constant';
@@ -15,6 +15,7 @@ import { MESSAGES } from '../../../utils/constant';
 export default function ProjectTable({ projectQuery, handleProjectDetail }: ProjectTableI) {
   const [projects, setProjects] = useState<any>();
   const [loader, setLoader] = useState<boolean>(false);
+  const [skills, setSkills] = useState([]);
 
   const fetchProjects = async () => {
     setLoader(true);
@@ -32,6 +33,11 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       setLoader(false);
     }
     setLoader(false);
+  };
+
+  const preFetchingFilter = async () => {
+    const skillList = await getSkills();
+    setSkills(skillList);
   };
 
   const columns: ColumnsType<projectListDataType> = [
@@ -125,20 +131,10 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       title: 'Technologies',
       dataIndex: 'domain',
       key: 'domain',
-      filters: [
-        {
-          text: 'Javascript',
-          value: 'Javascript',
-        },
-        {
-          text: 'Python',
-          value: 'Python',
-        },
-        {
-          text: 'Java',
-          value: 'Java',
-        },
-      ],
+      filters:
+        skills?.length > 0
+          ? skills?.map((element: any) => ({ text: element?.name, value: element?.id }))
+          : [],
       filterSearch: true,
       onFilter: (value, record) => {
         return record?.technologies?.includes(value as string);
@@ -226,6 +222,10 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
   useEffect(() => {
     fetchProjects();
   }, [projectQuery]);
+
+  useEffect(() => {
+    preFetchingFilter();
+  }, []);
 
   return (
     <Table
