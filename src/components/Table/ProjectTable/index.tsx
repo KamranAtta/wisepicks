@@ -18,13 +18,18 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
 
   const fetchProjects = async () => {
     setLoader(true);
-    const response = await getAllProjects(projectQuery.query);
-    if (response?.statusCode == 200) {
-      setProjects(response?.data?.rows);
-    } else {
-      notification.open({
-        message: MESSAGES.ERROR,
-      });
+    try {
+      const response = await getAllProjects(projectQuery.query);
+      if (response?.statusCode == 200) {
+        setProjects(response?.data?.rows);
+      } else {
+        notification.open({
+          message: MESSAGES.ERROR,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      setLoader(false);
     }
     setLoader(false);
   };
@@ -136,9 +141,11 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       ],
       filterSearch: true,
       onFilter: (value, record) => {
-        return record.technologies.includes(value as string);
+        return record?.technologies?.includes(value as string);
       },
-      render: (element) => renderCustomCell(element),
+      render: (element) => {
+        return renderCustomCell(element?.map((element: any) => element?.value));
+      },
     },
     {
       title: 'Action',
