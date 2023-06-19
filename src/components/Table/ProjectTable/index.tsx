@@ -33,13 +33,11 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
     {
       title: 'Project Name',
       render: (element) => <a onClick={() => handleProjectDetail(element)}>{element?.name}</a>,
-      sorter: (a, b) => columnsSort(a.name, b.name),
     },
     {
       title: 'Client Name',
       render: (element) => <>{element.client.name}</>,
       key: 'client',
-      sorter: (a, b) => columnsSort(a.client, b.client),
     },
     {
       title: (
@@ -85,12 +83,10 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
           value: 'Non-Billable',
         },
       ],
-      filterMode: 'tree',
       filterSearch: true,
       onFilter: (value, record) => {
         return record.type.startsWith(value as string);
       },
-      sorter: (a, b) => columnsSort(a.type, b.type),
     },
     // {
     //   title: 'Status',
@@ -138,7 +134,6 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
           value: 'Java',
         },
       ],
-      filterMode: 'tree',
       filterSearch: true,
       onFilter: (value, record) => {
         return record.technologies.includes(value as string);
@@ -188,25 +183,21 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       title: 'Expected Start Date',
       dataIndex: 'start_date',
       key: 'startdate',
-      sorter: (a, b) => columnsSort(a.startDate, b.startDate),
     },
     {
       title: 'Expected End Date',
       dataIndex: 'end_date',
       key: 'enddate',
-      sorter: (a, b) => columnsSort(a.endDate, b.endDate),
     },
     {
       title: 'Start Date',
       dataIndex: 'expected_start_date',
       key: 'expectedstartdate',
-      sorter: (a, b) => columnsSort(a.startDate, b.startDate),
     },
     {
       title: 'End Date',
       dataIndex: 'expected_end_date',
       key: 'expectedenddate',
-      sorter: (a, b) => columnsSort(a.endDate, b.endDate),
     },
   ];
   const renderCustomCell = (object: Array<string>) => {

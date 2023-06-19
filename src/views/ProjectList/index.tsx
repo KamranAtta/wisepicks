@@ -64,36 +64,8 @@ export default function ProjectList() {
               Project
             </TypographyTitle>
           }
-          left={[
-            {
-              children: 'Under Allocated',
-              props: {
-                icon: <WarningOutlined style={{ color: 'orange' }} />,
-                onClick: () => handleProjectQueryChange('underUtilized'),
-              },
-            },
-            {
-              children: 'Over Allocated',
-              props: {
-                icon: <QuestionCircleOutlined style={{ color: 'red' }} />,
-                onClick: () => handleProjectQueryChange('overUtilized'),
-              },
-            },
-            {
-              children: 'Normal',
-              props: {
-                icon: <CheckCircleOutlined style={{ color: 'green' }} />,
-                onClick: () => handleProjectQueryChange('normal'),
-              },
-            },
-          ]}
+          left={[]}
           right={[
-            {
-              children: 'Clear Filters',
-              props: {
-                onClick: () => handleResetSearchQuery(),
-              },
-            },
             {
               children: 'Add Project',
               props: {
