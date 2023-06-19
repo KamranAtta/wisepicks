@@ -27,9 +27,6 @@ export default function ProjectList() {
   const [projDetailOpen, setProjectDetailOpen] = useState<boolean>(false);
   const [projectDetail, setProjectDetail] = useState<ProjectListDataType>();
 
-  const handleKeyPress = () => {
-    submitSearchInput();
-  };
   const handleSearchQueryChange = (event: FormEvent<HTMLElement>) => {
     setSearchQuery((event.target as HTMLInputElement).value);
   };
@@ -111,7 +108,7 @@ export default function ProjectList() {
           <SearchBar
             value={searchQuery}
             onChange={(e: FormEvent<HTMLElement>) => handleSearchQueryChange(e)}
-            onPressEnter={handleKeyPress}
+            onPressEnter={submitSearchInput}
           />
           <ButtonComponent type='primary' onClick={submitSearchInput}>
             Search
