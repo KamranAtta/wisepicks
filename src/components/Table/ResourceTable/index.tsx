@@ -28,7 +28,7 @@ export default function ResourceTable({
   const [queryBag, setQueryBag] = useState({});
 
   const prepareQueryBag = (query: any) => {
-    let queryParams = `?name=${query?.name}`;
+    let queryParams = `?name=${query?.name || ''}`;
     if (query?.filter?.assignedProjects?.length > 0) {
       query?.filter?.assignedProjects?.forEach((projectId: string) => {
         queryParams += `&projects[]=${projectId}`;
