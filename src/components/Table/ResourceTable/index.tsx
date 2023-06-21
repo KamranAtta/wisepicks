@@ -8,6 +8,11 @@ import { getAllResources } from '../../../apis/resources.api';
 import { getSkills } from '../../../apis/skills.api';
 import { getProjectList } from '../../../apis/projects.api';
 import { Tags } from './interfaces/Tags.interface';
+import {
+  ASSIGNED_LEVELS,
+  EMPLOYMENT_STATUS,
+  EMPLOYMENT_UTILIZATION,
+} from '../../../utils/constant';
 
 const styles = {
   projectContainer: { display: 'flex', justifyContent: 'center' } as React.CSSProperties,
@@ -29,14 +34,29 @@ export default function ResourceTable({
 
   const prepareQueryBag = (query: any) => {
     let queryParams = `?name=${query?.name || ''}`;
-    if (query?.filter?.assignedProjects?.length > 0) {
-      query?.filter?.assignedProjects?.forEach((projectId: string) => {
+    if (query?.filter?.projects?.length > 0) {
+      query?.filter?.projects?.forEach((projectId: string) => {
         queryParams += `&projects[]=${projectId}`;
       });
     }
     if (query?.filter?.skill_ids?.length > 0) {
       query?.filter?.skill_ids?.forEach((skillId: string) => {
         queryParams += `&skills[]=${skillId}`;
+      });
+    }
+    if (query?.filter?.utilization) {
+      query?.filter?.utilization?.forEach((utilization: string) => {
+        queryParams += `&utilization[]=${utilization}`;
+      });
+    }
+    if (query?.filter?.employment_status) {
+      query?.filter?.employment_status?.forEach((employmentStatus: string) => {
+        queryParams += `&empStatus=${employmentStatus}`;
+      });
+    }
+    if (query?.filter?.assigned_level) {
+      query?.filter?.assigned_level?.forEach((level: string) => {
+        queryParams += `&assignedLevel[]=${level}`;
       });
     }
     return queryParams;
@@ -139,17 +159,29 @@ export default function ResourceTable({
       title: 'Level',
       dataIndex: 'assigned_level',
       key: 'assigned_level',
+      filterSearch: true,
+      filterMultiple: true,
+      filters: ASSIGNED_LEVELS?.map((element) => ({ text: element, value: element })),
     },
     {
       title: 'Status',
       key: 'utilization',
       dataIndex: 'utilization',
+      filterSearch: true,
+      filterMultiple: true,
+      filters: EMPLOYMENT_UTILIZATION?.map((element) => ({
+        text: element,
+        value: element,
+      })),
       render: (status) => renderUtilization(status),
     },
     {
       title: 'Employment Status',
       dataIndex: 'employment_status',
       key: 'employment_status',
+      filterSearch: true,
+      filterMultiple: false,
+      filters: EMPLOYMENT_STATUS?.map((element) => ({ text: element, value: element })),
     },
     {
       title: 'Skills',
