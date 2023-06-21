@@ -7,11 +7,13 @@ import { resourceListDataType } from './interfaces/resourceListInterface';
 import { getAllResources } from '../../../apis/resources.api';
 import { getSkills } from '../../../apis/skills.api';
 import { getProjectList } from '../../../apis/projects.api';
+import { Tags } from './interfaces/Tags.interface';
 
-interface Tags {
-  id: string;
-  value: string;
-}
+const styles = {
+  projectContainer: { display: 'flex', justifyContent: 'center' } as React.CSSProperties,
+  skillContainer: { width: 'auto', display: 'flex', flexWrap: 'wrap' } as React.CSSProperties,
+  tagContainer: { minWidth: '70px' } as React.CSSProperties,
+};
 
 export default function ResourceTable({
   resourceQuery,
@@ -60,10 +62,10 @@ export default function ResourceTable({
 
   useEffect(() => {
     preFetchingFilter();
+    fetchResources();
   }, []);
 
   useEffect(() => {
-    // fetchResources();
     setQueryBag((prev) => ({ ...prev, name: resourceQuery?.query }));
   }, [resourceQuery]);
 
@@ -71,31 +73,50 @@ export default function ResourceTable({
     fetchResources();
   }, [queryBag]);
 
-  const renderCustomCell = (array: Array<unknown>) => {
+  const renderProjectCell = (array: Array<unknown>) => {
     if (!(array?.length > 0)) {
-      return <div></div>;
+      return <div>-</div>;
     }
-    const projectNames = array.map((element: any) => element?.project?.name || '');
+    const projectNames = array.map((element: any) => element?.value || '');
+    if (projectNames[0] === '') return <div style={styles.projectContainer}>-</div>;
     return (
       <List
         size='small'
         dataSource={projectNames}
-        renderItem={(item) => <List.Item>{item as React.ReactNode}</List.Item>}
+        renderItem={(item, index) => (
+          <List.Item style={styles.projectContainer} key={index}>
+            {item as React.ReactNode}
+          </List.Item>
+        )}
       />
     );
   };
 
   const renderSkillsList = (skills: Array<Tags>) => {
     const skillsName = skills?.map((skill) => skill?.value);
-    return (
-      <div style={{ width: 'auto', display: 'flex', flexWrap: 'wrap' }}>
-        {skillsName?.join(',')}
-      </div>
-    );
+    return <div style={styles.skillContainer}>{skillsName?.join(',')}</div>;
   };
 
   const renderTeamsColumn = (teams: any) => {
-    return <div>{(teams?.name as string).toUpperCase()}</div>;
+    return <div>{(teams?.team_name as string).toUpperCase()}</div>;
+  };
+
+  const renderUtilization = (utilizationETE: any) => {
+    let meta: { color: string; text: string } = { color: 'orange', text: 'UNDER UTILIZED' };
+
+    if (utilizationETE > 100) {
+      meta = { color: 'red', text: 'OVER UTILIZED' };
+    } else if (utilizationETE >= 50 && utilizationETE <= 100) {
+      meta = { color: 'green', text: 'NORMAL' };
+    }
+
+    return (
+      <>
+        <Tag color={meta?.color} style={styles.tagContainer}>
+          {meta?.text?.toUpperCase()} ({utilizationETE || 0}%)
+        </Tag>
+      </>
+    );
   };
 
   const columns: ColumnsType<resourceListDataType> = [
@@ -105,9 +126,9 @@ export default function ResourceTable({
     },
     {
       title: 'Team',
-      dataIndex: 'team',
+      dataIndex: 'team_name',
       key: 'team',
-      render: (element, row) => renderTeamsColumn(row?.team),
+      render: (element, row) => renderTeamsColumn(row),
     },
     {
       title: 'Availability In Hours',
@@ -121,14 +142,9 @@ export default function ResourceTable({
     },
     {
       title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => (
-        <Tag color={status !== 'Normal' ? 'green' : 'red'}>
-          {status ? status.toUpperCase() : 'Normal'}
-          {/* Supported haven't implemented */}
-        </Tag>
-      ),
+      key: 'utilization',
+      dataIndex: 'utilization',
+      render: (status) => renderUtilization(status),
     },
     {
       title: 'Employment Status',
@@ -151,16 +167,16 @@ export default function ResourceTable({
     },
     {
       title: 'Assigned Projects',
-      dataIndex: 'assignedProjects',
-      key: 'assignedProjects',
+      dataIndex: 'projects',
+      key: 'projects',
       filters:
         projects?.length > 0
           ? projects?.map((element: any) => ({ text: element?.name, value: element?.id }))
           : [],
       filterSearch: true,
       filterMultiple: true,
-      render: (element, row) => {
-        return renderCustomCell(row?.projectResource);
+      render: (element) => {
+        return renderProjectCell(element);
       },
     },
     {

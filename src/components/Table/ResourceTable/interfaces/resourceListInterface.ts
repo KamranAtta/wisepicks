@@ -22,7 +22,7 @@ export const vacationInterface: ColumnsType<vacationTableInterface> = [
   },
 ];
 export interface resourceListDataType {
-  projectResource: unknown[];
+  projects: unknown[];
   skill_ids: any;
   key: string;
   name: string;
