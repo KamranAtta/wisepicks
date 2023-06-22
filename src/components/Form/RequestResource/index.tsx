@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -14,9 +12,8 @@ import {
   Space,
 } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
-import { requestResources, getAllProjects } from '../../../apis/index';
+import { requestResources, getProject } from '../../../apis/index';
 import { useNavigate } from 'react-router-dom';
-import AlertBox from '../../common/Alert';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import { MESSAGES, PROJECT_QUERY_INITIAL } from '../../../utils/constant';
@@ -49,9 +46,9 @@ const RequestResourceForm = () => {
     const projectId: any = urlParams.get('id');
     const fetchData = async () => {
       const queryParams = { ...PROJECT_QUERY_INITIAL.query, id: projectId };
-      const data: any = await getAllProjects(queryParams);
+      const data: any = await getProject(queryParams?.id as string);
       if (data.statusCode == 200) {
-        setProjectName(data?.data?.rows[0]?.name);
+        setProjectName(data?.data?.name);
       } else {
         notification.open({
           message: MESSAGES.ERROR,
