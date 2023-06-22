@@ -14,16 +14,16 @@ export const requestResources = async (body: object) => {
 
 export const getResources = async (input: string) => {
   try {
-    const response = await doGet('/getResources?input=' + input);
+    const response = await doGet(`/getResources?input=${input}`);
     return response?.data;
   } catch (err) {
     return [];
   }
 };
 
-export const getAllResources = async () => {
+export const getAllResources = async (input: string) => {
   try {
-    const response = await doGet('/getAllResources');
+    const response = await doGet(`/resource${input}`);
     return response?.data;
   } catch (err) {
     return [];

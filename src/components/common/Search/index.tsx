@@ -1,4 +1,5 @@
-import Search from 'antd/es/transfer/search';
+import { Input } from 'antd';
+// import Search from 'antd/es/transfer/search';
 import { TransferSearchProps } from './Search.interface';
 
 const SearchBar = ({
@@ -6,15 +7,15 @@ const SearchBar = ({
   disabled,
   onChange,
   placeholder,
-  handleClear,
+  onPressEnter,
 }: TransferSearchProps) => {
   return (
-    <Search
+    <Input
       value={value}
       disabled={disabled}
       onChange={onChange}
       placeholder={placeholder}
-      handleClear={handleClear}
+      onPressEnter={onPressEnter}
     />
   );
 };
@@ -24,7 +25,7 @@ SearchBar.defaultProps = {
   disabled: false,
   onchange: () => null,
   placeholder: '',
-  handleClear: () => null,
+  onPressEnter: () => null,
 };
 
 export default SearchBar;

@@ -1,5 +1,4 @@
 import React, { Fragment, useState, FormEvent } from 'react';
-import { CheckCircleOutlined, QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
 import SearchBar from '../../components/common/Search';
 import ButtonLayout from '../../components/ButtonLayout';
@@ -9,10 +8,7 @@ import ResourceTable from '../../components/Table/ResourceTable';
 import ResourceDetail from '../../components/Drawer/ResourceDetail';
 import AssignProject from '../../components/Drawer/AssignProject/AssignProject';
 import { resourceListDataType as ResourceListDataType } from '../../components/Table/ResourceTable/interfaces/resourceListInterface';
-interface ResourceQuery {
-  query: string;
-  status: string;
-}
+import { ResourceQuery } from '../../components/Table/ResourceTable/interfaces/ResourceQueryInterface';
 
 export default function ResourceList() {
   const RESOURCE_QUERY_INITIAL = { query: '', status: '' };
@@ -26,16 +22,8 @@ export default function ResourceList() {
     setSearchQuery((event.target as HTMLInputElement).value);
   };
 
-  const handleResourceQueryChange = (status: string) => {
-    setResourceQuery((prev) => ({ ...prev, status }));
-  };
-
   const submitSearchInput = async () => {
     setResourceQuery((prev) => ({ ...prev, query: searchQuery }));
-  };
-
-  const handleResetSearchQuery = () => {
-    setResourceQuery(RESOURCE_QUERY_INITIAL);
   };
 
   const showResourceDrawer =
@@ -64,40 +52,15 @@ export default function ResourceList() {
               Resources
             </TypographyTitle>
           }
-          left={[
-            {
-              children: 'Under Allocated',
-              props: {
-                icon: <WarningOutlined style={{ color: 'orange' }} />,
-                onClick: () => handleResourceQueryChange('underUtilized'),
-              },
-            },
-            {
-              children: 'Over Allocated',
-              props: {
-                icon: <QuestionCircleOutlined style={{ color: 'red' }} />,
-                onClick: () => handleResourceQueryChange('overUtilized'),
-              },
-            },
-            {
-              children: 'Normal',
-              props: {
-                icon: <CheckCircleOutlined style={{ color: 'green' }} />,
-                onClick: () => handleResourceQueryChange('normal'),
-              },
-            },
-          ]}
-          right={[
-            {
-              children: 'Clear Filters',
-              props: {
-                onClick: () => handleResetSearchQuery(),
-              },
-            },
-          ]}
+          left={[]}
+          right={[]}
         />
         <div style={{ display: 'flex', marginBottom: '20px' }}>
-          <SearchBar value={searchQuery} onChange={(e) => handleSearchQueryChange(e)} />
+          <SearchBar
+            value={searchQuery}
+            onChange={(e) => handleSearchQueryChange(e)}
+            onPressEnter={() => submitSearchInput()}
+          />
           <ButtonComponent type='primary' onClick={submitSearchInput}>
             Search
           </ButtonComponent>

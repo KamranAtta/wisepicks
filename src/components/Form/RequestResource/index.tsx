@@ -1,11 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Col, DatePicker, Divider, Form, Row, Select, Space } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  DatePicker,
+  Divider,
+  Form,
+  notification,
+  Row,
+  Select,
+  Space,
+} from 'antd';
 import { Fragment, useEffect, useState } from 'react';
-import { requestResources, getProjectDetails } from '../../../apis/index';
+import { requestResources, getAllProjects } from '../../../apis/index';
 import { useNavigate } from 'react-router-dom';
 import AlertBox from '../../common/Alert';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
+import { MESSAGES, PROJECT_QUERY_INITIAL } from '../../../utils/constant';
 const { RangePicker } = DatePicker;
 
 const styles = {
@@ -26,11 +40,7 @@ const formItemLayout = {
 };
 
 const RequestResourceForm = () => {
-  const [projectName, setProjectName] = useState<any>('');
-  const [alertBoxState, setAlertBoxState] = useState<any>({
-    message: '',
-    type: '',
-  });
+  const [projectName, setProjectName] = useState<string>('');
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loader, setLoader] = useState<boolean>(false);
@@ -38,23 +48,33 @@ const RequestResourceForm = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const projectId: any = urlParams.get('id');
     const fetchData = async () => {
-      const data: any = await getProjectDetails(projectId);
-      setProjectName(data.name);
+      const queryParams = { ...PROJECT_QUERY_INITIAL.query, id: projectId };
+      const data: any = await getAllProjects(queryParams);
+      if (data.statusCode == 200) {
+        setProjectName(data?.data?.rows[0]?.name);
+      } else {
+        notification.open({
+          message: MESSAGES.ERROR,
+        });
+      }
     };
     fetchData();
   }, []);
 
   const onFinish = async (values: any) => {
-    // console.log('Success:', values)
     setLoader(true);
     const response: any = await requestResources(values);
     if (response.status == 200) {
-      setAlertBoxState({ message: 'Resources has been requested', type: 'success' });
+      notification.open({
+        message: MESSAGES.RESOURCE_REQUEST_SUCCESS,
+      });
       setLoader(false);
       navigate('/projects');
     } else {
+      notification.open({
+        message: MESSAGES.ERROR,
+      });
       setLoader(false);
-      setAlertBoxState({ message: 'Some Error Occured', type: 'error' });
     }
   };
 
@@ -228,11 +248,6 @@ const RequestResourceForm = () => {
           </Row>
         </Space>
       </Form>
-      {alertBoxState ? (
-        <AlertBox message={alertBoxState.message} type={alertBoxState.type} />
-      ) : (
-        <></>
-      )}
       {loader ? <Loader /> : <></>}
     </div>
   );

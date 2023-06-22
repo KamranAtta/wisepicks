@@ -28,7 +28,7 @@ export const doPost = async (path: string, data: object, headers: object = {}, b
 
   const response = await Axios({
     url: path,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'POST',
     // withCredentials: true,
     headers: setHeader(token, headers),
@@ -49,7 +49,7 @@ export const doPut = async (path: string, data: object, headers: object = {}, ba
 
   const response = await Axios({
     url: path,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'PUT',
     // withCredentials: true,
     headers: setHeader(token, headers),
@@ -75,7 +75,7 @@ export const doPatch = async (
 
   const response = await Axios({
     url: path,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'PATCH',
     // withCredentials: true,
     headers: setHeader(token, headers),

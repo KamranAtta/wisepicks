@@ -1,29 +1,25 @@
 import { Fragment } from 'react';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Input, Row, notification } from 'antd';
 import { addClients, getClients } from '../../../apis';
 import propsInterface from './interface';
 import PropTypes from 'prop-types';
 import DrawerComponent from '../../common/Drawer';
-
-const AddClient = ({
-  title,
-  open,
-  onClose,
-  setClientFormOpen,
-  setAlertBoxState,
-  setClients,
-}: propsInterface) => {
+import { client } from '../../Form/interfaces/clientInterface';
+import { MESSAGES } from '../../../utils/constant';
+const AddClient = ({ title, open, onClose, setClientFormOpen, setClients }: propsInterface) => {
   const onFinish = async (values: object) => {
-    const response = await addClients(values);
-    if (response.status == 200) {
-      setAlertBoxState({ message: 'New Client Has Been Added', type: 'success' });
+    const code: number = await addClients(values);
+    if (code == 200) {
+      notification.open({
+        message: MESSAGES.CLIENT_ADD_SUCCESS,
+      });
       setClientFormOpen(false);
-      const response = await getClients();
-      if (response.status == 200) {
-        setClients(response.data.data);
-      }
+      const data: client[] = await getClients();
+      setClients(data);
     } else {
-      setAlertBoxState({ message: 'Some Error Occured', type: 'error' });
+      notification.open({
+        message: MESSAGES.ERROR,
+      });
     }
   };
 
@@ -45,10 +41,6 @@ const AddClient = ({
               rules={[{ required: true, message: 'Please input client name!' }]}
             >
               <Input />
-            </Form.Item>
-
-            <Form.Item label='Details' name='details'>
-              <Input.TextArea />
             </Form.Item>
 
             <Row justify='end' gutter={24}>

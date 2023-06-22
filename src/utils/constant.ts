@@ -8,5 +8,23 @@ export const LOCAL_STORAGE = {
 export const MESSAGES = {
   PROJECT_ADD_SUCCESS: 'New Project Has Been Added',
   PROJECT_EDIT_SUCCESS: 'Project Has Been Edited',
+  CLIENT_ADD_SUCCESS: 'New Client Has Been Added',
+  RESOURCE_REQUEST_SUCCESS: 'Resource Has Been Requested Successfully',
   ERROR: 'Some Error Occured',
 };
+
+export const FORMATS = {
+  DATE_FORMAT: 'YYYY-MM-DD',
+};
+
+export const PROJECT_QUERY_INITIAL = {
+  query: {
+    page: 1,
+    pageSize: 10,
+  },
+  status: '',
+};
+
+export const EMPLOYMENT_UTILIZATION = ['Under-Utilized', 'Normal', 'Over-Utilized'];
+export const ASSIGNED_LEVELS = ['L3', 'L4', 'L5', 'L6', 'L7'];
+export const EMPLOYMENT_STATUS = ['Full-Time', 'Part-Time'];

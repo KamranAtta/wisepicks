@@ -1,4 +1,5 @@
-import { doGet, doPost } from '../utils/request';
+import { doGet, doPost, doPut } from '../utils/request';
+import { createQueryParams } from '../utils/createQueryParams';
 
 export const getProjectDetails = async (id: number) => {
   try {
@@ -20,19 +21,21 @@ export const getProjectPlan = async (id: number) => {
 
 export const createProject = async (body: object) => {
   try {
-    const response = await doPost('/getProjectPlan', body);
+    const response = await doPost('/project/', body);
+    response;
     return response?.data;
   } catch (err) {
-    return [];
+    err;
   }
 };
 
 export const editProject = async (body: object) => {
   try {
-    const response = await doPost('/editProject/', body);
+    const response = await doPut('/project/', body);
+    response;
     return response?.data;
   } catch (err) {
-    return [];
+    err;
   }
 };
 
@@ -45,10 +48,29 @@ export const getProjects = async (input: string) => {
   }
 };
 
-export const getAllProjects = async (input: string) => {
+export const getAllProjects = async (query: object) => {
   try {
-    const response = await doGet(`/project?input=${input}`);
+    const queryParams = createQueryParams(query);
+    const response = await doGet(`/project?${queryParams}`);
     return response?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
+export const getAllProjectsQuery = async (query: string) => {
+  try {
+    const response = await doGet(`/project${query}`);
+    return response?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
+export const getProjectList = async () => {
+  try {
+    const response = await doGet('/project');
+    return response?.data?.data;
   } catch (err) {
     return [];
   }
