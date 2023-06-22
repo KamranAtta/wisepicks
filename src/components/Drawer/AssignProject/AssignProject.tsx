@@ -1,54 +1,76 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import PropTypes from 'prop-types';
 import { ColumnsType } from 'antd/es/table';
-import { Fragment, useEffect, useState } from 'react';
-import { AlertProps, Button, Col, DatePicker, Form, Row, Select, Table } from 'antd';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { Button, Col, DatePicker, Form, Row, Select, Table } from 'antd';
 
 import Drawer from '../../common/Drawer';
 import Loader from '../../common/Loader';
-import AlertBox from '../../common/Alert';
 import { columnsSort } from '../../Table/utils';
 import TypographyTitle from '../../common/Title';
 import { assignResource } from '../../../apis/resources.api';
 import propsInterface from './interfaces/propsInterface';
-import vacationTableInterface from './interfaces/vacationTableInterface';
 import { getProjectList } from '../../../apis/projects.api';
+import vacationTableInterface from './interfaces/vacationTableInterface';
+import NotificationComponent, { NotificationHandlerProps } from '../../common/Notification';
 
 const styles = {
   datePicker: { width: '100%' } as React.CSSProperties,
 };
 
 const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
+  const resetRef = useRef(null);
   const [form] = Form.useForm();
   const { RangePicker } = DatePicker;
+  const { contextHolder, notificationHandler } = NotificationComponent();
 
   const [projects, setProjects] = useState([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [vacationData, setVacationData] = useState<vacationTableInterface[]>([]);
   const [formEndDate] = useState<string>('');
   const [formStartDate] = useState<string>('');
-  const [alertBoxState, setAlertBoxState] = useState<AlertProps>({
-    message: '',
-    type: undefined,
-  });
 
   const preFetchData = async () => {
     const projectList = await getProjectList();
     setProjects(projectList);
   };
 
+  const formDataTransformation = (values: any) => {
+    let tranformedData = { ...values };
+    if (tranformedData?.startDate) {
+      tranformedData = { ...tranformedData, startDate: tranformedData?.startDate?.toISOString() };
+    }
+    if (tranformedData?.endDate) {
+      tranformedData = { ...tranformedData, endDate: tranformedData?.endDate?.toISOString() };
+    }
+    if (tranformedData?.expectedDate?.length > 0) {
+      tranformedData = {
+        ...tranformedData,
+        expectedDate: tranformedData?.expectedDate?.map((date: any) => date?.toISOString()),
+      };
+    }
+    return tranformedData;
+  };
+
   const onFinish = async (values: object) => {
-    console.log('final values', values);
-    // setLoader(true);
-    // const response = await assignResource(values);
-    // if (response.status == 200) {
-    //   setLoader(false);
-    // TODO: //use notification base component  setAlertBoxState({ message: 'Resource has been assigned', type: 'success' });
-    // } else {
-    //   setLoader(false);
-    // TODO:   setAlertBoxState({ message: 'Some Error Occured', type: 'error' });
-    // }
+    let notificationConfig: NotificationHandlerProps = {
+      type: 'success',
+      message: 'Resource Assigned',
+      description: 'Resource has been assigned',
+    };
+    setLoader(true);
+    const tranformedValues = formDataTransformation(values);
+    const response = await assignResource(tranformedValues); // TODO: implment api for assignResource
+    if (response.status == 200) {
+      (resetRef?.current as any)?.click();
+    } else {
+      notificationConfig = {
+        type: 'error',
+        message: 'Error Occured',
+        description: 'Error in Resource assignment',
+      };
+    }
+    setLoader(false);
+    notificationHandler(notificationConfig);
   };
 
   const vacationColumns: ColumnsType<vacationTableInterface> = [
@@ -116,6 +138,7 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
 
   return (
     <Fragment>
+      {contextHolder}
       <Drawer title={title} placement='right' onClose={onClose} open={open}>
         <div className='drawer-content'>
           <Form
@@ -174,17 +197,17 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
             </Form.Item>
 
             <Form.Item
-              name='expectedDate:'
+              name='expectedDate'
               label='Expected Date:'
               rules={[{ type: 'array' as const, required: true, message: 'Please select time!' }]}
             >
               <RangePicker />
             </Form.Item>
 
-            <Form.Item name='startDate:' label='Start Date:' rules={[{ type: 'object' as const }]}>
+            <Form.Item name='startDate' label='Start Date:' rules={[{ type: 'object' as const }]}>
               <DatePicker style={styles.datePicker} />
             </Form.Item>
-            <Form.Item name='endDate:' label='End Date:' rules={[{ type: 'object' as const }]}>
+            <Form.Item name='endDate' label='End Date:' rules={[{ type: 'object' as const }]}>
               <DatePicker style={styles.datePicker} />
             </Form.Item>
 
@@ -209,7 +232,7 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
                 </Col>
                 <Col>
                   <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type='primary' htmlType='reset'>
+                    <Button type='primary' htmlType='reset' ref={resetRef}>
                       Reset
                     </Button>
                   </Form.Item>

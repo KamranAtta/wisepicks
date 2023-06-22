@@ -1,5 +1,5 @@
 import { doGet, doPost, doPut } from '../utils/request';
-import { createQueryParams } from '../utils/createQueryParams';
+import { createQueryParams } from '../utils/parser';
 
 export const getProjectDetails = async (id: number) => {
   try {
