@@ -30,7 +30,7 @@ import TypographyTitle from '../../common/Title';
 
 interface response {
   statusCode: number;
-  err: any,
+  err: any;
   data: [];
 }
 const initialValues = {
@@ -114,7 +114,7 @@ const AddProjectForm = () => {
           message: response?.err?.message,
         });
         setLoader(false);
-      }else {
+      } else {
         setLoader(false);
         notification.open({
           message: MESSAGES.ERROR,

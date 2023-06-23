@@ -10,7 +10,7 @@ import { MESSAGES } from '../../../utils/constant';
 const AddClient = ({ title, open, onClose, setClientFormOpen, setClients }: propsInterface) => {
   interface response {
     statusCode: number;
-    err: any,
+    err: any;
     data: [];
   }
 
