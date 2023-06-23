@@ -32,7 +32,7 @@ export const getAllResources = async (input: string) => {
 
 export const assignResource = async (body: object) => {
   try {
-    const response = await doPost('/assignResource', body);
+    const response = await doPost('/project-resources', body);
     return response?.data;
   } catch (err) {
     return [];

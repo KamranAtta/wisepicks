@@ -34,21 +34,33 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
     setProjects(projectList);
   };
 
-  const formDataTransformation = (values: any) => {
-    let tranformedData = { ...values };
-    if (tranformedData?.startDate) {
-      tranformedData = { ...tranformedData, startDate: tranformedData?.startDate?.toISOString() };
-    }
-    if (tranformedData?.endDate) {
-      tranformedData = { ...tranformedData, endDate: tranformedData?.endDate?.toISOString() };
-    }
-    if (tranformedData?.expectedDate?.length > 0) {
-      tranformedData = {
-        ...tranformedData,
-        expectedDate: tranformedData?.expectedDate?.map((date: any) => date?.toISOString()),
+  const formDataTransformation = (values: any, resourceData = data as any) => {
+    const { project, weeklyHours, ...rest } = values;
+    let transformedData = { ...rest, projectId: project, fte: weeklyHours, ...rest };
+    if (transformedData?.startDate) {
+      transformedData = {
+        ...transformedData,
+        startDate: transformedData?.startDate?.toISOString(),
       };
     }
-    return tranformedData;
+    if (transformedData?.endDate) {
+      transformedData = { ...transformedData, endDate: transformedData?.endDate?.toISOString() };
+    }
+    if (transformedData?.expectedDate?.length > 0) {
+      const expectedDate = transformedData?.expectedDate?.map((date: any) => date?.toISOString());
+      transformedData.expectedStartDate = expectedDate[0];
+      transformedData.expectedEndDate = expectedDate[1];
+    }
+    transformedData = resourceData?.team_id
+      ? { ...transformedData, teamId: resourceData?.team_id }
+      : transformedData;
+    transformedData = resourceData?.assigned_level
+      ? { ...transformedData, level: resourceData?.assigned_level }
+      : transformedData;
+    transformedData = resourceData?.id
+      ? { ...transformedData, resourceId: resourceData?.id }
+      : transformedData;
+    return transformedData;
   };
 
   const onFinish = async (values: object) => {
@@ -59,8 +71,8 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
     };
     setLoader(true);
     const tranformedValues = formDataTransformation(values);
-    const response = await assignResource(tranformedValues); // TODO: implment api for assignResource
-    if (response.status == 200) {
+    const response = await assignResource(tranformedValues);
+    if (response.status == 201) {
       (resetRef?.current as any)?.click();
     } else {
       notificationConfig = {
