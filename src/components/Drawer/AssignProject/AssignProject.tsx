@@ -72,7 +72,7 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
     setLoader(true);
     const tranformedValues = formDataTransformation(values);
     const response = await assignResource(tranformedValues);
-    if (response.status == 201) {
+    if (response.statusCode == 201) {
       (resetRef?.current as any)?.click();
     } else {
       notificationConfig = {
