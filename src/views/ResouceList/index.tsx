@@ -88,7 +88,11 @@ export default function ResourceList() {
           right={[]}
         />
         <div style={{ display: 'flex', marginBottom: '20px' }}>
-          <SearchBar value={searchQuery} onChange={(e) => handleSearchQueryChange(e)} />
+          <SearchBar
+            value={searchQuery}
+            onChange={(e) => handleSearchQueryChange(e)}
+            onPressEnter={submitSearchInput}
+          />
           <ButtonComponent type='primary' onClick={submitSearchInput}>
             Search
           </ButtonComponent>

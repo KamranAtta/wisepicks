@@ -154,6 +154,26 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       },
     },
     {
+      title: 'Expected Start Date',
+      dataIndex: 'start_date',
+      key: 'startdate',
+    },
+    {
+      title: 'Expected End Date',
+      dataIndex: 'end_date',
+      key: 'enddate',
+    },
+    {
+      title: 'Start Date',
+      dataIndex: 'expected_start_date',
+      key: 'expectedstartdate',
+    },
+    {
+      title: 'End Date',
+      dataIndex: 'expected_end_date',
+      key: 'expectedenddate',
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (element) => {
@@ -191,26 +211,6 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
           );
         }
       },
-    },
-    {
-      title: 'Expected Start Date',
-      dataIndex: 'start_date',
-      key: 'startdate',
-    },
-    {
-      title: 'Expected End Date',
-      dataIndex: 'end_date',
-      key: 'enddate',
-    },
-    {
-      title: 'Start Date',
-      dataIndex: 'expected_start_date',
-      key: 'expectedstartdate',
-    },
-    {
-      title: 'End Date',
-      dataIndex: 'expected_end_date',
-      key: 'expectedenddate',
     },
   ];
   const renderCustomCell = (object: Array<string>) => {
