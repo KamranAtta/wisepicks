@@ -21,6 +21,15 @@ export const getResources = async (input: string) => {
   }
 };
 
+export const getResource = async (resourceId: string) => {
+  try {
+    const response = await doGet(`/resource/${resourceId}`);
+    return response?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
 export const getAllResources = async (input: string) => {
   try {
     const response = await doGet(`/resource${input}`);
