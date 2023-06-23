@@ -14,7 +14,7 @@ export const getClients = async () => {
 export const addClients = async (body: object) => {
   try {
     const response = await doPost('/client', body);
-    return response?.data?.statusCode;
+    return response?.data;
   } catch (err) {
     err;
   }
