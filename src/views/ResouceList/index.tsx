@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Fragment, useState, FormEvent } from 'react';
-import { CheckCircleOutlined, QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
 import SearchBar from '../../components/common/Search';
 import ButtonLayout from '../../components/ButtonLayout';
@@ -24,16 +22,8 @@ export default function ResourceList() {
     setSearchQuery((event.target as HTMLInputElement).value);
   };
 
-  const handleResourceQueryChange = (status: string) => {
-    setResourceQuery((prev) => ({ ...prev, status }));
-  };
-
   const submitSearchInput = async () => {
     setResourceQuery((prev) => ({ ...prev, query: searchQuery }));
-  };
-
-  const handleResetSearchQuery = () => {
-    setResourceQuery(RESOURCE_QUERY_INITIAL);
   };
 
   const showResourceDrawer =
@@ -62,36 +52,14 @@ export default function ResourceList() {
               Resources
             </TypographyTitle>
           }
-          left={[
-            {
-              children: 'Under Allocated',
-              props: {
-                icon: <WarningOutlined style={{ color: 'orange' }} />,
-                onClick: () => null,
-              },
-            },
-            {
-              children: 'Over Allocated',
-              props: {
-                icon: <QuestionCircleOutlined style={{ color: 'red' }} />,
-                onClick: () => null,
-              },
-            },
-            {
-              children: 'Normal',
-              props: {
-                icon: <CheckCircleOutlined style={{ color: 'green' }} />,
-                onClick: () => null,
-              },
-            },
-          ]}
+          left={[]}
           right={[]}
         />
         <div style={{ display: 'flex', marginBottom: '20px' }}>
           <SearchBar
             value={searchQuery}
             onChange={(e) => handleSearchQueryChange(e)}
-            onPressEnter={submitSearchInput}
+            onPressEnter={() => submitSearchInput()}
           />
           <ButtonComponent type='primary' onClick={submitSearchInput}>
             Search

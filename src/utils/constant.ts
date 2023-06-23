@@ -24,3 +24,7 @@ export const PROJECT_QUERY_INITIAL = {
   },
   status: '',
 };
+
+export const EMPLOYMENT_UTILIZATION = ['Under-Utilized', 'Normal', 'Over-Utilized'];
+export const ASSIGNED_LEVELS = ['L3', 'L4', 'L5', 'L6', 'L7'];
+export const EMPLOYMENT_STATUS = ['Full-Time', 'Part-Time'];

@@ -14,7 +14,7 @@ import {
   notification,
 } from 'antd';
 import { Fragment, useState, useEffect } from 'react';
-import { getClients, getSkills, getTeams, getAllProjects, editProject } from '../../../apis/index';
+import { getClients, getSkills, getTeams, getProject, editProject } from '../../../apis/index';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import AddClient from '../../Drawer/AddClient';
@@ -85,14 +85,14 @@ const EditProjectForm = () => {
       id: projectId,
     };
     queryParams;
-    const response: any = await getAllProjects(queryParams);
+    const response: any = await getProject(queryParams?.id as string);
     if (response.statusCode != 200) {
       notification.open({
         message: MESSAGES.ERROR,
       });
       return;
     }
-    const data = response.data?.rows[0];
+    const data = response.data;
     data;
     data?.start_date != null ? (data.start_date = moment(data.start_date)) : null;
     data?.end_date != null ? (data.end_date = moment(data.end_date)) : null;
@@ -102,7 +102,6 @@ const EditProjectForm = () => {
     data?.expected_end_date != null
       ? (data.expected_end_date = moment(data.expected_end_date))
       : null;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data?.projectResources.forEach((element: any) => {
       element.start_date != null ? (element.start_date = moment(element.start_date)) : null;
       element.end_date != null ? (element.end_date = moment(element.end_date)) : null;
@@ -128,12 +127,6 @@ const EditProjectForm = () => {
     const data: team[] = await getTeams();
     setTeams(data);
   };
-  // const getProjectLeadTypes = async () => {
-  //   const res: any = await getProjectLeads();
-  //   if (res.status == 200) {
-  //     setProjectLeads(res.data.data);
-  //   }
-  // };
 
   const getTechnologiesTypes = async () => {
     const res: skill[] = await getSkills();

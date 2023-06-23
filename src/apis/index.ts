@@ -9,6 +9,7 @@ import {
   editProject,
   getProjects,
   getAllProjects,
+  getProject,
   getProjectLeads,
 } from './projects.api';
 import { getTechnologies } from './technologies.api';
@@ -32,4 +33,5 @@ export {
   deleteResource,
   getSkills,
   getTeams,
+  getProject,
 };

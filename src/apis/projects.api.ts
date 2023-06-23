@@ -1,5 +1,5 @@
 import { doGet, doPost, doPut } from '../utils/request';
-import { createQueryParams } from '../utils/createQueryParams';
+import { createQueryParams } from '../utils/parser';
 
 export const getProjectDetails = async (id: number) => {
   try {
@@ -52,6 +52,15 @@ export const getAllProjects = async (query: object) => {
   try {
     const queryParams = createQueryParams(query);
     const response = await doGet(`/project?${queryParams}`);
+    return response?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
+export const getProject = async (query: string) => {
+  try {
+    const response = await doGet(`/project/${query}`);
     return response?.data;
   } catch (err) {
     return [];

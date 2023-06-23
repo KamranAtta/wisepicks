@@ -14,13 +14,7 @@ import {
   notification,
 } from 'antd';
 import { Fragment, useState, useEffect } from 'react';
-import {
-  getClients,
-  getSkills,
-  getTeams,
-  createProject,
-  getAllProjects,
-} from '../../../apis/index';
+import { getClients, getSkills, getTeams, createProject, getProject } from '../../../apis/index';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import AddClient from '../../Drawer/AddClient';
@@ -86,15 +80,14 @@ const CloneProjectForm = () => {
       id: projectId,
     };
     queryParams;
-    const response: any = await getAllProjects(queryParams);
+    const response: any = await getProject(queryParams?.id as string);
     if (response.statusCode != 200) {
       notification.open({
         message: MESSAGES.ERROR,
       });
       return;
     }
-    const data = response.data?.rows[0];
-    data;
+    const data = response.data;
     data?.start_date != null ? (data.start_date = moment(data.start_date)) : null;
     data?.end_date != null ? (data.end_date = moment(data.end_date)) : null;
     data?.expected_start_date != null
@@ -130,12 +123,6 @@ const CloneProjectForm = () => {
     const data: team[] = await getTeams();
     setTeams(data);
   };
-  // const getProjectLeadTypes = async () => {
-  //   const res: any = await getProjectLeads();
-  //   if (res.status == 200) {
-  //     setProjectLeads(res.data.data);
-  //   }
-  // };
 
   const getTechnologiesTypes = async () => {
     const res: skill[] = await getSkills();
