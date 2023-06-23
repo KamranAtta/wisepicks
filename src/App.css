@@ -63,3 +63,12 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-picker-panels {
+  display: flex;
+  flex-direction: column;
+}
+.ant-picker-panels > *:last-child .ant-picker-body {
+  /* to make calendar responsive */
+  display: none !important;
+}

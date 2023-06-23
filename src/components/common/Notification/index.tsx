@@ -1,13 +1,28 @@
 import { notification } from 'antd';
 
+export interface NotificationHandlerProps {
+  type: 'destroy' | 'open' | 'success' | 'info' | 'error' | 'warning';
+  duration?: number;
+  message: string;
+  description: string;
+}
+
 export default function NotificationComponent() {
   const [api, contextHolder] = notification.useNotification();
-  api.open({
-    message: 'Notification Title',
-    description:
-      'I will never close automatically. This is a purposely very very long description that has many many characters and words.',
-    duration: 0,
-  });
 
-  return <>{contextHolder}</>;
+  const notificationHandler = ({
+    duration = 2,
+    message,
+    description,
+    type,
+  }: NotificationHandlerProps) => {
+    const NotificationBar = api[type];
+    NotificationBar({
+      message,
+      description,
+      duration,
+    } as any);
+  };
+
+  return { notificationHandler, contextHolder };
 }
