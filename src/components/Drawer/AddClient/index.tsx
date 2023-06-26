@@ -6,10 +6,17 @@ import PropTypes from 'prop-types';
 import DrawerComponent from '../../common/Drawer';
 import { client } from '../../Form/interfaces/clientInterface';
 import { MESSAGES } from '../../../utils/constant';
+
 const AddClient = ({ title, open, onClose, setClientFormOpen, setClients }: propsInterface) => {
+  interface response {
+    statusCode: number;
+    err: any;
+    data: [];
+  }
+
   const onFinish = async (values: object) => {
-    const code: number = await addClients(values);
-    if (code == 200) {
+    const response: response = await addClients(values);
+    if (response.statusCode == 200) {
       notification.open({
         message: MESSAGES.CLIENT_ADD_SUCCESS,
       });
@@ -17,9 +24,15 @@ const AddClient = ({ title, open, onClose, setClientFormOpen, setClients }: prop
       const data: client[] = await getClients();
       setClients(data);
     } else {
-      notification.open({
-        message: MESSAGES.ERROR,
-      });
+      if (response?.err) {
+        notification.open({
+          message: response?.err?.message,
+        });
+      } else {
+        notification.open({
+          message: MESSAGES.ERROR,
+        });
+      }
     }
   };
 
