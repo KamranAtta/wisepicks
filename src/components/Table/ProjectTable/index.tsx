@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { List, Space, Table, notification } from 'antd';
@@ -39,6 +40,7 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       const queryParams = prepareQueryBag(queryBag);
       const response = await getAllProjectsQuery(queryParams);
       if (response?.statusCode == 200) {
+        console.log(response?.data?.rows);
         setProjects(response?.data?.rows);
       } else {
         notification.open({

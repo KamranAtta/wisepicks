@@ -30,6 +30,15 @@ export const getAllResources = async (input: string) => {
   }
 };
 
+export const getAllResourcesSorted = async (params: string) => {
+  try {
+    const response = await doGet(`/resource/sorted?${params}`);
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const assignResource = async (body: object) => {
   try {
     const response = await doPost('/assignResource', body);

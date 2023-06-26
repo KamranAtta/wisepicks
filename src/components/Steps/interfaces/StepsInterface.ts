@@ -1,3 +1,3 @@
 export interface StepsProps {
-  id: number;
+  id: string | null;
 }
