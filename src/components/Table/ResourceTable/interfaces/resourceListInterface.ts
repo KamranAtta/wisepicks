@@ -35,4 +35,6 @@ export interface resourceListDataType {
   type: string;
   status: string;
   vacations: vacationTableInterface[];
+  team_name?: string;
+  assigned_level?: string;
 }

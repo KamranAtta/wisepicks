@@ -8,6 +8,7 @@ import { columnsSort } from '../../Table/utils';
 import TypographyTitle from '../../common/Title';
 import PropsInterface from '../../Table/ResourceTable/interfaces/propsInterface';
 import VacationTableInterface from '../../Table/ResourceTable/interfaces/vacationTableInterface';
+import { getResource } from '../../../apis';
 
 const vacationInterface: ColumnsType<VacationTableInterface> = [
   {
@@ -31,10 +32,19 @@ const vacationInterface: ColumnsType<VacationTableInterface> = [
 ];
 
 const ResourceDetail = ({ title, data, open, onClose }: PropsInterface) => {
+  const [resourceDetail, setResourceDetial] = useState<any>(null);
   const [vacationData, setVacationData] = useState<VacationTableInterface[]>([]);
+
+  const preFetchData = async () => {
+    const result = await getResource((data as any)?.id);
+    setResourceDetial(result?.data);
+  };
+
   useEffect(() => {
+    preFetchData();
     setVacationData(data?.vacations);
   }, []);
+
   return (
     <Fragment>
       <Drawer title={title} placement='right' onClose={onClose} open={open}>
@@ -47,7 +57,7 @@ const ResourceDetail = ({ title, data, open, onClose }: PropsInterface) => {
                     <TypographyTitle level={5}>Name</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <TypographyText>{data?.name}</TypographyText>
+                    <TypographyText>{resourceDetail?.name}</TypographyText>
                   </Col>
                 </Row>
                 <Row gutter={16}>
@@ -55,7 +65,7 @@ const ResourceDetail = ({ title, data, open, onClose }: PropsInterface) => {
                     <TypographyTitle level={5}>Team</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <TypographyText>{data?.team}</TypographyText>
+                    <TypographyText>{resourceDetail?.team?.name?.toUpperCase()}</TypographyText>
                   </Col>
                 </Row>
                 <Row gutter={16}>
@@ -63,7 +73,7 @@ const ResourceDetail = ({ title, data, open, onClose }: PropsInterface) => {
                     <TypographyTitle level={5}>Email</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <TypographyText>{data?.email}</TypographyText>
+                    <TypographyText>{resourceDetail?.email || '-'}</TypographyText>
                   </Col>
                 </Row>
               </Space>
@@ -75,7 +85,7 @@ const ResourceDetail = ({ title, data, open, onClose }: PropsInterface) => {
                     <TypographyTitle level={5}>Level</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <TypographyText>{data?.level}</TypographyText>
+                    <TypographyText>{resourceDetail?.assigned_level}</TypographyText>
                   </Col>
                 </Row>
                 <Row gutter={16}>
@@ -83,7 +93,7 @@ const ResourceDetail = ({ title, data, open, onClose }: PropsInterface) => {
                     <TypographyTitle level={5}>Phone</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <TypographyText>{data?.phone}</TypographyText>
+                    <TypographyText>{resourceDetail?.phone || '-'} </TypographyText>
                   </Col>
                 </Row>
                 <Row gutter={16}>
@@ -91,7 +101,7 @@ const ResourceDetail = ({ title, data, open, onClose }: PropsInterface) => {
                     <TypographyTitle level={5}>Joining Date</TypographyTitle>
                   </Col>
                   <Col span={24}>
-                    <TypographyText>{data?.joiningDate}</TypographyText>
+                    <TypographyText>{resourceDetail?.joiningDate || '-'}</TypographyText>
                   </Col>
                 </Row>
               </Space>
