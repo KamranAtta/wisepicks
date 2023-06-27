@@ -52,8 +52,6 @@ export default function StepsComponent({ id }: StepsProps) {
 
   const getProjectPlanData = async (projectId: string | null) => {
     const response = await getProject(projectId as string);
-    console.log('Project Plan Is');
-    console.log(response);
     // TODO: Define interface for project Resources
     const resourcePlan = await Promise.all(
       response?.data?.projectResources.map(async (element: any) => {
@@ -61,8 +59,6 @@ export default function StepsComponent({ id }: StepsProps) {
         return data;
       }),
     );
-    console.log('resources plan is');
-    console.log(resourcePlan);
 
     setResourcePlan(resourcePlan);
     setProjectPlan(response?.data);
@@ -74,7 +70,6 @@ export default function StepsComponent({ id }: StepsProps) {
 
   const showFormDrawer = (element: any) => {
     // setFormOpen(true);
-    console.log(element);
     // setResourceData(element as SortedResourcesInterface);
   };
 

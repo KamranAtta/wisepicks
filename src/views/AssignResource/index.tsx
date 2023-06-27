@@ -11,7 +11,6 @@ export default function AssignResource() {
   };
   const urlParams = new URLSearchParams(window.location.search);
   const projectId: string | null = urlParams.get('id');
-  console.log(projectId);
   const RESOURCE_QUERY_INITIAL: ProjectResourceQueryI = { query: '', status: '' };
   return (
     <div style={styles.pageStyle}>

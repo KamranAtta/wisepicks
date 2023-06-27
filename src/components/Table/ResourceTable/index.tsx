@@ -67,7 +67,6 @@ export default function ResourceTable({
     setLoader(true);
     const queryParams = prepareQueryBag(queryBag);
     const resourceList = await getAllResources(queryParams);
-    console.log(resourceList?.rows);
     setResources(resourceList?.rows);
     setCount(resourceList?.count);
     setLoader(false);
