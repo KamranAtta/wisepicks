@@ -1,9 +1,13 @@
-export default interface SortedResourceInterface {
+export interface SortedResourcesProjectsInterface {
+  project_name: string | null;
+  project_id: string | null;
+  fte: number | null;
+}
+export interface SortedResourcesInterface {
   availability: string;
   assigned_level: string;
-  fte: number;
   name: string;
-  project_id: any;
-  project_name: any;
   resource_id: string;
+  team_name: string[];
+  projects: SortedResourcesProjectsInterface[];
 }

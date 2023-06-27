@@ -11,7 +11,11 @@ import { getResources, getProject, getAllResourcesSorted } from '../../apis';
 import ResourcesInterface from './interfaces/resourceInterface';
 import AssignProject from '../Drawer/AssignProject/AssignProject';
 import { resourceListDataType } from '../Table/ResourceTable/interfaces/resourceListInterface';
-import SortedResourcesInterface from './interfaces/sortedResourceInterface';
+import {
+  SortedResourcesInterface,
+  SortedResourcesProjectsInterface,
+} from './interfaces/sortedResourceInterface';
+import { MESSAGES } from '../../utils/constant';
 // import ProjectPlanInterface from './interfaces/projectPlanInterface';
 
 const { Panel } = Collapse;
@@ -26,27 +30,42 @@ export default function StepsComponent({ id }: StepsProps) {
   const [current, setCurrent] = useState(0);
   const [teamsToUse, setTeamsToUse] = useState<StepProps[]>([]);
   const [formOpen, setFormOpen] = useState<boolean>(false);
-  const [resources, setResources] = useState<any>([]);
+  const [resourcePlan, setResourcePlan] = useState<any>([]);
   const [projectPlan, setProjectPlan] = useState<any>([]);
   const [resourceData, setResourceData] = useState<resourceListDataType>();
 
-  const getProjectPlanData = async (projectId: string | null) => {
-    const response = await getProject(projectId as string);
-    console.log(response);
-    setProjectPlan(response?.data);
-  };
-
-  const fetchResources = async () => {
-    const response: any = await getAllResourcesSorted('page=1&pageSize=1');
+  const fetchResources = async (level: string, team: string, availability: string) => {
+    // On backend pagination has been implemented. Not on frontend
+    // eslint-disable-next-line quotes
+    const response: any = await getAllResourcesSorted(
+      `page=1&pageSize=10&level=${level}&team=${team}&availability=${availability}`,
+    );
     if (response.statusCode == 200) {
-      const data = response?.data?.rows[0];
-      console.log(data);
-      setResources(data);
+      const data = response?.data?.rows;
+      return data;
     } else {
       notification.open({
-        message: 'error',
+        message: MESSAGES.ERROR,
       });
     }
+  };
+
+  const getProjectPlanData = async (projectId: string | null) => {
+    const response = await getProject(projectId as string);
+    console.log('Project Plan Is');
+    console.log(response);
+    // TODO: Define interface for project Resources
+    const resourcePlan = await Promise.all(
+      response?.data?.projectResources.map(async (element: any) => {
+        const data = await fetchResources(element.level, element.team?.name, element.fte);
+        return data;
+      }),
+    );
+    console.log('resources plan is');
+    console.log(resourcePlan);
+
+    setResourcePlan(resourcePlan);
+    setProjectPlan(response?.data);
   };
 
   const onChange = (value: number) => {
@@ -59,14 +78,17 @@ export default function StepsComponent({ id }: StepsProps) {
     // setResourceData(element as SortedResourcesInterface);
   };
 
-  const renderCustomCell = (object: Array<string>) => {
-    console.log(object[0] != null);
-    if (object[0] != null) {
+  const renderCustomCell = (object: Array<SortedResourcesProjectsInterface>) => {
+    if (object[0].project_name != null) {
       return (
         <List
           size='small'
           dataSource={object}
-          renderItem={(item) => <List.Item>{item}</List.Item>}
+          renderItem={(item: any) => (
+            <List.Item>
+              {item.project_name} | {item.fte}
+            </List.Item>
+          )}
         />
       );
     } else {
@@ -76,7 +98,6 @@ export default function StepsComponent({ id }: StepsProps) {
 
   useEffect(() => {
     getProjectPlanData(id);
-    fetchResources();
   }, []);
 
   useEffect(() => {
@@ -89,8 +110,6 @@ export default function StepsComponent({ id }: StepsProps) {
       return { title: item };
     });
     setTeamsToUse(teams);
-    console.log(teamsToUse);
-    console.log(steps);
   }, [projectPlan]);
 
   const columns: ColumnsType<SortedResourcesInterface> = [
@@ -108,9 +127,7 @@ export default function StepsComponent({ id }: StepsProps) {
     },
     {
       title: 'Assigned Projects',
-      dataIndex: 'project_name',
-      filterMode: 'tree',
-      filterSearch: true,
+      dataIndex: 'projects',
       render: (element) => renderCustomCell(element),
     },
     {
@@ -132,12 +149,15 @@ export default function StepsComponent({ id }: StepsProps) {
         <Col xs={24} md={20}>
           <div className='steps-content'>
             <Collapse>
-              {projectPlan?.projectResources?.map((resource: any) =>
+              {projectPlan?.projectResources?.map((resource: any, index: number) =>
                 resource?.team?.name === steps[current] ? (
-                  <Panel key={resource.key} header={resource.level + ' Engineer - '}>
+                  <Panel
+                    key={resource.key}
+                    header={resource?.level + ' Engineer - ' + resource?.fte}
+                  >
                     <Table
                       columns={columns}
-                      dataSource={resources}
+                      dataSource={resourcePlan[index]}
                       scroll={{ x: 'max-content' }}
                     ></Table>
                   </Panel>
