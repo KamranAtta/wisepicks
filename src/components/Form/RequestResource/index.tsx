@@ -1,30 +1,13 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Checkbox,
-  Col,
-  DatePicker,
-  Divider,
-  Form,
-  notification,
-  Row,
-  Select,
-  Space,
-} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Col, DatePicker, Divider, Form, notification, Row, Select, Space } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import { requestResources, getProject, getTeams, getProjectResource } from '../../../apis/index';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
-import {
-  ASSIGNED_LEVELS,
-  FTE_RANGES,
-  MESSAGES,
-  PROJECT_QUERY_INITIAL,
-} from '../../../utils/constant';
+import { ASSIGNED_LEVELS, FTE_RANGES, MESSAGES } from '../../../utils/constant';
 import dayjs from 'dayjs';
+import { RemovePlannedResource } from './RequestResource.interface';
 const { RangePicker } = DatePicker;
 
 const styles = {
@@ -45,12 +28,14 @@ const formItemLayout = {
 };
 
 const RequestResourceForm = () => {
-  const [projectName, setProjectName] = useState<string>('');
-  const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [loader, setLoader] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const [teams, setTeams] = useState<[]>();
+  const [loader, setLoader] = useState<boolean>(false);
   const [existingPlan, setExistingPlan] = useState<[]>();
+  const [projectName, setProjectName] = useState<string>('');
+  const [formState, setFormState] = useState<any>();
 
   const prefetchData = async (projectId: string) => {
     const teams = await getTeams();
@@ -70,20 +55,6 @@ const RequestResourceForm = () => {
     }
   };
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId: any = urlParams.get('id');
-    prefetchData(projectId);
-    fetchData(projectId);
-  }, []);
-
-  useEffect(() => {
-    /**
-     * Rerender form after data fetcing to update forms's intial value
-     */
-    form.resetFields();
-  }, [existingPlan]);
-
   const onFinish = async (values: any) => {
     setLoader(true);
     const response: any = await requestResources(values);
@@ -101,10 +72,49 @@ const RequestResourceForm = () => {
     }
   };
 
-  const testAction = (...test: any) => {
-    console.log('test actions');
-    console.log(test);
+  const removePlannedResource: RemovePlannedResource = async (key, localAction) => {
+    if (formState?.resources) {
+      if (formState?.resources[key]?.id) {
+        // TODO: remove from the backend
+      } else {
+        localAction(key);
+      }
+      // ('form state of the remove', formState?.resources[key]);
+    }
   };
+
+  const updatePlannedResource = async (key: number) => {
+    if (formState?.resources && formState?.resources[key]?.id) {
+      // TODO: make call to backend to update resources
+      // ('form state of the remove', formState?.resources[key]);
+    }
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId: any = urlParams.get('id');
+    prefetchData(projectId);
+    fetchData(projectId);
+  }, []);
+
+  useEffect(() => {
+    /**
+     * Rerender form after data fetcing to update forms's intial value
+     */
+    form.resetFields();
+    setFormState({
+      resources: existingPlan?.map((plan: any) => ({
+        team: plan?.team_id,
+        id: plan?.id,
+        level: plan?.level,
+        hoursPerWeek: plan?.fte,
+        expectedDateRange: [
+          plan?.expected_start_date ? dayjs(plan?.expected_start_date) : null,
+          plan?.expected_end_date ? dayjs(plan?.expected_end_date) : null,
+        ],
+      })),
+    });
+  }, [existingPlan]);
 
   return (
     <div>
@@ -135,7 +145,10 @@ const RequestResourceForm = () => {
           })),
         }}
         onFinish={onFinish}
-        onValuesChange={(_, formState) => console.log('FormState:', formState)}
+        onValuesChange={(_, formState) => {
+          setFormState(formState);
+          // ('FormState:', formState);
+        }}
       >
         <Form.Item label='Resources' style={{ marginTop: -16 }}>
           <Form.List name='resources'>
@@ -218,15 +231,29 @@ const RequestResourceForm = () => {
                               ></Select>
                             </Form.Item>
                           </Col>
-                          {/* Delete button */}
-                          <Col style={{ marginTop: '6px' }}>
-                            <MinusCircleOutlined
+                          {/* Actions */}
+                          <Col style={{ marginLeft: '20px' }}>
+                            <Button
+                              color='primary'
+                              danger
                               onClick={() => {
-                                testAction({ key, name, restField });
-                                remove(name);
+                                removePlannedResource(name, remove);
                               }}
-                            />
+                            >
+                              Delete
+                            </Button>
                           </Col>
+                          {formState?.resources[name]?.id && (
+                            <Col>
+                              <Button
+                                onClick={() => {
+                                  updatePlannedResource(name);
+                                }}
+                              >
+                                Update
+                              </Button>
+                            </Col>
+                          )}
                         </Row>
                       </Space>
                       <Divider />
