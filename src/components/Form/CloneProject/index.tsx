@@ -341,8 +341,8 @@ const CloneProjectForm = () => {
                       >
                         <Row gutter={10}>
                           <Col>
-                            <Form.Item {...restField} name={[name, 'resource', 'name']}>
-                              <Input disabled />
+                            <Form.Item {...restField}>
+                              <Input value={'-'} disabled />
                             </Form.Item>
                             <TypographyTitle level={5} style={styles.heading}>
                               Start Date

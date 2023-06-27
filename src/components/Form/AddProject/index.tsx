@@ -30,6 +30,7 @@ import TypographyTitle from '../../common/Title';
 
 interface response {
   statusCode: number;
+  err: any;
   data: [];
 }
 const initialValues = {
@@ -107,12 +108,18 @@ const AddProjectForm = () => {
         message: MESSAGES.PROJECT_ADD_SUCCESS,
       });
       setLoader(false);
-      // navigate('/projects');
     } else {
-      setLoader(false);
-      notification.open({
-        message: MESSAGES.ERROR,
-      });
+      if (response?.err) {
+        notification.open({
+          message: response?.err?.message,
+        });
+        setLoader(false);
+      } else {
+        setLoader(false);
+        notification.open({
+          message: MESSAGES.ERROR,
+        });
+      }
     }
   };
   const getClientTypes = async () => {
