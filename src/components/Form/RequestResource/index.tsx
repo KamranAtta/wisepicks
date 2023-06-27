@@ -14,7 +14,7 @@ import {
   Space,
 } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
-import { requestResources, getProject, getTeams } from '../../../apis/index';
+import { requestResources, getProject, getTeams, getProjectResource } from '../../../apis/index';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
@@ -49,15 +49,16 @@ const RequestResourceForm = () => {
   const [form] = Form.useForm();
   const [loader, setLoader] = useState<boolean>(false);
   const [teams, setTeams] = useState<[]>();
+  const [existingPlan, setExistingPlan] = useState<[]>();
 
-  const prefetchData = async () => {
+  const prefetchData = async (projectId: string) => {
     const teams = await getTeams();
+    const plans = await getProjectResource(projectId, { isPlan: true });
     setTeams(teams);
+    setExistingPlan(plans);
   };
 
-  const fetchData = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId: any = urlParams.get('id');
+  const fetchData = async (projectId: string) => {
     const data: any = await getProject(projectId as string);
     if (data.statusCode == 200) {
       setProjectName(data?.data?.name);
@@ -69,13 +70,15 @@ const RequestResourceForm = () => {
   };
 
   useEffect(() => {
-    prefetchData();
-    fetchData();
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId: any = urlParams.get('id');
+    prefetchData(projectId);
+    fetchData(projectId);
   }, []);
 
   useEffect(() => {
-    console.log(teams);
-  }, [teams]);
+    console.log('existing plans', existingPlan);
+  }, [existingPlan]);
 
   const onFinish = async (values: any) => {
     setLoader(true);
@@ -92,6 +95,11 @@ const RequestResourceForm = () => {
       });
       setLoader(false);
     }
+  };
+
+  const testAction = (...test: any) => {
+    console.log('test actions');
+    console.log(test);
   };
 
   return (
@@ -131,6 +139,7 @@ const RequestResourceForm = () => {
                         align='baseline'
                       >
                         <Row gutter={10}>
+                          {/* Team */}
                           <Col>
                             <Form.Item
                               {...restField}
@@ -146,6 +155,7 @@ const RequestResourceForm = () => {
                               ></Select>
                             </Form.Item>
                           </Col>
+                          {/* Level */}
                           <Col>
                             <Form.Item
                               {...restField}
@@ -161,6 +171,7 @@ const RequestResourceForm = () => {
                               ></Select>
                             </Form.Item>
                           </Col>
+                          {/* Expecte date ranges */}
                           <Col>
                             <Form.Item
                               {...restField}
@@ -170,6 +181,7 @@ const RequestResourceForm = () => {
                               <RangePicker />
                             </Form.Item>
                           </Col>
+                          {/* FTE */}
                           <Col>
                             <Form.Item
                               {...restField}
@@ -190,8 +202,14 @@ const RequestResourceForm = () => {
                               ></Select>
                             </Form.Item>
                           </Col>
+                          {/* Delete button */}
                           <Col style={{ marginTop: '6px' }}>
-                            <MinusCircleOutlined onClick={() => remove(name)} />
+                            <MinusCircleOutlined
+                              onClick={() => {
+                                testAction({ key, name, restField });
+                                remove(name);
+                              }}
+                            />
                           </Col>
                         </Row>
                       </Space>
