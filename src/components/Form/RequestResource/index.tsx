@@ -1,22 +1,13 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Checkbox,
-  Col,
-  DatePicker,
-  Divider,
-  Form,
-  notification,
-  Row,
-  Select,
-  Space,
-} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Col, DatePicker, Divider, Form, notification, Row, Select, Space } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
-import { requestResources, getProject } from '../../../apis/index';
+import { requestResources, getProject, getTeams, getProjectResource } from '../../../apis/index';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
-import { MESSAGES, PROJECT_QUERY_INITIAL } from '../../../utils/constant';
+import { ASSIGNED_LEVELS, FTE_RANGES, MESSAGES } from '../../../utils/constant';
+import dayjs from 'dayjs';
+import { RemovePlannedResource } from './RequestResource.interface';
 const { RangePicker } = DatePicker;
 
 const styles = {
@@ -37,26 +28,32 @@ const formItemLayout = {
 };
 
 const RequestResourceForm = () => {
-  const [projectName, setProjectName] = useState<string>('');
-  const navigate = useNavigate();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  const [teams, setTeams] = useState<[]>();
   const [loader, setLoader] = useState<boolean>(false);
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId: any = urlParams.get('id');
-    const fetchData = async () => {
-      const queryParams = { ...PROJECT_QUERY_INITIAL.query, id: projectId };
-      const data: any = await getProject(queryParams?.id as string);
-      if (data.statusCode == 200) {
-        setProjectName(data?.data?.name);
-      } else {
-        notification.open({
-          message: MESSAGES.ERROR,
-        });
-      }
-    };
-    fetchData();
-  }, []);
+  const [existingPlan, setExistingPlan] = useState<[]>();
+  const [projectName, setProjectName] = useState<string>('');
+  const [formState, setFormState] = useState<any>();
+
+  const prefetchData = async (projectId: string) => {
+    const teams = await getTeams();
+    const plans = await getProjectResource(projectId, { isPlan: true });
+    setTeams(teams);
+    setExistingPlan(plans);
+  };
+
+  const fetchData = async (projectId: string) => {
+    const data: any = await getProject(projectId as string);
+    if (data.statusCode == 200) {
+      setProjectName(data?.data?.name);
+    } else {
+      notification.open({
+        message: MESSAGES.ERROR,
+      });
+    }
+  };
 
   const onFinish = async (values: any) => {
     setLoader(true);
@@ -75,6 +72,50 @@ const RequestResourceForm = () => {
     }
   };
 
+  const removePlannedResource: RemovePlannedResource = async (key, localAction) => {
+    if (formState?.resources) {
+      if (formState?.resources[key]?.id) {
+        // TODO: remove from the backend
+      } else {
+        localAction(key);
+      }
+      // ('form state of the remove', formState?.resources[key]);
+    }
+  };
+
+  const updatePlannedResource = async (key: number) => {
+    if (formState?.resources && formState?.resources[key]?.id) {
+      // TODO: make call to backend to update resources
+      // ('form state of the remove', formState?.resources[key]);
+    }
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId: any = urlParams.get('id');
+    prefetchData(projectId);
+    fetchData(projectId);
+  }, []);
+
+  useEffect(() => {
+    /**
+     * Rerender form after data fetcing to update forms's intial value
+     */
+    form.resetFields();
+    setFormState({
+      resources: existingPlan?.map((plan: any) => ({
+        team: plan?.team_id,
+        id: plan?.id,
+        level: plan?.level,
+        hoursPerWeek: plan?.fte,
+        expectedDateRange: [
+          plan?.expected_start_date ? dayjs(plan?.expected_start_date) : null,
+          plan?.expected_end_date ? dayjs(plan?.expected_end_date) : null,
+        ],
+      })),
+    });
+  }, [existingPlan]);
+
   return (
     <div>
       <Row>
@@ -91,8 +132,23 @@ const RequestResourceForm = () => {
         {...formItemLayout}
         form={form}
         name='addProject'
-        // initialValues={data[0]}
+        initialValues={{
+          resources: existingPlan?.map((plan: any) => ({
+            team: plan?.team_id,
+            id: plan?.id,
+            level: plan?.level,
+            hoursPerWeek: plan?.fte,
+            expectedDateRange: [
+              plan?.expected_start_date ? dayjs(plan?.expected_start_date) : null,
+              plan?.expected_end_date ? dayjs(plan?.expected_end_date) : null,
+            ],
+          })),
+        }}
         onFinish={onFinish}
+        onValuesChange={(_, formState) => {
+          setFormState(formState);
+          // ('FormState:', formState);
+        }}
       >
         <Form.Item label='Resources' style={{ marginTop: -16 }}>
           <Form.List name='resources'>
@@ -112,6 +168,7 @@ const RequestResourceForm = () => {
                         align='baseline'
                       >
                         <Row gutter={10}>
+                          {/* Team */}
                           <Col>
                             <Form.Item
                               {...restField}
@@ -120,65 +177,40 @@ const RequestResourceForm = () => {
                             >
                               <Select
                                 placeholder='Select a team...'
-                                options={[
-                                  {
-                                    label: 'Machine Learning',
-                                    value: 'Machine Learning',
-                                  },
-                                  {
-                                    label: 'Web',
-                                    value: 'Web',
-                                  },
-                                  {
-                                    label: 'Mobile',
-                                    value: 'Mobile',
-                                  },
-                                ]}
+                                options={teams?.map((team: any) => ({
+                                  label: (team?.name as string)?.toUpperCase(),
+                                  value: team?.id,
+                                }))}
                               ></Select>
                             </Form.Item>
                           </Col>
+                          {/* Level */}
                           <Col>
                             <Form.Item
                               {...restField}
-                              name={[name, 'designation']}
+                              name={[name, 'level']}
                               rules={[{ required: true, message: 'Please select a designation!' }]}
                             >
                               <Select
                                 placeholder='Select a designation...'
-                                options={[
-                                  {
-                                    label: 'L3 Engineer',
-                                    value: 'L3',
-                                  },
-                                  {
-                                    label: 'L4 Engineer',
-                                    value: 'L4',
-                                  },
-                                  {
-                                    label: 'L5 Engineer',
-                                    value: 'L5',
-                                  },
-                                  {
-                                    label: 'L6 Engineer',
-                                    value: 'L6',
-                                  },
-                                  {
-                                    label: 'L7 Engineer',
-                                    value: 'L7',
-                                  },
-                                ]}
+                                options={ASSIGNED_LEVELS?.map((level) => ({
+                                  label: `${level} Engineer`,
+                                  value: level,
+                                }))}
                               ></Select>
                             </Form.Item>
                           </Col>
+                          {/* Expecte date ranges */}
                           <Col>
                             <Form.Item
                               {...restField}
-                              name={[name, 'resourceStartEndDateRange']}
+                              name={[name, 'expectedDateRange']}
                               rules={[{ required: true, message: 'Please select a Date!' }]}
                             >
                               <RangePicker />
                             </Form.Item>
                           </Col>
+                          {/* FTE */}
                           <Col>
                             <Form.Item
                               {...restField}
@@ -192,37 +224,36 @@ const RequestResourceForm = () => {
                             >
                               <Select
                                 placeholder='Select Allocation hours...'
-                                options={[
-                                  {
-                                    label: '20%',
-                                    value: '20%',
-                                  },
-                                  {
-                                    label: '50%',
-                                    value: '50%',
-                                  },
-                                  {
-                                    label: '80%',
-                                    value: '80%',
-                                  },
-                                  {
-                                    label: '100%',
-                                    value: '100%',
-                                  },
-                                ]}
+                                options={FTE_RANGES?.map((fte) => ({
+                                  label: `${fte} %`,
+                                  value: fte,
+                                }))}
                               ></Select>
                             </Form.Item>
                           </Col>
-                          <Col>
-                            <Form.Item {...restField} name={[name, 'additional']}>
-                              <Checkbox style={{ width: 'max-content', marginLeft: 16 }}>
-                                Mark as Additional
-                              </Checkbox>
-                            </Form.Item>
+                          {/* Actions */}
+                          <Col style={{ marginLeft: '20px' }}>
+                            <Button
+                              color='primary'
+                              danger
+                              onClick={() => {
+                                removePlannedResource(name, remove);
+                              }}
+                            >
+                              Delete
+                            </Button>
                           </Col>
-                          <Col style={{ marginTop: '6px' }}>
-                            <MinusCircleOutlined onClick={() => remove(name)} />
-                          </Col>
+                          {formState?.resources[name]?.id && (
+                            <Col>
+                              <Button
+                                onClick={() => {
+                                  updatePlannedResource(name);
+                                }}
+                              >
+                                Update
+                              </Button>
+                            </Col>
+                          )}
                         </Row>
                       </Space>
                       <Divider />
