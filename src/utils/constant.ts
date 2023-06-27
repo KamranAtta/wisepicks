@@ -28,3 +28,4 @@ export const PROJECT_QUERY_INITIAL = {
 export const EMPLOYMENT_UTILIZATION = ['Under-Utilized', 'Normal', 'Over-Utilized'];
 export const ASSIGNED_LEVELS = ['L3', 'L4', 'L5', 'L6', 'L7'];
 export const EMPLOYMENT_STATUS = ['Full-Time', 'Part-Time'];
+export const FTE_RANGES = [20, 50, 80, 100];
