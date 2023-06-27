@@ -24,6 +24,7 @@ import {
   MESSAGES,
   PROJECT_QUERY_INITIAL,
 } from '../../../utils/constant';
+import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 
 const styles = {
@@ -77,7 +78,10 @@ const RequestResourceForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log('existing plans', existingPlan);
+    /**
+     * Rerender form after data fetcing to update forms's intial value
+     */
+    form.resetFields();
   }, [existingPlan]);
 
   const onFinish = async (values: any) => {
@@ -118,8 +122,20 @@ const RequestResourceForm = () => {
         {...formItemLayout}
         form={form}
         name='addProject'
-        // initialValues={data[0]}
+        initialValues={{
+          resources: existingPlan?.map((plan: any) => ({
+            team: plan?.team_id,
+            id: plan?.id,
+            level: plan?.level,
+            hoursPerWeek: plan?.fte,
+            expectedDateRange: [
+              plan?.expected_start_date ? dayjs(plan?.expected_start_date) : null,
+              plan?.expected_end_date ? dayjs(plan?.expected_end_date) : null,
+            ],
+          })),
+        }}
         onFinish={onFinish}
+        onValuesChange={(_, formState) => console.log('FormState:', formState)}
       >
         <Form.Item label='Resources' style={{ marginTop: -16 }}>
           <Form.List name='resources'>
@@ -159,7 +175,7 @@ const RequestResourceForm = () => {
                           <Col>
                             <Form.Item
                               {...restField}
-                              name={[name, 'designation']}
+                              name={[name, 'level']}
                               rules={[{ required: true, message: 'Please select a designation!' }]}
                             >
                               <Select
@@ -175,7 +191,7 @@ const RequestResourceForm = () => {
                           <Col>
                             <Form.Item
                               {...restField}
-                              name={[name, 'resourceStartEndDateRange']}
+                              name={[name, 'expectedDateRange']}
                               rules={[{ required: true, message: 'Please select a Date!' }]}
                             >
                               <RangePicker />
