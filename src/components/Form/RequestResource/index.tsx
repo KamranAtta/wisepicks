@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -12,11 +14,16 @@ import {
   Space,
 } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
-import { requestResources, getProject } from '../../../apis/index';
+import { requestResources, getProject, getTeams } from '../../../apis/index';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
-import { MESSAGES, PROJECT_QUERY_INITIAL } from '../../../utils/constant';
+import {
+  ASSIGNED_LEVELS,
+  FTE_RANGES,
+  MESSAGES,
+  PROJECT_QUERY_INITIAL,
+} from '../../../utils/constant';
 const { RangePicker } = DatePicker;
 
 const styles = {
@@ -41,22 +48,34 @@ const RequestResourceForm = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loader, setLoader] = useState<boolean>(false);
-  useEffect(() => {
+  const [teams, setTeams] = useState<[]>();
+
+  const prefetchData = async () => {
+    const teams = await getTeams();
+    setTeams(teams);
+  };
+
+  const fetchData = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const projectId: any = urlParams.get('id');
-    const fetchData = async () => {
-      const queryParams = { ...PROJECT_QUERY_INITIAL.query, id: projectId };
-      const data: any = await getProject(queryParams?.id as string);
-      if (data.statusCode == 200) {
-        setProjectName(data?.data?.name);
-      } else {
-        notification.open({
-          message: MESSAGES.ERROR,
-        });
-      }
-    };
+    const data: any = await getProject(projectId as string);
+    if (data.statusCode == 200) {
+      setProjectName(data?.data?.name);
+    } else {
+      notification.open({
+        message: MESSAGES.ERROR,
+      });
+    }
+  };
+
+  useEffect(() => {
+    prefetchData();
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(teams);
+  }, [teams]);
 
   const onFinish = async (values: any) => {
     setLoader(true);
@@ -120,20 +139,10 @@ const RequestResourceForm = () => {
                             >
                               <Select
                                 placeholder='Select a team...'
-                                options={[
-                                  {
-                                    label: 'Machine Learning',
-                                    value: 'Machine Learning',
-                                  },
-                                  {
-                                    label: 'Web',
-                                    value: 'Web',
-                                  },
-                                  {
-                                    label: 'Mobile',
-                                    value: 'Mobile',
-                                  },
-                                ]}
+                                options={teams?.map((team: any) => ({
+                                  label: (team?.name as string)?.toUpperCase(),
+                                  value: team?.id,
+                                }))}
                               ></Select>
                             </Form.Item>
                           </Col>
@@ -145,28 +154,10 @@ const RequestResourceForm = () => {
                             >
                               <Select
                                 placeholder='Select a designation...'
-                                options={[
-                                  {
-                                    label: 'L3 Engineer',
-                                    value: 'L3',
-                                  },
-                                  {
-                                    label: 'L4 Engineer',
-                                    value: 'L4',
-                                  },
-                                  {
-                                    label: 'L5 Engineer',
-                                    value: 'L5',
-                                  },
-                                  {
-                                    label: 'L6 Engineer',
-                                    value: 'L6',
-                                  },
-                                  {
-                                    label: 'L7 Engineer',
-                                    value: 'L7',
-                                  },
-                                ]}
+                                options={ASSIGNED_LEVELS?.map((level) => ({
+                                  label: `${level} Engineer`,
+                                  value: level,
+                                }))}
                               ></Select>
                             </Form.Item>
                           </Col>
@@ -192,32 +183,11 @@ const RequestResourceForm = () => {
                             >
                               <Select
                                 placeholder='Select Allocation hours...'
-                                options={[
-                                  {
-                                    label: '20%',
-                                    value: '20%',
-                                  },
-                                  {
-                                    label: '50%',
-                                    value: '50%',
-                                  },
-                                  {
-                                    label: '80%',
-                                    value: '80%',
-                                  },
-                                  {
-                                    label: '100%',
-                                    value: '100%',
-                                  },
-                                ]}
+                                options={FTE_RANGES?.map((fte) => ({
+                                  label: `${fte} %`,
+                                  value: fte,
+                                }))}
                               ></Select>
-                            </Form.Item>
-                          </Col>
-                          <Col>
-                            <Form.Item {...restField} name={[name, 'additional']}>
-                              <Checkbox style={{ width: 'max-content', marginLeft: 16 }}>
-                                Mark as Additional
-                              </Checkbox>
                             </Form.Item>
                           </Col>
                           <Col style={{ marginTop: '6px' }}>
