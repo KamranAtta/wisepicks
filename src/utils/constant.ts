@@ -11,6 +11,7 @@ export const MESSAGES = {
   CLIENT_ADD_SUCCESS: 'New Client Has Been Added',
   RESOURCE_REQUEST_SUCCESS: 'Resource Has Been Requested Successfully',
   ERROR: 'Some Error Occured',
+  RESOURCE_REMOVE_SUCCESS: 'Resource removed successfully',
 };
 
 export const FORMATS = {
