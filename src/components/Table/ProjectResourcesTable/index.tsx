@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import type { ColumnsType } from 'antd/es/table';
 import { List, Space, Table, Row } from 'antd';
 import React, { Fragment, useState, useEffect } from 'react';
 
 import { columnsSort } from '../utils';
 import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
-import { getResources, deleteResource, getProjectDetails } from '../../../apis';
+import { deleteResource, getProjectDetails } from '../../../apis';
 import TypographyTitle from '../../common/Title';
 
 export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
@@ -13,7 +14,35 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
 
   const fetchResources = async () => {
     setLoader(true);
-    const resourceList = await getResources(resourceQuery.query);
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+    const response = await getProjectDetails(projectId as unknown as number);
+    console.log('ResourceList: ', response.data.projectResources);
+    const resourceList =  [];
+    const assignedProjects =  [];
+    for (const projectResource of response.data.projectResources) {
+      if(projectResource.resource_id){
+        assignedProjects.push(projectResource?.project?.name);
+        const r = {
+          key: projectResource.id,
+          name: projectResource?.resource?.name,
+          // email: projectResource?.resource?.email,
+          // phone: projectResource?.resource?.phone,
+          team: projectResource?.team?.name,
+          level: projectResource?.resource?.assigned_level,
+          joiningDate: projectResource.start_date,
+          assignedProjects: assignedProjects,
+          type: projectResource.resource_type,
+          status: ''
+        }
+        resourceList.push(r);
+      };
+    }
+    // console.log('ResourceList: ', response.data);
+    // for (const projectResource of response.data.projectResources) {
+    //     resourceArray.push(projectResource.resource);
+    // }
+    // const resourceList = await getResources(resourceQuery.query);
     setResources(resourceList);
     setLoader(false);
   };
@@ -47,12 +76,12 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       key: 'name',
       sorter: (a, b) => columnsSort(a.name, b.name),
     },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      sorter: (a, b) => columnsSort(a.email, b.email),
-    },
+    // {
+    //   title: 'Email',
+    //   dataIndex: 'email',
+    //   key: 'email',
+    //   sorter: (a, b) => columnsSort(a.email, b.email),
+    // },
     {
       title: 'Team',
       dataIndex: 'team',
