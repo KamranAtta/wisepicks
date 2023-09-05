@@ -5,7 +5,7 @@ import { MESSAGES } from '../../../utils/constant';
 import { columnsSort } from '../utils';
 import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
 import { getProjectDetails } from '../../../apis';
-import {updateProjectResource } from '../../../apis/resources.api';
+import { updateProjectResource } from '../../../apis/resources.api';
 import TypographyTitle from '../../common/Title';
 
 export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
@@ -17,10 +17,10 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
     const response = await getProjectDetails(projectId as unknown as number);
-    const resourceList =  [];
-    const assignedProjects =  [];
+    const resourceList = [];
+    const assignedProjects = [];
     for (const projectResource of response.data.projectResources) {
-      if(projectResource.resource_id){
+      if (projectResource.resource_id) {
         assignedProjects.push(projectResource?.project?.name);
         const r = {
           key: projectResource.id,
@@ -32,10 +32,10 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
           joiningDate: projectResource.start_date,
           assignedProjects: assignedProjects,
           type: projectResource.resource_type,
-          status: ''
-        }
+          status: '',
+        };
         resourceList.push(r);
-      };
+      }
     }
     // console.log('ResourceList: ', response.data);
     // for (const projectResource of response.data.projectResources) {
