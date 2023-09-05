@@ -8,8 +8,8 @@ build:
   only:
     - main
   script:
-    - cp $STAGING_ENV  /tmp/.env
-    - cp /tmp/.env .env
+    # - cp $STAGING_ENV  /tmp/.env
+    # - cp /tmp/.env .env
     - yarn
     - yarn run build
   artifacts:
