@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as AntDButton, ButtonProps } from 'antd';
+import { Button, ButtonProps } from 'antd';
 
 export default function ButtonComponent({
   type,
@@ -9,13 +9,13 @@ export default function ButtonComponent({
   ...otherProps
 }: ButtonProps) {
   return (
-    <AntDButton type={type} shape={shape} icon={icon} {...otherProps}>
+    <Button type={type} shape={shape} icon={icon} {...otherProps}>
       {children}
-    </AntDButton>
+    </Button>
   );
 }
 
-AntDButton.defaultProps = {
+ButtonComponent.defaultProps = {
   type: 'default',
   shape: 'default',
   icon: <></>,

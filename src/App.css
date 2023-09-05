@@ -30,6 +30,31 @@
   color: #61dafb;
 }
 
+.component-content {
+  padding: 3em;
+}
+.project-form {
+  padding: 3em;
+}
+.disabled-link {
+  pointer-events: none;
+}
+.drawer {
+  padding: 2em;
+}
+.drawer-content {
+  padding: 2em;
+}
+.drawer-components {
+  margin-top: 1em;
+}
+.gray {
+  color: gray;
+}
+.black {
+  color: black;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -37,4 +62,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.ant-picker-panels {
+  display: flex;
+  flex-direction: column;
+}
+.ant-picker-panels > *:last-child .ant-picker-body {
+  /* to make calendar responsive */
+  display: none !important;
 }

@@ -1,13 +1,14 @@
 import Axios from 'axios';
 import { getLocalStorage } from './localStorage';
 import { AUTH_TOKEN, LOCAL_STORAGE } from '../utils/constant';
+const SERVER_API: string | undefined = process.env.REACT_APP_SERVER_API;
 
-export const doGet = async (path: string, headers: object = {}, baseURL: string) => {
+export const doGet = async (path: string, headers: object = {}, baseURL = '') => {
   const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: `${path}`,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'GET',
     // withCredentials: true,
     headers: setHeader(token, headers),
@@ -22,12 +23,12 @@ export const doGet = async (path: string, headers: object = {}, baseURL: string)
   };
 };
 
-export const doPost = async (path: string, data: object, headers: object = {}, baseURL: string) => {
+export const doPost = async (path: string, data: object, headers: object = {}, baseURL = '') => {
   const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: path,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'POST',
     // withCredentials: true,
     headers: setHeader(token, headers),
@@ -43,12 +44,12 @@ export const doPost = async (path: string, data: object, headers: object = {}, b
   };
 };
 
-export const doPut = async (path: string, data: object, headers: object = {}, baseURL: string) => {
+export const doPut = async (path: string, data: object, headers: object = {}, baseURL = '') => {
   const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: path,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'PUT',
     // withCredentials: true,
     headers: setHeader(token, headers),
@@ -74,7 +75,7 @@ export const doPatch = async (
 
   const response = await Axios({
     url: path,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'PATCH',
     // withCredentials: true,
     headers: setHeader(token, headers),
@@ -90,12 +91,7 @@ export const doPatch = async (
   };
 };
 
-export const doDelete = async (
-  path: string,
-  data: object,
-  headers: object = {},
-  baseURL: string,
-) => {
+export const doDelete = async (path: string, data: object, headers: object = {}, baseURL = '') => {
   const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
