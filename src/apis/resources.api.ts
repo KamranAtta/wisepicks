@@ -1,4 +1,4 @@
-import { doDelete, doGet, doPost } from '../utils/request';
+import { doDelete, doGet, doPost, doPut } from '../utils/request';
 
 export const requestResources = async (body: object) => {
   try {
@@ -60,6 +60,15 @@ export const assignResource = async (body: object) => {
 export const deleteResource = async (body: object) => {
   try {
     const response = await doDelete('/deleteResource', body);
+    return response?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
+export const updateProjectResource = async (id: string, body: object) => {
+  try {
+    const response = await doPut(`/project-resources/${id}`, body);
     return response?.data;
   } catch (err) {
     return [];

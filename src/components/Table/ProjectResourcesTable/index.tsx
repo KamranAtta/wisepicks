@@ -1,11 +1,11 @@
-/* eslint-disable no-console */
 import type { ColumnsType } from 'antd/es/table';
-import { List, Space, Table, Row } from 'antd';
+import { List, Space, Table, Row, notification } from 'antd';
 import React, { Fragment, useState, useEffect } from 'react';
-
+import { MESSAGES } from '../../../utils/constant';
 import { columnsSort } from '../utils';
 import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
-import { deleteResource, getProjectDetails } from '../../../apis';
+import { getProjectDetails } from '../../../apis';
+import {updateProjectResource } from '../../../apis/resources.api';
 import TypographyTitle from '../../common/Title';
 
 export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
@@ -17,7 +17,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
     const response = await getProjectDetails(projectId as unknown as number);
-    console.log('ResourceList: ', response.data.projectResources);
     const resourceList =  [];
     const assignedProjects =  [];
     for (const projectResource of response.data.projectResources) {
@@ -47,14 +46,18 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     setLoader(false);
   };
 
-  const removeFromProject = async (id: number) => {
+  const removeFromProject = async (data: any) => {
     setLoader(true);
-    const response = await deleteResource({ id: id });
-    if (response.status == 200) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const projectId = urlParams.get('id');
-      const response = await getProjectDetails(projectId as unknown as number);
-      setResources(response.resources);
+    const id = data.key;
+    const payload = {
+      resourceId: null,
+    };
+    const response = await updateProjectResource(id, payload);
+    if (response.statusCode == 200) {
+      fetchResources();
+      notification.open({
+        message: MESSAGES.RESOURCE_REMOVE_SUCCESS,
+      });
     }
     setLoader(false);
   };
@@ -149,7 +152,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       key: 'action',
       render: (element) => (
         <Space size='middle'>
-          <a onClick={() => removeFromProject(element)}>Delete</a>
+          <a onClick={() => removeFromProject(element)}>Remove</a>
         </Space>
       ),
     },
