@@ -10,7 +10,7 @@ build:
   script:
     - cp $STAGING_ENV  /tmp/.env
     - cp /tmp/.env .env
-    - yarn
+    - yarn cache clean && yarn
     - yarn run build
   artifacts:
     paths:
