@@ -16,7 +16,7 @@ import {
   requestResources,
   deleteResource,
   getAllResourcesSorted,
-  createResource
+  createResource,
 } from './resources.api';
 import { getSkills } from './skills.api';
 import { getTeams } from './teams.api';

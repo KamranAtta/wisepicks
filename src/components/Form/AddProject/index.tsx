@@ -110,7 +110,7 @@ const AddProjectForm = () => {
         message: MESSAGES.PROJECT_ADD_SUCCESS,
       });
       setLoader(false);
-      navigate('/projects')
+      navigate('/projects');
     } else {
       if (response?.err) {
         notification.open({

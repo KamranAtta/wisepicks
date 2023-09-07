@@ -23,8 +23,8 @@ const styles = {
 export default function ResourceTable({
   resourceQuery,
   handleResourceDetail,
-  // handleAssignProject,
-}: ResourceTableI) {
+}: // handleAssignProject,
+ResourceTableI) {
   const [resources, setResources] = useState<object>([]);
   const [count, setCount] = useState(0);
   const [loader, setLoader] = useState<boolean>(false);
@@ -39,7 +39,6 @@ export default function ResourceTable({
   };
 
   const [pagination, setPagination] = useState(paginationConfig);
-  
 
   const prepareQueryBag = (query: any) => {
     let queryParams = `?name=${query?.name || ''}`;
@@ -69,10 +68,10 @@ export default function ResourceTable({
       });
     }
     if (query?.pagination?.current) {
-      queryParams +=`&page=${query?.pagination?.current}`;
+      queryParams += `&page=${query?.pagination?.current}`;
     }
     if (query?.pagination?.pageSize) {
-      queryParams +=`&pageSize=${query?.pagination?.pageSize}`;
+      queryParams += `&pageSize=${query?.pagination?.pageSize}`;
     }
     return queryParams;
   };
@@ -242,7 +241,7 @@ export default function ResourceTable({
         setQueryBag((prev) => ({ ...prev, pagination, filter, sorter }));
         setPagination(pagination);
       }}
-      pagination={{...pagination, total: count}}
+      pagination={{ ...pagination, total: count }}
       columns={columns}
       dataSource={resources as any}
       loading={loader}
