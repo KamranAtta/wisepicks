@@ -16,6 +16,7 @@ import {
   requestResources,
   deleteResource,
   getAllResourcesSorted,
+  createResource
 } from './resources.api';
 import { getSkills } from './skills.api';
 import { getTeams } from './teams.api';
@@ -23,6 +24,7 @@ import { getProjectResource } from './project-resource.api';
 export {
   getResource,
   getResources,
+  createResource,
   getProjectDetails,
   getProjectPlan,
   createProject,

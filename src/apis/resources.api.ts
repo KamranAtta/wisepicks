@@ -1,5 +1,15 @@
 import { doDelete, doGet, doPost, doPut } from '../utils/request';
 
+export const createResource = async (body: object) => {
+  try {
+    const response = await doPost('/resource/', body);
+    response;
+    return response?.data;
+  } catch (err) {
+    err;
+  }
+};
+
 export const requestResources = async (body: object) => {
   try {
     const response = await doPost('/requestResources/', body);
