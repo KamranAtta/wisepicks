@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { List, Tag, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect } from 'react';
@@ -32,6 +31,15 @@ export default function ResourceTable({
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
   const [queryBag, setQueryBag] = useState({});
+  const paginationConfig = {
+    current: 1,
+    page: 1,
+    pageSize: 10,
+    total: count,
+  };
+
+  const [pagination, setPagination] = useState(paginationConfig);
+  
 
   const prepareQueryBag = (query: any) => {
     let queryParams = `?name=${query?.name || ''}`;
@@ -59,6 +67,12 @@ export default function ResourceTable({
       query?.filter?.assigned_level?.forEach((level: string) => {
         queryParams += `&assignedLevel[]=${level}`;
       });
+    }
+    if (query?.pagination?.current) {
+      queryParams +=`&page=${query?.pagination?.current}`;
+    }
+    if (query?.pagination?.pageSize) {
+      queryParams +=`&pageSize=${query?.pagination?.pageSize}`;
     }
     return queryParams;
   };
@@ -224,9 +238,11 @@ export default function ResourceTable({
 
   return (
     <Table
-      onChange={(pagination: unknown, filter: unknown, sorter: unknown) => {
+      onChange={(pagination: any, filter: unknown, sorter: unknown) => {
         setQueryBag((prev) => ({ ...prev, pagination, filter, sorter }));
+        setPagination(pagination);
       }}
+      pagination={{...pagination, total: count}}
       columns={columns}
       dataSource={resources as any}
       loading={loader}
