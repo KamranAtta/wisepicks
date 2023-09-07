@@ -5,6 +5,7 @@ import AddProject from './views/AddProject';
 import EditProject from './views/EditProject';
 import ProjectList from './views/ProjectList';
 import ResourceList from './views/ResouceList';
+import AddResource from './views/AddResource';
 import CloneProject from './views/CloneProject';
 import HeaderComponent from './components/Header';
 import RequestResource from './views/RequestResource';
@@ -18,6 +19,7 @@ const Router = () => {
         <Route path='/' element={<ResourceList />} />
         <Route path='/projects' element={<ProjectList />} />
         <Route path='/resources' element={<ResourceList />} />
+        <Route path='/add-resource' element={<AddResource />} />
         <Route path='/add-project' element={<AddProject />} />
         <Route path='/edit-project' element={<EditProject />} />
         <Route path='/clone-project' element={<CloneProject />} />

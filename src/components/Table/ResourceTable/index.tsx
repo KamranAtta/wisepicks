@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { List, Space, Tag, Table } from 'antd';
+import { List, Tag, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect } from 'react';
 
@@ -24,7 +24,7 @@ const styles = {
 export default function ResourceTable({
   resourceQuery,
   handleResourceDetail,
-  handleAssignProject,
+  // handleAssignProject,
 }: ResourceTableI) {
   const [resources, setResources] = useState<object>([]);
   const [count, setCount] = useState(0);
@@ -211,15 +211,15 @@ export default function ResourceTable({
         return renderProjectCell(element);
       },
     },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (element) => (
-        <Space size='middle'>
-          <a onClick={() => handleAssignProject(element)}>Assign Project</a>
-        </Space>
-      ),
-    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (element) => (
+    //     <Space size='middle'>
+    //       <a onClick={() => handleAssignProject(element)}>Assign Project</a>
+    //     </Space>
+    //   ),
+    // },
   ];
 
   return (

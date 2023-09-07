@@ -1,4 +1,6 @@
 import React, { Fragment, useState, FormEvent } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 import SearchBar from '../../components/common/Search';
 import ButtonLayout from '../../components/ButtonLayout';
@@ -11,6 +13,8 @@ import { resourceListDataType as ResourceListDataType } from '../../components/T
 import { ResourceQuery } from '../../components/Table/ResourceTable/interfaces/ResourceQueryInterface';
 
 export default function ResourceList() {
+  const navigation = useNavigate();
+
   const RESOURCE_QUERY_INITIAL = { query: '', status: '' };
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [resourceDrawerOpen, setResourceDrawerOpen] = useState<boolean>(false);
@@ -53,7 +57,17 @@ export default function ResourceList() {
             </TypographyTitle>
           }
           left={[]}
-          right={[]}
+          // right={[]}
+          right={[
+            {
+              children: 'Add Resource',
+              props: {
+                type: 'primary',
+                icon: <PlusOutlined />,
+                onClick: () => navigation('/add-resource'),
+              },
+            },
+          ]}
         />
         <div style={{ display: 'flex', marginBottom: '20px' }}>
           <SearchBar
