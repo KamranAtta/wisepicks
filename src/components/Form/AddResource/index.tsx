@@ -1,15 +1,6 @@
 /* eslint-disable camelcase */
 // import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-  Space,
-  notification,
-} from 'antd';
+import { Button, Col, Form, Input, Row, Select, Space, notification } from 'antd';
 import { useState, useEffect } from 'react';
 import { createResource } from '../../../apis/index';
 import { MESSAGES } from '../../../utils/constant';
@@ -156,25 +147,23 @@ const AddResourceForm = () => {
         </Form.Item>
 
         <Form.Item name='gender' label='Select Gender'>
-          <Form.Item
-            name='gender'
-          >
+          <Form.Item name='gender'>
             <Select
-            placeholder='Select Gender'
-            options={[
-              {
-                label: 'Male',
-                value: 'Male',
-              },
-              {
-                label: 'Female',
-                value: 'Female',
-              },
-              {
-                label: 'Other',
-                value: 'Other',
-              },
-            ]}
+              placeholder='Select Gender'
+              options={[
+                {
+                  label: 'Male',
+                  value: 'Male',
+                },
+                {
+                  label: 'Female',
+                  value: 'Female',
+                },
+                {
+                  label: 'Other',
+                  value: 'Other',
+                },
+              ]}
             />
           </Form.Item>
         </Form.Item>
@@ -185,12 +174,12 @@ const AddResourceForm = () => {
             rules={[{ required: true, message: 'Please select a team from the dropdown!' }]}
           >
             <Select
-            placeholder="Select Team"
-            options={teams.map((item: team) => ({
-              label: item.name,
-              value: item.id,
-              key: item.id,
-            }))}
+              placeholder='Select Team'
+              options={teams.map((item: team) => ({
+                label: item.name,
+                value: item.id,
+                key: item.id,
+              }))}
               // options={clients.map((client: client) => ({
               //   label: client.name,
               //   value: client.id,
@@ -201,12 +190,10 @@ const AddResourceForm = () => {
         </Form.Item>
 
         <Form.Item name='employment_status' label='Select Employment Status'>
-          <Form.Item
-            name='employment_status'
-          >
+          <Form.Item name='employment_status'>
             <Select
-            placeholder="Select Employment Status"
-            options={[
+              placeholder='Select Employment Status'
+              options={[
                 {
                   label: 'Full Time',
                   value: 'Full-Time',
@@ -220,13 +207,11 @@ const AddResourceForm = () => {
           </Form.Item>
         </Form.Item>
 
-         <Form.Item name='experience' label='Select Experience'>
-          <Form.Item
-            name='experience'
-          >
+        <Form.Item name='experience' label='Select Experience'>
+          <Form.Item name='experience'>
             <Select
-            placeholder="Select work experience"
-            options={[
+              placeholder='Select work experience'
+              options={[
                 {
                   label: '0 Year',
                   value: 0,
@@ -239,7 +224,7 @@ const AddResourceForm = () => {
                   label: '2 Years',
                   value: 2,
                 },
-                                {
+                {
                   label: '3 Years',
                   value: 3,
                 },
@@ -271,7 +256,6 @@ const AddResourceForm = () => {
                   label: '10 Years',
                   value: 10,
                 },
-                
               ]}
             />
           </Form.Item>
@@ -440,7 +424,7 @@ const AddResourceForm = () => {
             </Col>
           </Row>
         </Form.Item> */}
-        
+
         <Space direction='horizontal' style={styles.center}>
           <Row gutter={24}>
             <Col>

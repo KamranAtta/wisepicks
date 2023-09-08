@@ -25,6 +25,7 @@ import { team } from '../interfaces/teamInterface';
 import { skill } from '../interfaces/skillInterface';
 import { client } from '../interfaces/clientInterface';
 import TypographyTitle from '../../common/Title';
+import { useNavigate } from 'react-router-dom';
 // import { project } from './interfaces/projectInterface';
 // import { setUndefinedValuesToNull } from '../../../utils/setUndefinedValuesToNull';
 
@@ -73,6 +74,7 @@ const formItemLayout = {
 };
 
 const AddProjectForm = () => {
+  const navigate = useNavigate();
   const [clientFormOpen, setClientFormOpen] = useState<boolean>(false);
   const [form] = Form.useForm();
   const [clients, setClients] = useState<client[]>([]);
@@ -108,6 +110,7 @@ const AddProjectForm = () => {
         message: MESSAGES.PROJECT_ADD_SUCCESS,
       });
       setLoader(false);
+      navigate('/projects');
     } else {
       if (response?.err) {
         notification.open({
