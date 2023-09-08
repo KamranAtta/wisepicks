@@ -19,22 +19,24 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const response = await getProjectDetails(projectId as unknown as number);
     const resourceList = [];
     const assignedProjects = [];
-    for (const projectResource of response.data.projectResources) {
-      if (projectResource.resource_id) {
-        assignedProjects.push(projectResource?.project?.name);
-        const r = {
-          key: projectResource.id,
-          name: projectResource?.resource?.name,
-          // email: projectResource?.resource?.email,
-          // phone: projectResource?.resource?.phone,
-          team: projectResource?.team?.name,
-          level: projectResource?.resource?.assigned_level,
-          joiningDate: projectResource.start_date,
-          assignedProjects: assignedProjects,
-          type: projectResource.resource_type,
-          status: '',
-        };
-        resourceList.push(r);
+    if(response?.data?.projectResources.length){
+      for (const projectResource of response.data.projectResources) {
+        if (projectResource.resource_id) {
+          assignedProjects.push(projectResource?.project?.name);
+          const r = {
+            key: projectResource.id,
+            name: projectResource?.resource?.name,
+            // email: projectResource?.resource?.email,
+            // phone: projectResource?.resource?.phone,
+            team: projectResource?.team?.name,
+            level: projectResource?.resource?.assigned_level,
+            joiningDate: projectResource.start_date,
+            assignedProjects: assignedProjects,
+            type: projectResource.resource_type,
+            status: '',
+          };
+          resourceList.push(r);
+        }
       }
     }
     // console.log('ResourceList: ', response.data);
