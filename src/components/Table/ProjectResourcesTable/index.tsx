@@ -19,7 +19,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const response = await getProjectDetails(projectId as unknown as number);
     const resourceList = [];
     const assignedProjects = [];
-    if(response?.data?.projectResources.length){
+    if (response?.data?.projectResources.length) {
       for (const projectResource of response.data.projectResources) {
         if (projectResource.resource_id) {
           assignedProjects.push(projectResource?.project?.name);
