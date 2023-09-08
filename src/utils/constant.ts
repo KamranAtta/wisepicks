@@ -10,8 +10,10 @@ export const MESSAGES = {
   PROJECT_EDIT_SUCCESS: 'Project Has Been Edited',
   CLIENT_ADD_SUCCESS: 'New Client Has Been Added',
   RESOURCE_REQUEST_SUCCESS: 'Resource Has Been Requested Successfully',
+  RESOURCE_ADD_SUCCESS: 'Resource Has Been added Successfully',
   ERROR: 'Some Error Occured',
   RESOURCE_REMOVE_SUCCESS: 'Resource removed successfully',
+  LOGIN_SUCCESS: 'Logged in successfully',
 };
 
 export const FORMATS = {
