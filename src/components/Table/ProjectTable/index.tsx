@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { List, Space, Table, notification } from 'antd';
@@ -15,7 +14,15 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
   const [projects, setProjects] = useState<any>();
   const [loader, setLoader] = useState<boolean>(false);
   const [skills, setSkills] = useState([]);
+  const [count, setCount] = useState(0);
   const [queryBag, setQueryBag] = useState({});
+  const paginationConfig = {
+    current: 1,
+    page: 1,
+    pageSize: 10,
+    total: count,
+  };
+  const [pagination, setPagination] = useState(paginationConfig);
 
   const prepareQueryBag = (query: any) => {
     let queryParams = `?name=${query?.name || ''}`;
@@ -39,6 +46,7 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
     try {
       const queryParams = prepareQueryBag(queryBag);
       const response = await getAllProjectsQuery(queryParams);
+      setCount(response.data.count);
       if (response?.statusCode == 200) {
         setProjects(response?.data?.rows);
       } else {
@@ -254,9 +262,11 @@ export default function ProjectTable({ projectQuery, handleProjectDetail }: Proj
       loading={loader}
       scroll={{ x: 'max-content' }}
       bordered
-      onChange={(pagination: unknown, filter: unknown, sorter: unknown) => {
+      onChange={(pagination: any, filter: unknown, sorter: unknown) => {
         setQueryBag((prev) => ({ ...prev, pagination, filter, sorter }));
+        setPagination(pagination);
       }}
+      pagination={{ ...pagination, total: count }}
     />
   );
 }
