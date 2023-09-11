@@ -81,7 +81,7 @@ const AddResourceForm = () => {
 
     if (response.statusCode == 200) {
       notification.open({
-        message: MESSAGES.PROJECT_ADD_SUCCESS,
+        message: MESSAGES.RESOURCE_ADD_SUCCESS,
       });
       setLoader(false);
       navigate('/resources');

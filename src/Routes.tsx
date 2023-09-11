@@ -10,6 +10,8 @@ import CloneProject from './views/CloneProject';
 import HeaderComponent from './components/Header';
 import RequestResource from './views/RequestResource';
 import AssignResource from './views/AssignResource';
+import Login from './views/Auth/Login';
+// import ProtectedRoute from './ProtectedRoute';
 
 const Router = () => {
   return (
@@ -17,6 +19,7 @@ const Router = () => {
       <HeaderComponent></HeaderComponent>
       <Routes>
         <Route path='/' element={<ResourceList />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/projects' element={<ProjectList />} />
         <Route path='/resources' element={<ResourceList />} />
         <Route path='/add-resource' element={<AddResource />} />
