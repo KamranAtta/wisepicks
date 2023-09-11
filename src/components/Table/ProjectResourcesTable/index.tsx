@@ -4,8 +4,9 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { MESSAGES } from '../../../utils/constant';
 import { columnsSort } from '../utils';
 import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
-import { getProjectDetails } from '../../../apis';
+// import { getProjectDetails } from '../../../apis';
 import { updateProjectResource } from '../../../apis/resources.api';
+import { getProjectResources } from '../../../apis/project-resource.api';
 import TypographyTitle from '../../common/Title';
 
 export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
@@ -16,34 +17,47 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     setLoader(true);
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
-    const response = await getProjectDetails(projectId as unknown as number);
+    // const response = await getProjectDetails(projectId as unknown as number);
+    const projectResources = await getProjectResources(projectId as string);
+    console.log('ProjectResources:', projectResources);
     const resourceList = [];
-    const assignedProjects = [];
-    if (response?.data?.projectResources.length) {
-      for (const projectResource of response.data.projectResources) {
-        if (projectResource.resource_id) {
-          assignedProjects.push(projectResource?.project?.name);
-          const r = {
-            key: projectResource.id,
-            name: projectResource?.resource?.name,
-            // email: projectResource?.resource?.email,
-            // phone: projectResource?.resource?.phone,
-            team: projectResource?.team?.name,
-            level: projectResource?.resource?.assigned_level,
-            joiningDate: projectResource.start_date,
-            assignedProjects: assignedProjects,
-            type: projectResource.resource_type,
-            status: '',
-          };
-          resourceList.push(r);
-        }
-      }
-    }
-    // console.log('ResourceList: ', response.data);
-    // for (const projectResource of response.data.projectResources) {
-    //     resourceArray.push(projectResource.resource);
+    // const assignedProjects = [];
+    // if (response?.data?.projectResources.length) {
+    //   for (const projectResource of response.data.projectResources) {
+    //     if (projectResource.resource_id) {
+    //       assignedProjects.push(projectResource?.project?.name);
+    //       const r = {
+    //         key: projectResource.id,
+    //         name: projectResource?.resource?.name,
+    //         // email: projectResource?.resource?.email,
+    //         // phone: projectResource?.resource?.phone,
+    //         team: projectResource?.team?.name,
+    //         level: projectResource?.resource?.assigned_level,
+    //         joiningDate: projectResource.start_date,
+    //         assignedProjects: assignedProjects,
+    //         type: projectResource.resource_type,
+    //         status: '',
+    //       };
+    //       resourceList.push(r);
+    //     }
+    //   }
     // }
-    // const resourceList = await getResources(resourceQuery.query);
+    for (const projectResource of projectResources.data) {
+      const r = {
+        key: projectResource.project_resource_id,
+        name: projectResource?.project_name,
+        // email: projectResource?.resource?.email,
+        // phone: projectResource?.resource?.phone,
+        team: projectResource?.team_name,
+        level: projectResource?.resource_level,
+        joiningDate: projectResource.start_date,
+        assignedProjects: ['Erase', 'Ihtimam'],
+        type: projectResource.resource_type,
+        status: '',
+      };
+      resourceList.push(r);
+    }
+    console.log('Resource List:', resourceList);
     setResources(resourceList);
     setLoader(false);
   };
