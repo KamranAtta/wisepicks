@@ -21,11 +21,7 @@ export const getProjectResource = async (id: string, queryParams: ProjResQuery) 
 
 export const getProjectResources = async (projectId: string) => {
   try {
-    const response = await doGet(
-      `/project-resources/?${
-        `project-id=${projectId}`
-      }`,
-    );
+    const response = await doGet(`/project-resources/?${`project-id=${projectId}`}`);
     if (response?.statusCode == 200) {
       return response?.data;
     }

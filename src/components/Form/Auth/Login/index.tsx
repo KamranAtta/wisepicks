@@ -1,19 +1,19 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 // import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { 
-    Button, 
-    Col, 
-    Form, 
-    Input, 
-    Row, 
-    // Select, 
-    Space, 
-    notification 
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  // Select,
+  Space,
+  notification,
 } from 'antd';
-import { 
-    useState, 
-    // useEffect 
+import {
+  useState,
+  // useEffect
 } from 'react';
 import { MESSAGES } from '../../../../utils/constant';
 import Loader from '../../../common/Loader';
@@ -72,14 +72,14 @@ const LoginForm = () => {
     setLoader(true);
     console.log('Values:', values);
 
-    if(user?.email) {
+    if (user?.email) {
       logout();
       setLoader(false);
       navigate('/login');
-    }else {
-      const response: response = {data: [], statusCode: 200, err: {message: 'Error occured'}}
+    } else {
+      const response: response = { data: [], statusCode: 200, err: { message: 'Error occured' } };
       // const response: response = await createResource(values);
-  
+
       if (response.statusCode == 200) {
         await login(values);
         notification.open({
@@ -101,13 +101,12 @@ const LoginForm = () => {
         }
       }
     }
-
   };
 
-//   useEffect(() => {
-//     getTeamTypes();
-//     getTechnologiesTypes();
-//   }, []);
+  //   useEffect(() => {
+  //     getTeamTypes();
+  //     getTechnologiesTypes();
+  //   }, []);
 
   return (
     <div>
@@ -124,12 +123,7 @@ const LoginForm = () => {
               <Title level={3}>Logout</Title>
             </Col>
           </Row>
-          <Form
-            {...formItemLayout}
-            form={form}
-            name='logout'
-            onFinish={onFinish}
-          >
+          <Form {...formItemLayout} form={form} name='logout' onFinish={onFinish}>
             <Space direction='horizontal' style={styles.center}>
               <Row gutter={24}>
                 <Col>
@@ -169,8 +163,8 @@ const LoginForm = () => {
               label='Email'
               rules={[
                 {
-                    type: 'email',
-                    message: 'Please enter a valid email address!',
+                  type: 'email',
+                  message: 'Please enter a valid email address!',
                 },
                 {
                   required: true,
@@ -195,11 +189,12 @@ const LoginForm = () => {
                 },
                 {
                   pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/,
-                  message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number!',
+                  message:
+                    'Password must contain at least one uppercase letter, one lowercase letter, and one number!',
                 },
               ]}
             >
-            <Input.Password />
+              <Input.Password />
             </Form.Item>
 
             <Space direction='horizontal' style={styles.center}>
