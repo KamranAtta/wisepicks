@@ -309,7 +309,7 @@ const AddProjectForm = () => {
                         style={{ display: 'flex', marginBottom: 8 }}
                         align='baseline'
                       >
-                        <Row gutter={10}>
+                        <Row gutter={12}>
                           <Col>
                             <Form.Item {...restField} name={[name, 'resource', 'name']}>
                               <Input disabled />
@@ -374,7 +374,31 @@ const AddProjectForm = () => {
                               <DatePicker placeholder='Expected End Date' />
                             </Form.Item>
                           </Col>
-
+                          <Col>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'resource_type']}
+                              rules={[{ required: true, message: 'Please select resource type!' }]}
+                            >
+                              <Select
+                                placeholder='Select resource type...'
+                                options={[
+                                  {
+                                    label: 'Billable',
+                                    value: 'Billable',
+                                  },
+                                  {
+                                    label: 'Additional',
+                                    value: 'Additional',
+                                  },
+                                  {
+                                    label: 'Bench',
+                                    value: 'Bench',
+                                  },
+                                ]}
+                              ></Select>
+                            </Form.Item>
+                          </Col>
                           <Col>
                             <Form.Item
                               {...restField}
