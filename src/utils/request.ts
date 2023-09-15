@@ -96,7 +96,7 @@ export const doDelete = async (path: string, data: object, headers: object = {},
 
   const response = await Axios({
     url: path,
-    baseURL: baseURL,
+    baseURL: SERVER_API ? SERVER_API : baseURL,
     method: 'DELETE',
     // withCredentials: true,
     headers: setHeader(token, headers),
