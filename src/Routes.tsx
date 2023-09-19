@@ -11,23 +11,66 @@ import HeaderComponent from './components/Header';
 import RequestResource from './views/RequestResource';
 import AssignResource from './views/AssignResource';
 import Login from './views/Auth/Login';
-// import ProtectedRoute from './ProtectedRoute';
+import PrivateRoute from './ProtectedRoute';
 
 const Router = () => {
   return (
     <Fragment>
       <HeaderComponent></HeaderComponent>
       <Routes>
-        <Route path='/' element={<ResourceList />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <ResourceList />
+            </PrivateRoute>
+          }
+        />
         <Route path='/login' element={<Login />} />
-        <Route path='/projects' element={<ProjectList />} />
-        <Route path='/resources' element={<ResourceList />} />
-        <Route path='/add-resource' element={<AddResource />} />
-        <Route path='/add-project' element={<AddProject />} />
-        <Route path='/edit-project' element={<EditProject />} />
-        <Route path='/clone-project' element={<CloneProject />} />
-        <Route path='/request-resource' element={<RequestResource />} />
-        <Route path='/assign-resource' element={<AssignResource />} />
+        <Route
+          path="/resources"
+          element={
+            <PrivateRoute>
+              <ResourceList />
+            </PrivateRoute>
+          }
+        />
+        <Route path='/projects' element={
+          <PrivateRoute>
+            <ProjectList />
+          </PrivateRoute>
+        } />
+        {/* <Route path='/resources' element={<ResourceList />} /> */}
+        <Route path='/add-resource' element={
+          <PrivateRoute>
+            <AddResource />
+          </PrivateRoute>
+        } />
+        <Route path='/add-project' element={
+          <PrivateRoute>
+            <AddProject />
+          </PrivateRoute>
+        } />
+        <Route path='/edit-project' element={
+          <PrivateRoute>
+            <EditProject />
+          </PrivateRoute>
+        } />
+        <Route path='/clone-project' element={
+          <PrivateRoute>
+            <CloneProject />
+          </PrivateRoute>
+        } />
+        <Route path='/request-resource' element={
+          <PrivateRoute>
+            <RequestResource />
+          </PrivateRoute>
+        } />
+        <Route path='/assign-resource' element={
+          <PrivateRoute>
+            <AssignResource />
+          </PrivateRoute>
+        } />
       </Routes>
     </Fragment>
   );

@@ -1,21 +1,10 @@
-// // ProtectedRoute.tsx
-// import React from 'react';
-// import { Route, PathRouteProps, Navigate } from 'react-router-dom';
-// import { useAuth } from './context/AuthContext';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 
-// // Define the interface for ProtectedRouteProps
-// interface ProtectedRouteProps extends PathRouteProps {
-//   element: React.ReactNode;
-// }
+function PrivateRoute({ children }: any) {
 
-// const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, ...rest }) => {
-//   const { user } = useAuth();
+    const { token } = useAuth();
+    return token?.access_token ? <>{children}</> : <Navigate to="/login" />;
+}
 
-//   return user ? (
-//     <Route {...rest} element={element} />
-//   ) : (
-//     <Navigate to="/login" />
-//   );
-// };
-
-// export default ProtectedRoute;
+export default PrivateRoute;

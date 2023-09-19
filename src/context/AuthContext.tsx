@@ -1,16 +1,13 @@
-// AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Define the shape of your user object
-interface User {
-  email: string;
-  password: string;
-  // Add more properties as needed
+interface Token {
+  access_token: string;
 }
 
 interface AuthContextType {
-  user: User | null;
-  login: (user: User) => void;
+  token: Token | null;
+  login: (token: Token) => void;
   logout: () => void;
 }
 
@@ -22,29 +19,29 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Function to get user data from local storage
-  const getUserFromLocalStorage = (): User | null => {
-    const userJson = localStorage.getItem('user');
-    return userJson ? JSON.parse(userJson) : null;
+  const getUserFromLocalStorage = (): Token | null => {
+    const tokenJson = localStorage.getItem('token');
+    return tokenJson ? JSON.parse(tokenJson) : null;
   };
 
   // Check local storage for user data when the hook is called
-  const storedUser = getUserFromLocalStorage();
+  const storedTokenn = getUserFromLocalStorage();
 
-  const [user, setUser] = useState<User | null>(storedUser);
+  const [token, setToken] = useState<Token | null>(storedTokenn);
 
-  const login = (loggedInUser: User) => {
+  const login = (userToken: Token) => {
     // Set the user in local storage
-    localStorage.setItem('user', JSON.stringify(loggedInUser));
-    setUser(loggedInUser);
+    localStorage.setItem('token', JSON.stringify(userToken));
+    setToken(userToken);
   };
 
   const logout = () => {
     // Remove the user from local storage
-    localStorage.removeItem('user');
-    setUser(null);
+    localStorage.removeItem('token');
+    setToken(null);
   };
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ token, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {
