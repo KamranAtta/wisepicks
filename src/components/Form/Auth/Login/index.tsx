@@ -25,7 +25,7 @@ interface response {
   statusCode: number;
   err: any;
   data: [];
-  access_token: any,
+  access_token: any;
 }
 const initialValues = {
   username: null,
