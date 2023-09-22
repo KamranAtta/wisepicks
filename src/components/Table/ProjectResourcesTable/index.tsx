@@ -191,9 +191,11 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   };
 
   const renderManageResource = async (data: any) => {
+    // eslint-disable-next-line no-console
+    console.log(data);
     let queryParams = '';
     if (data.level && data.fte) {
-      queryParams += 'level=' + data.level + '&fte=' + data.fte;
+      queryParams += 'level=' + data.level + '&fte=' + data.fte + '&team=' + data.team;
     }
     const suggestedResources = await getSuggestedEngineers(queryParams);
     setSuggestedEngineers(suggestedResources.data);
