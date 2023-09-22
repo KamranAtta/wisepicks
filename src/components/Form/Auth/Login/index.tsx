@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
 // import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
@@ -20,11 +19,13 @@ import Loader from '../../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../context/AuthContext';
+import { loginUser } from '../../../../apis/auth.api';
 
 interface response {
   statusCode: number;
   err: any;
   data: [];
+  access_token: any;
 }
 const initialValues = {
   username: null,
@@ -66,22 +67,20 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loader, setLoader] = useState<boolean>(false);
-  const { user, login, logout } = useAuth();
+  const { token, login, logout } = useAuth();
 
   const onFinish = async (values: any) => {
     setLoader(true);
-    console.log('Values:', values);
 
-    if (user?.email) {
+    if (token?.access_token) {
       logout();
       setLoader(false);
       navigate('/login');
     } else {
-      const response: response = { data: [], statusCode: 200, err: { message: 'Error occured' } };
-      // const response: response = await createResource(values);
+      const response: response = await loginUser(values);
 
-      if (response.statusCode == 200) {
-        await login(values);
+      if (response?.access_token) {
+        await login(response);
         notification.open({
           message: MESSAGES.LOGIN_SUCCESS,
         });
@@ -110,7 +109,7 @@ const LoginForm = () => {
 
   return (
     <div>
-      {user ? (
+      {token?.access_token ? (
         <>
           <Row style={{ marginBottom: 16 }}>
             <Col
