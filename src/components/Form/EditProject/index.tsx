@@ -250,12 +250,12 @@ const EditProjectForm = () => {
             placeholder='Select a Type'
             options={[
               {
-                label: 'Billable',
-                value: 'Billable',
+                label: 'Scoped',
+                value: 'Scoped',
               },
               {
-                label: 'Non-Billable',
-                value: 'Non-Billable',
+                label: 'Recurring',
+                value: 'Recurring',
               },
             ]}
           ></Select>
@@ -294,7 +294,7 @@ const EditProjectForm = () => {
                 <DatePicker placeholder='End Date' />
               </Form.Item>
             </Col>
-            <Col style={styles.padding}>
+            {/* <Col style={styles.padding}>
               <TypographyTitle level={5} style={styles.heading}>
                 Expected Start Date
               </TypographyTitle>
@@ -325,7 +325,7 @@ const EditProjectForm = () => {
               >
                 <DatePicker placeholder='Expected End Date' />
               </Form.Item>
-            </Col>
+            </Col> */}
           </Row>
         </Form.Item>
         <Form.Item label='Resources'>
@@ -380,7 +380,7 @@ const EditProjectForm = () => {
                               <DatePicker placeholder='End Date' />
                             </Form.Item>
 
-                            <TypographyTitle level={5} style={styles.heading}>
+                            {/* <TypographyTitle level={5} style={styles.heading}>
                               Expected Start Date
                             </TypographyTitle>
                             <Form.Item
@@ -408,7 +408,7 @@ const EditProjectForm = () => {
                               ]}
                             >
                               <DatePicker placeholder='Expected End Date' />
-                            </Form.Item>
+                            </Form.Item> */}
                           </Col>
 
                           <Col>

@@ -65,13 +65,8 @@ export const doPut = async (path: string, data: object, headers: object = {}, ba
   };
 };
 
-export const doPatch = async (
-  path: string,
-  data: object,
-  headers: object = {},
-  baseURL: string,
-) => {
-  const token = '';
+export const doPatch = async (path: string, data: object, headers: object = {}, baseURL = '') => {
+  const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
   const response = await Axios({
     url: path,

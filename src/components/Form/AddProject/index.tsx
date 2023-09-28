@@ -10,7 +10,7 @@ import {
   Row,
   Select,
   Space,
-  Divider,
+  // Divider,
   notification,
 } from 'antd';
 import { Fragment, useState, useEffect } from 'react';
@@ -79,7 +79,8 @@ const AddProjectForm = () => {
   const [form] = Form.useForm();
   const [clients, setClients] = useState<client[]>([]);
   const [teams, setTeams] = useState<team[]>([]);
-  // const [projectLeads, setProjectLeads] = useState<any>([]);
+  const [projectStartDate, setProjectStartDate] = useState<any>(null);
+  const [projectType, setProjectType] = useState<any>([]);
   const [technologies, setTechnologies] = useState<skill[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -134,6 +135,14 @@ const AddProjectForm = () => {
     const data: team[] = await getTeams();
     setTeams(data);
   };
+
+  const handleDateChange = async (date: any) => {
+    setProjectStartDate(date);
+  };
+
+  const handleProjectTypeChange = async (type: any) => {
+    setProjectType(type);
+  };
   // const getProjectLeadTypes = async () => {
   //   const res: any = await getProjectLeads();
   //   if (res.status == 200) {
@@ -144,6 +153,7 @@ const AddProjectForm = () => {
     const res: skill[] = await getSkills();
     setTechnologies(res);
   };
+
   useEffect(() => {
     getClientTypes();
     // getProjectLeadTypes();
@@ -223,15 +233,16 @@ const AddProjectForm = () => {
           ]}
         >
           <Select
+            onChange={handleProjectTypeChange}
             placeholder='Select a Type'
             options={[
               {
-                label: 'Billable',
-                value: 'Billable',
+                label: 'Scoped',
+                value: 'Scoped',
               },
               {
-                label: 'Non-Billable',
-                value: 'Non-Billable',
+                label: 'Recurring',
+                value: 'Recurring',
               },
             ]}
           ></Select>
@@ -248,23 +259,27 @@ const AddProjectForm = () => {
                   },
                 ]}
               >
-                <DatePicker placeholder='Start Date' />
+                <DatePicker onChange={handleDateChange} placeholder='Start Date' />
               </Form.Item>
             </Col>
-            <Col style={styles.padding}>
-              <Form.Item
-                name='end_date'
-                rules={[
-                  {
-                    required: false,
-                    message: 'Please select date',
-                  },
-                ]}
-              >
-                <DatePicker placeholder='End Date' />
-              </Form.Item>
-            </Col>
-            <Col style={styles.padding}>
+            {projectType === 'Scoped' ? (
+              <Col style={styles.padding}>
+                <Form.Item
+                  name='end_date'
+                  rules={[
+                    {
+                      required: false,
+                      message: 'Please select date',
+                    },
+                  ]}
+                >
+                  <DatePicker placeholder='End Date' />
+                </Form.Item>
+              </Col>
+            ) : (
+              ''
+            )}
+            {/* <Col style={styles.padding}>
               <Form.Item
                 name='expected_start_date'
                 rules={[
@@ -289,18 +304,13 @@ const AddProjectForm = () => {
               >
                 <DatePicker placeholder='Expected End Date' />
               </Form.Item>
-            </Col>
+            </Col> */}
           </Row>
         </Form.Item>
         <Form.Item label='Resources'>
           <Form.List name='projectResources'>
             {(fields, { add, remove }) => (
               <>
-                <Form.Item>
-                  <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
-                    Add a Resource
-                  </Button>
-                </Form.Item>
                 {fields.map(({ key, name, ...restField }) => (
                   <>
                     <Fragment>
@@ -326,10 +336,13 @@ const AddProjectForm = () => {
                                 },
                               ]}
                             >
-                              <DatePicker placeholder='Start Date' />
+                              <DatePicker
+                                defaultValue={projectStartDate}
+                                placeholder='Start Date'
+                              />
                             </Form.Item>
 
-                            <TypographyTitle level={5} style={styles.heading}>
+                            {/* <TypographyTitle level={5} style={styles.heading}>
                               End Date
                             </TypographyTitle>
                             <Form.Item
@@ -342,9 +355,9 @@ const AddProjectForm = () => {
                               ]}
                             >
                               <DatePicker placeholder='End Date' />
-                            </Form.Item>
+                            </Form.Item> */}
 
-                            <TypographyTitle level={5} style={styles.heading}>
+                            {/* <TypographyTitle level={5} style={styles.heading}>
                               Expected Start Date
                             </TypographyTitle>
                             <Form.Item
@@ -372,7 +385,7 @@ const AddProjectForm = () => {
                               ]}
                             >
                               <DatePicker placeholder='Expected End Date' />
-                            </Form.Item>
+                            </Form.Item> */}
                           </Col>
                           <Col>
                             <Form.Item
@@ -384,16 +397,16 @@ const AddProjectForm = () => {
                                 placeholder='Select resource type...'
                                 options={[
                                   {
-                                    label: 'Billable',
-                                    value: 'Billable',
+                                    label: 'Planned',
+                                    value: 'Planned',
+                                  },
+                                  {
+                                    label: 'Planned/Shadow',
+                                    value: 'Planned/Shadow',
                                   },
                                   {
                                     label: 'Additional',
                                     value: 'Additional',
-                                  },
-                                  {
-                                    label: 'Bench',
-                                    value: 'Bench',
                                   },
                                 ]}
                               ></Select>
@@ -538,10 +551,15 @@ const AddProjectForm = () => {
                           </Col>
                         </Row>
                       </Space>
-                      <Divider />
+                      {/* <Divider /> */}
                     </Fragment>
                   </>
                 ))}
+                <Form.Item>
+                  <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
+                    Add a Resource
+                  </Button>
+                </Form.Item>
               </>
             )}
           </Form.List>

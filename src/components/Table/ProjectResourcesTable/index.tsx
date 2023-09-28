@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 /* eslint-disable camelcase */
 import type { ColumnsType } from 'antd/es/table';
 import {
@@ -11,13 +12,19 @@ import {
   Select,
   Button,
   notification,
-  Input,
-  Divider,
+  // Input,
+  // Divider,
+  Checkbox,
+  List,
+  Tag,
+  Card,
+  // Input,
+  InputNumber,
 } from 'antd';
-import {
-  PlusOutlined,
-  // MinusCircleOutlined
-} from '@ant-design/icons';
+// import {
+//   PlusOutlined,
+//   MinusCircleOutlined
+// } from '@ant-design/icons';
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 // import { MESSAGES } from '../../../utils/constant';
 import { columnsSort } from '../utils';
@@ -26,15 +33,16 @@ import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
 import SuggestedEngineerInterface from './interface';
 // import VacationTableInterface from '../../../components/Drawer/AssignProject/interfaces/vacationTableInterface';
 import { getProjectDetails } from '../../../apis';
-import { getSkills } from '../../../apis/skills.api';
-import { getTeams } from '../../../apis/teams.api';
+// import { getSkills } from '../../../apis/skills.api';
+// import { getTeams } from '../../../apis/teams.api';
 import {
   removeProjectResource,
   updateProjectResource,
   getProjectResourceAllocation,
   getSuggestedEngineers,
   assignResource,
-  allocateResource,
+  // allocateResource,
+  assignProjectResources,
 } from '../../../apis/project-resource.api';
 import TypographyTitle from '../../common/Title';
 import TypographyText from '../../common/Text';
@@ -44,17 +52,23 @@ import {
   // FORMATS
 } from '../../../utils/constant';
 import ButtonLayout from '../../../components/ButtonLayout';
-// import { useNavigate } from 'react-router-dom';
+import {
+  HourglassOutlined,
+  InfoCircleOutlined,
+  PlusOutlined,
+  ScheduleOutlined,
+} from '@ant-design/icons';
+import { Link, useNavigate } from 'react-router-dom';
 // import Loader from '../../common/Loader';
 // import Title from 'antd/lib/typography/Title';
-import { skill } from '../../../components/Form/interfaces/skillInterface';
-import { team } from '../../../components/Form/interfaces/teamInterface';
+// import { skill } from '../../../components/Form/interfaces/skillInterface';
+// import { team } from '../../../components/Form/interfaces/teamInterface';
 
-interface response {
-  statusCode: number;
-  err: any;
-  data: [];
-}
+// interface response {
+//   statusCode: number;
+//   err: any;
+//   data: [];
+// }
 
 const styles = {
   datePicker: { width: '100%' } as React.CSSProperties,
@@ -114,6 +128,31 @@ const hourAvailability = [
   },
 ];
 
+const resourceTypes = [
+  {
+    label: 'Planned',
+    value: 'Planned',
+  },
+  {
+    label: 'Planned/Shadow',
+    value: 'Planned/Shadow',
+  },
+  {
+    label: 'Additional',
+    value: 'Additional',
+  },
+];
+
+// const selectedEngineersDefault = {
+//   assigned_level: '',
+//   available_fte: '',
+//   resource_id: '',
+//   resource_name: '',
+//   team_id: '',
+//   team_name: '',
+//   total_fte: '',
+// };
+
 // const initialValues = {
 //   start_date: null,
 //   end_date: null,
@@ -122,7 +161,7 @@ const hourAvailability = [
 // };
 
 export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const resetRef = useRef(null);
   const [resources, setResources] = useState<any>([]);
@@ -131,16 +170,17 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openAssignResourceModal, setOpenAssignResourceModal] = useState<boolean>(false);
   const [suggestedEngineers, setSuggestedEngineers] = useState<any>();
-  const [assignResourceData, setAssignResourceData] = useState<any>({});
+  const [assignResourceData] = useState<any>({});
   const { RangePicker } = DatePicker;
   const { contextHolder, notificationHandler } = NotificationComponent();
-  const [availabilityOptions, setAvailabilityOptions] = useState<any>(hourAvailability);
+  const [availabilityOptions] = useState<any>(hourAvailability);
   const [projectResourceId, setProjectResourceId] = useState<string>('');
-  const [technologies, setTechnologies] = useState<skill[]>([]);
-  const [teams, setTeams] = useState<team[]>([]);
-  const [openAddProjectResourceModal, setOpenAddProjectResourceModal] = useState<boolean>(false);
+  // const [technologies, setTechnologies] = useState<skill[]>([]);
+  // const [teams, setTeams] = useState<team[]>([]);
+  // const [openAddProjectResourceModal, setOpenAddProjectResourceModal] = useState<boolean>(false);
   const [projectCompletionTime, setProjectCompletionTime] = useState<any>();
   const now = new Date();
+  const [selectProjectResource, setSelectProjectResource] = useState<any>({});
 
   function convertMillisecondsToDaysHours(milliseconds: number) {
     // Calculate the number of days
@@ -164,42 +204,55 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const projectId = urlParams.get('id');
     const projectDetails = await getProjectDetails(projectId as unknown as number);
     setProject(projectDetails?.data);
-    const milliseconds = Date.parse(projectDetails?.data?.expected_end_date) - now.getTime();
+    const milliseconds = Date.parse(projectDetails?.data?.end_date) - now.getTime();
 
     setProjectCompletionTime(convertMillisecondsToDaysHours(milliseconds));
 
     const allocationResources = await getProjectResourceAllocation(projectId as string);
     const resourceList = [];
-    for (const projectResource of allocationResources.data) {
-      const r = {
-        key: projectResource.project_resource_id,
-        name: projectResource?.resource_name,
-        team: projectResource?.team_name,
-        level: projectResource?.resource_level,
-        fte: projectResource?.fte,
-        joiningDate: projectResource?.start_date,
-        type: projectResource?.resource_type,
-        status: '',
-        resourceId: projectResource?.resource_id,
-        projectResourceId: projectResource?.project_resource_id,
-      };
-      resourceList.push(r);
-    }
+    // for (const projectResource of allocationResources.data) {
+    const r = {
+      key: allocationResources.data.project_resource_id,
+      name: allocationResources.data?.resource_name,
+      team: allocationResources.data?.team_name,
+      level: allocationResources.data?.level,
+      fte: allocationResources.data?.fte,
+      joiningDate: allocationResources.data?.start_date,
+      type: allocationResources.data?.resource_type,
+      status: '',
+      resourceId: allocationResources.data?.resource_id,
+      projectResourceId: allocationResources.data?.project_resource_id,
+      assignedResources: allocationResources.data?.assigned_resources,
+      projectPlanId: allocationResources.data?.project_plan_id,
+      teamId: allocationResources.data?.team_id,
+    };
+    resourceList.push(r);
+    // }/
     setResources(resourceList);
     // setVacationData([]);
     setLoader(false);
   };
 
   const renderManageResource = async (data: any) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
     let queryParams = '';
     if (data.level && data.fte) {
       queryParams += 'level=' + data.level + '&fte=' + data.fte + '&team=' + data.team;
     }
     const suggestedResources = await getSuggestedEngineers(queryParams);
-    setSuggestedEngineers(suggestedResources.data);
+    const engineersList = [];
+    for (const engineer of suggestedResources.data) {
+      const e = {
+        ...engineer,
+        selected: false,
+        selectedPercentage: '',
+        plan_id: data?.projectResourceId,
+        total_fte_requirement: data?.fte,
+      };
+      engineersList.push(e);
+    }
+    setSuggestedEngineers(engineersList);
     setProjectResourceId(data.projectResourceId);
+    setSelectProjectResource(data);
     setOpenModal(true);
   };
 
@@ -226,18 +279,39 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   //   );
   // };
 
-  const renderAssignResourceModal = async (data: any) => {
-    setOpenAssignResourceModal(true);
-    setAssignResourceData(data);
-    const hoursOptions: any = [];
-    hourAvailability.forEach((option) => {
-      if (parseInt(data.available_fte) >= parseInt(option.value)) {
-        hoursOptions.push(option);
-      }
-    });
-    setAvailabilityOptions(hoursOptions);
-    setOpenModal(false);
-  };
+  // const renderAssignResourceModal = async (data: any) => {
+  //   setOpenAssignResourceModal(true);
+  //   setAssignResourceData(data);
+  //   const hoursOptions: any = [];
+  //   hourAvailability.forEach((option) => {
+  //     if (parseInt(data.available_fte) >= parseInt(option.value)) {
+  //       hoursOptions.push(option);
+  //     }
+  //   });
+  //   setAvailabilityOptions(hoursOptions);
+  //   setOpenModal(false);
+  // };
+
+  // const getAvailibilityOptions = async (data: any) => {
+  //   const hoursOptions: any = [];
+  //   hourAvailability.forEach((option) => {
+  //     if (parseInt(data.available_fte) >= parseInt(option.value)) {
+  //       hoursOptions.push(option);
+  //     }
+  //   });
+  //   return hoursOptions;
+  // };
+
+  // const handleOptionChange = (value: any, record: any) => {
+  //   const updatedData = suggestedEngineers.map((item: any) => {
+  //     if (item.selected && item.resource_id === record.resource_id) {
+  //       // Update the 'dropdown' property with the new value
+  //       return { ...item, selectedPercentage: value };
+  //     }
+  //     return item;
+  //   });
+  //   setSuggestedEngineers(updatedData);
+  // };
 
   const formDataTransformation = (values: any) => {
     const { project, weeklyHours, ...rest } = values;
@@ -301,80 +375,122 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     setOpenAssignResourceModal(false);
   };
 
-  const handleOpenProjectResourceCancel = () => {
-    setOpenAddProjectResourceModal(false);
-  };
+  // const handleOpenProjectResourceCancel = () => {
+  //   setOpenAddProjectResourceModal(false);
+  // };
 
-  const getTeamTypes = async () => {
-    const data: team[] = await getTeams();
-    setTeams(data);
-  };
+  // const getTeamTypes = async () => {
+  //   const data: team[] = await getTeams();
+  //   setTeams(data);
+  // };
   // const getProjectLeadTypes = async () => {
   //   const res: any = await getProjectLeads();
   //   if (res.status == 200) {
   //     setProjectLeads(res.data.data);
   //   }
   // };
-  const getTechnologiesTypes = async () => {
-    const res: skill[] = await getSkills();
-    setTechnologies(res);
-  };
+  // const getTechnologiesTypes = async () => {
+  //   const res: skill[] = await getSkills();
+  //   setTechnologies(res);
+  // };
 
-  const handleAddProjectResource = () => {
-    getTeamTypes();
-    getTechnologiesTypes();
-    setOpenAddProjectResourceModal(true);
-  };
+  // const handleAddProjectResource = () => {
+  //   getTeamTypes();
+  //   getTechnologiesTypes();
+  //   setOpenAddProjectResourceModal(true);
+  // };
 
-  const onAddProjectResource = async (values: any) => {
-    setLoader(true);
-    values.start_date = values.start_date != undefined ? new Date(values.start_date) : null;
-    values.end_date = values.end_date != undefined ? new Date(values.end_date) : null;
-    values.expected_start_date =
-      values.expected_start_date != undefined ? new Date(values.expected_start_date) : null;
-    values.expected_end_date =
-      values.expected_end_date != undefined ? new Date(values.expected_end_date) : null;
+  // const onAddProjectResource = async (values: any) => {
+  //   setLoader(true);
+  //   values.start_date = values.start_date != undefined ? new Date(values.start_date) : null;
+  //   values.end_date = values.end_date != undefined ? new Date(values.end_date) : null;
+  //   values.expected_start_date =
+  //     values.expected_start_date != undefined ? new Date(values.expected_start_date) : null;
+  //   values.expected_end_date =
+  //     values.expected_end_date != undefined ? new Date(values.expected_end_date) : null;
 
-    values.project_id = project?.id;
+  //   values.project_id = project?.id;
 
-    const response: response = await allocateResource(values);
+  //   const response: response = await allocateResource(values);
 
-    // const response: response = {
-    //   statusCode: 200,
-    //   err: {
-    //     message: 'Error occured'
-    //   },
-    //   data: []
-    // }
-    if (response.statusCode == 201) {
-      notification.open({
-        message: MESSAGES.RESOURCE_ALLOCATE_SUCCESS,
-      });
-      setLoader(false);
-      fetchResources();
-      setOpenAddProjectResourceModal(false);
+  //   // const response: response = {
+  //   //   statusCode: 200,
+  //   //   err: {
+  //   //     message: 'Error occured'
+  //   //   },
+  //   //   data: []
+  //   // }
+  //   if (response.statusCode == 201) {
+  //     notification.open({
+  //       message: MESSAGES.RESOURCE_ALLOCATE_SUCCESS,
+  //     });
+  //     setLoader(false);
+  //     fetchResources();
+  //     setOpenAddProjectResourceModal(false);
+  //   } else {
+  //     if (response?.err) {
+  //       notification.open({
+  //         message: response?.err?.message,
+  //       });
+  //       setLoader(false);
+  //     } else {
+  //       setLoader(false);
+  //       notification.open({
+  //         message: MESSAGES.ERROR,
+  //       });
+  //     }
+  //   }
+  // };
+
+  const renderCustomCell = (objects: Array<any>) => {
+    if (objects.length > 0) {
+      return (
+        <List
+          size='small'
+          dataSource={objects}
+          renderItem={(item: any) => (
+            <List.Item>
+              <Link to={'/resources?name=' + item?.resource_name}>{item?.resource_name} </Link>
+              {/* <span
+                style={{ cursor: 'pointer', color: '#1d39c4' }}
+                onClick={() => navigate('/resources?name=' + item?.resource_name)}
+              >{item?.resource_name}{' '}
+              </span> */}
+              {item?.deployed_percentage ? (
+                <Tag style={{ border: 'none' }} color='geekblue'>
+                  {item?.deployed_percentage + '%'}
+                </Tag>
+              ) : (
+                ''
+              )}
+              {item?.resource_type ? (
+                <Tag style={{ border: 'none' }} color='geekblue'>
+                  {item?.resource_type}
+                </Tag>
+              ) : (
+                ''
+              )}
+            </List.Item>
+          )}
+        />
+      );
     } else {
-      if (response?.err) {
-        notification.open({
-          message: response?.err?.message,
-        });
-        setLoader(false);
-      } else {
-        setLoader(false);
-        notification.open({
-          message: MESSAGES.ERROR,
-        });
-      }
+      return <div style={{ textAlign: 'center' }}>-</div>;
     }
   };
 
   const columns: ColumnsType<ProjectResourcesInterface> = [
     {
-      title: 'Resource Name',
-      dataIndex: 'name',
-      key: 'name',
-      sorter: (a, b) => columnsSort(a.name, b.name),
+      title: 'Assigned Resources',
+      dataIndex: 'assignedResources',
+      render: (element) => renderCustomCell(element),
     },
+    // {
+    //   title: 'Resource Name',
+    //   dataIndex: 'name',
+    //   key: 'name',
+    //   sorter: (a, b) => columnsSort(a.name, b.name),
+    // },
     {
       title: 'Team',
       dataIndex: 'team',
@@ -388,7 +504,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       sorter: (a, b) => columnsSort(a.level, b.level),
     },
     {
-      title: 'Availability(%)',
+      title: 'Planned Availability(%)',
       dataIndex: 'fte',
       key: 'fte',
       sorter: (a, b) => columnsSort(a.fte, b.fte),
@@ -458,7 +574,99 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     },
   ];
 
+  const handleCheckboxChange = async (e: any, record: any) => {
+    const engineers = [...suggestedEngineers];
+    const updatedData = engineers.map((item) => {
+      if (item.resource_id === record.resource_id) {
+        return { ...item, selected: e.target.checked };
+      }
+      return item;
+    });
+    setSuggestedEngineers(updatedData);
+  };
+
+  // const AvailibilityOptions = (text: any, record: any) => {
+  //   const hoursOptions: any = [];
+  //   hourAvailability.forEach((option) => {
+  //     if (parseInt(text) >= parseInt(option.value)) {
+  //       if (parseInt(record.total_fte_requirement) >= parseInt(option.value)) {
+  //         hoursOptions.push({
+  //           label: option.value,
+  //           value: option.value,
+  //           disabled: !(parseInt(record.total_fte_requirement) - parseInt(option.value) >= 0),
+  //         });
+  //       }
+  //     }
+  //   });
+  //   return (
+  //     <Select
+  //       defaultValue={'Select assignment % '}
+  //       onChange={(value) => handleOptionChange(value, record)}
+  //     >
+  //       {hoursOptions.map((option: any) => (
+  //         <Select.Option key={option.value} value={option.value} disabled={option.disabled}>
+  //           {option.label}
+  //         </Select.Option>
+  //       ))}
+  //     </Select>
+  //   );
+  // };
+
+  const handleResourceTypeChange = (value: any, record: any) => {
+    const updatedData = suggestedEngineers.map((item: any) => {
+      if (item.selected && item.resource_id === record.resource_id) {
+        return { ...item, selected_resource_type: value };
+      }
+      return item;
+    });
+    setSuggestedEngineers(updatedData);
+  };
+
+  const renderResourceType = (record: any) => {
+    return (
+      <Select
+        defaultValue={'Select type '}
+        onChange={(value) => handleResourceTypeChange(value, record)}
+      >
+        {resourceTypes.map((option: any) => (
+          <Select.Option key={option.value} value={option.value} disabled={option.disabled}>
+            {option.label}
+          </Select.Option>
+        ))}
+      </Select>
+    );
+  };
+
+  const handleDateChange = (date: any) => {
+    const startDate = new Date(date);
+    const updatedData = suggestedEngineers.map((item: any) => {
+      if (item.selected) {
+        return { ...item, startDate: startDate };
+      }
+      return item;
+    });
+    setSuggestedEngineers(updatedData);
+  };
+
+  const handleNumericInputChange = (input: any, record: any) => {
+    const updatedData = suggestedEngineers.map((item: any) => {
+      if (item.selected && item.resource_id === record.resource_id) {
+        return { ...item, selectedPercentage: input };
+      }
+      return item;
+    });
+    setSuggestedEngineers(updatedData);
+  };
+
   const suggestedEngineersColumns: ColumnsType<SuggestedEngineerInterface> = [
+    {
+      title: 'Select',
+      dataIndex: 'select',
+      key: 'select',
+      render: (_, record) => (
+        <Checkbox checked={record?.selected} onChange={(e) => handleCheckboxChange(e, record)} />
+      ),
+    },
     {
       title: 'Resource Name',
       dataIndex: 'resource_name',
@@ -478,26 +686,53 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       sorter: (a, b) => columnsSort(a.assigned_level, b.assigned_level),
     },
     {
-      title: 'Total Availability(%)',
+      title: 'Current Utilization(%)',
       dataIndex: 'total_fte',
       key: 'total_fte',
       sorter: (a, b) => columnsSort(a.total_fte, b.total_fte),
     },
+    // {
+    //   title: 'Left Availability(%)',
+    //   dataIndex: 'available_fte',
+    //   key: 'available_fte',
+    //   render: (text, record) => AvailibilityOptions(text, record),
+    //   // sorter: (a, b) => columnsSort(a.available_fte, b.available_fte),
+    // },
     {
-      title: 'Current Availability(%)',
+      title: 'Required Allocation(%)',
       dataIndex: 'available_fte',
       key: 'available_fte',
-      sorter: (a, b) => columnsSort(a.available_fte, b.available_fte),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (element) => (
-        <Space size='middle'>
-          {<a onClick={() => renderAssignResourceModal(element)}>Assign Resource</a>}
-        </Space>
+      render: (text, record) => (
+        <InputNumber
+          min={1}
+          max={100}
+          defaultValue={0}
+          onChange={(e) => handleNumericInputChange(e, record)}
+        />
       ),
     },
+    {
+      title: 'Start Date',
+      dataIndex: 'startDate',
+      key: 'startDate',
+      render: () => <DatePicker onChange={(date, record) => handleDateChange(record)} />,
+    },
+    {
+      title: 'Resource Type',
+      dataIndex: 'resource_type',
+      key: 'resource_type',
+      render: (text, record) => renderResourceType(record),
+      // sorter: (a, b) => columnsSort(a.available_fte, b.available_fte),
+    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (element) => (
+    //     <Space size='middle'>
+    //       {<a onClick={() => renderAssignResourceModal(element)}>Assign Resource</a>}
+    //     </Space>
+    //   ),
+    // },
   ];
 
   // const vacationColumnns: ColumnsType<VacationTableInterface> = [
@@ -521,9 +756,150 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   //   },
   // ];
 
+  const handleAssignResources = async () => {
+    let notificationConfig: NotificationHandlerProps = {
+      type: 'success',
+      message: 'Resources Assigned',
+      description: 'Resources have been assigned',
+    };
+    const payload = {
+      project_id: project.id,
+      project_plan_id: selectProjectResource?.projectPlanId,
+      resource_type: selectProjectResource?.type,
+      team_name: selectProjectResource?.team,
+      level: selectProjectResource?.level,
+      fte: selectProjectResource?.fte,
+      team_id: selectProjectResource?.teamId,
+      selectedEngineers: suggestedEngineers.filter((item: any) => item.selected),
+    };
+
+    const response: any = await assignProjectResources(payload);
+
+    if (response) {
+      (resetRef?.current as any)?.click();
+      setOpenModal(false);
+      await fetchResources();
+      setOpenAssignResourceModal(false);
+    } else {
+      notificationConfig = {
+        type: 'error',
+        message: 'Error Occured',
+        description: 'Error in Resource assignment',
+      };
+    }
+    setLoader(false);
+    notificationHandler(notificationConfig);
+
+    // Close the modal
+    setOpenModal(false);
+  };
+
+  // // Custom function for handling Cancel button click
+  const handleCancelAssignResources = () => {
+    setOpenModal(false);
+  };
+
+  const cardStyle = {
+    border: '1px solid rgba(0, 0, 0, 0.1)', // Transparent border with a 0.1 opacity
+    borderRadius: '8px', // Add rounded corners
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Add a box shadow,
+    height: '100%',
+  };
+
+  const iconStyle = {
+    color: '#1d39c4',
+    marginLeft: '10px',
+    fontSize: '18px',
+  };
+
   return (
     <>
-      <Col>
+      <div>
+        <ButtonLayout
+          title={
+            <TypographyTitle level={3} style={{ marginTop: '0px', marginBottom: '0px' }}>
+              Project Details
+            </TypographyTitle>
+          }
+          left={[]}
+          right={[
+            {
+              children: 'Edit Project',
+              props: {
+                type: 'primary',
+                // eslint-disable-next-line react/jsx-no-undef
+                icon: <PlusOutlined />,
+                onClick: () => navigate('/edit-project?id=' + project?.id),
+              },
+            },
+          ]}
+        />
+        <Row gutter={16}>
+          {/* First Card */}
+          <Col span={8}>
+            <Card
+              size='small'
+              title={
+                <span>
+                  {'Info'}
+                  <InfoCircleOutlined style={iconStyle} />
+                </span>
+              }
+              style={cardStyle}
+            >
+              <div style={{ padding: '0px' }}>
+                <p>
+                  Project Name: <strong>{project?.name}</strong>{' '}
+                </p>
+                <p>
+                  {' '}
+                  Client: <strong>{project?.client?.name}</strong>{' '}
+                </p>
+              </div>
+            </Card>
+          </Col>
+
+          {/* Second Card */}
+          <Col span={8}>
+            <Card
+              size='small'
+              title={
+                <span>
+                  {'Timeline'}
+                  <ScheduleOutlined style={iconStyle} />
+                </span>
+              }
+              style={cardStyle}
+            >
+              <p>
+                Start Date: <strong>{project?.start_date}</strong>{' '}
+              </p>
+              <p>
+                End Date: <strong>{project?.end_date}</strong>{' '}
+              </p>
+            </Card>
+          </Col>
+
+          {/* Third Card */}
+          <Col span={8}>
+            <Card
+              size='small'
+              title={
+                <span>
+                  {'Time Remaining'}
+                  <HourglassOutlined style={iconStyle} />
+                </span>
+              }
+              style={cardStyle}
+            >
+              <TypographyText>
+                <strong>{projectCompletionTime}</strong>
+              </TypographyText>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+      {/* <Col>
         <Row gutter={12} style={{ marginBottom: 16 }}>
           <Col span={16}>
             <Space direction='vertical' size='small'>
@@ -574,7 +950,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
             </Row>
           </Col>
         </Row>
-      </Col>
+      </Col> */}
       {/* <div className='drawer-components'>
             <TypographyTitle level={5} style={{ marginBottom: '1em' }}>
               Vacations
@@ -590,22 +966,22 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       </div> */}
       <ButtonLayout
         title={
-          <TypographyTitle level={3} style={{ marginTop: '0px', marginBottom: '0px' }}>
-            Manage Resources for {project?.name}
+          <TypographyTitle level={3} style={{ marginTop: '30px', marginBottom: '0px' }}>
+            Manage Resources
           </TypographyTitle>
         }
         left={[]}
-        // right={[]}
-        right={[
-          {
-            children: 'Add Project Resource',
-            props: {
-              type: 'primary',
-              icon: <PlusOutlined />,
-              onClick: () => handleAddProjectResource(),
-            },
-          },
-        ]}
+        right={[]}
+        // right={[
+        //   {
+        //     children: 'Add Project Resource',
+        //     props: {
+        //       type: 'primary',
+        //       icon: <PlusOutlined />,
+        //       onClick: () => handleAddProjectResource(),
+        //     },
+        //   },
+        // ]}
       />
       {/* <Row style={{ marginBottom: 8 }}>
         <TypographyTitle level={4}>Manage Resources for {project?.name}</TypographyTitle>
@@ -615,9 +991,11 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
           title='Manage Resources'
           centered
           visible={openModal}
-          onOk={() => setOpenModal(false)}
-          onCancel={() => setOpenModal(false)}
-          width={1000}
+          onOk={handleAssignResources}
+          onCancel={handleCancelAssignResources}
+          width={1400}
+          okText={'Assign Resource(s)'}
+          destroyOnClose={true}
         >
           <Table
             columns={suggestedEngineersColumns}
@@ -691,12 +1069,12 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
                   placeholder='Select resource type'
                   options={[
                     {
-                      value: 'Billable',
-                      label: 'Billable',
+                      value: 'Scoped',
+                      label: 'Scoped',
                     },
                     {
-                      value: 'Non-Billable',
-                      label: 'Non-Billable',
+                      value: 'Recurring',
+                      label: 'Recurring',
                     },
                   ]}
                 />
@@ -749,7 +1127,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         </Fragment>
       </Row>
       <>
-        <Fragment>
+        {/* <Fragment>
           <Modal
             title='Add Project Resource'
             centered
@@ -785,36 +1163,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
                     >
                       <DatePicker placeholder='Start Date' />
                     </Form.Item>
-
-                    {/* <TypographyTitle level={5} style={styles.heading}>
-                      Expected Start Date
-                    </TypographyTitle>
-                    <Form.Item
-                      name={'expected_start_date'}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select date',
-                        },
-                      ]}
-                    >
-                      <DatePicker placeholder='Expected Start Date' />
-                    </Form.Item>
-
-                    <TypographyTitle level={5} style={styles.heading}>
-                      Expected End Date
-                    </TypographyTitle>
-                    <Form.Item
-                      name={'expected_end_date'}
-                      rules={[
-                        {
-                          required: false,
-                          message: 'Please select date',
-                        },
-                      ]}
-                    >
-                      <DatePicker placeholder='Expected End Date' />
-                    </Form.Item> */}
                   </Col>
 
                   <Col>
@@ -956,8 +1304,8 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
                         placeholder='Select a resource type...'
                         options={[
                           {
-                            label: 'Billable',
-                            value: 'Billable',
+                            label: 'Scoped',
+                            value: 'Scoped',
                           },
                           {
                             label: 'Additional',
@@ -994,7 +1342,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
               <Divider />
             </Form>
           </Modal>
-        </Fragment>
+        </Fragment> */}
       </>
       <Table
         columns={columns}

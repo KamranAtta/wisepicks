@@ -119,12 +119,12 @@ export default function ProjectTable({ projectQuery }: ProjectTableI) {
       key: 'type',
       filters: [
         {
-          text: 'Billable',
-          value: 'Billable',
+          text: 'Scoped',
+          value: 'Scoped',
         },
         {
-          text: 'Non-Billable',
-          value: 'Non-Billable',
+          text: 'Recurring',
+          value: 'Recurring',
         },
       ],
       filterSearch: true,
@@ -182,13 +182,13 @@ export default function ProjectTable({ projectQuery }: ProjectTableI) {
     // },
     {
       title: 'Start Date',
-      dataIndex: 'expected_start_date',
-      key: 'expectedstartdate',
+      dataIndex: 'start_date',
+      key: 'startdate',
     },
     {
       title: 'End Date',
-      dataIndex: 'expected_end_date',
-      key: 'expectedenddate',
+      dataIndex: 'end_date',
+      key: 'enddate',
     },
     // {
     //   title: 'Action',

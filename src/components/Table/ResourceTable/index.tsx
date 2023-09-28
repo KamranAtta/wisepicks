@@ -13,6 +13,7 @@ import {
   EMPLOYMENT_STATUS,
   EMPLOYMENT_UTILIZATION,
 } from '../../../utils/constant';
+import { Link, useLocation } from 'react-router-dom';
 
 const styles = {
   projectContainer: { display: 'flex', justifyContent: 'center' } as React.CSSProperties,
@@ -25,23 +26,29 @@ export default function ResourceTable({
   handleResourceDetail,
 }: // handleAssignProject,
 ResourceTableI) {
+  const location = useLocation();
   const [resources, setResources] = useState<object>([]);
   const [count, setCount] = useState(0);
   const [loader, setLoader] = useState<boolean>(false);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
   const [queryBag, setQueryBag] = useState({});
+  // const [nameParam, setNameParam] = useState<any>('')
   const paginationConfig = {
     current: 1,
     page: 1,
     pageSize: 10,
     total: count,
   };
-
   const [pagination, setPagination] = useState(paginationConfig);
+  const nameParam = new URLSearchParams(location.search);
+  const resourceName = nameParam.get('name');
 
   const prepareQueryBag = (query: any) => {
-    let queryParams = `?name=${query?.name || ''}`;
+    // const nameParam = new URLSearchParams(location.search);
+    // const resourceName = nameParam.get('name');
+    // setNameParam(resourceName);
+    let queryParams = `?name=${query?.name || resourceName || ''}`;
     if (query?.filter?.projects?.length > 0) {
       query?.filter?.projects?.forEach((projectId: string) => {
         queryParams += `&projects[]=${projectId}`;
@@ -104,21 +111,30 @@ ResourceTableI) {
 
   useEffect(() => {
     fetchResources();
-  }, [queryBag]);
+  }, [queryBag, resourceName]);
 
   const renderProjectCell = (array: Array<unknown>) => {
     if (!(array?.length > 0)) {
       return <div>-</div>;
     }
-    const projectNames = array.map((element: any) => element?.value || '');
-    if (projectNames[0] === '') return <div style={styles.projectContainer}>-</div>;
+    const projectNames = array.map((element: any) => {
+      return {
+        key: element?.id || '',
+        value: element?.value || '',
+        percentage: element?.percentage || '',
+      };
+    });
+    // if (projectNames[0] === '') return <div style={styles.projectContainer}>-</div>;
     return (
       <List
         size='small'
         dataSource={projectNames}
         renderItem={(item, index) => (
           <List.Item style={styles.projectContainer} key={index}>
-            {item as React.ReactNode}
+            <Link to={'/assign-resource?id=' + item?.key}>{item.value as React.ReactNode}</Link>
+            <Tag style={{ border: 'none' }} color='geekblue'>
+              {item?.percentage ? item?.percentage + '%' : ''}
+            </Tag>
           </List.Item>
         )}
       />
@@ -216,7 +232,11 @@ ResourceTableI) {
       key: 'projects',
       filters:
         projects?.length > 0
-          ? projects?.map((element: any) => ({ text: element?.name, value: element?.id }))
+          ? projects?.map((element: any) => ({
+              text: element?.name,
+              value: element?.id,
+              percentage: element?.percentage,
+            }))
           : [],
       filterSearch: true,
       filterMultiple: true,

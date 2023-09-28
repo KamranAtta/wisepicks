@@ -18,6 +18,23 @@ export default interface SuggestedEngineerInterface {
   assigned_level: string;
   total_fte: string;
   available_fte: string;
+  selected: boolean;
+  selectedPercentage: string;
+  startDate: string;
+}
+
+export default interface SelectedEngineerInterface {
+  plan_id: string;
+  total_fte_requirement: string;
+  resource_id: string;
+  resource_name: string;
+  team_name: string;
+  assigned_level: string;
+  total_fte: string;
+  available_fte: string;
+  selected: boolean;
+  selectedPercentage: string;
+  startDate: string;
 }
 
 export interface ProjectResourceQueryI {
