@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // ttl:(in milliseconds)
 export function setLocalStorage<T>(key: string, value: T, ttl = 2592000000) {
   const now = new Date();
@@ -17,13 +18,13 @@ export function getLocalStorage(key: string) {
       return null;
     }
     const item = JSON.parse(itemStr);
-    const now = new Date();
+    // const now = new Date();
 
-    if (now.getTime() > item.expiry) {
-      localStorage.removeItem(key);
-      return null;
-    }
-    return item.value;
+    // if (now.getTime() > item.expiry) {
+    //   localStorage.removeItem(key);
+    //   return null;
+    // }
+    return item.access_token;
   } catch (error) {
     return '';
   }

@@ -244,12 +244,12 @@ const CloneProjectForm = () => {
             placeholder='Select a Type'
             options={[
               {
-                label: 'Billable',
-                value: 'Billable',
+                label: 'Scoped',
+                value: 'Scoped',
               },
               {
-                label: 'Non-Billable',
-                value: 'Non-Billable',
+                label: 'Recurring',
+                value: 'Recurring',
               },
             ]}
           ></Select>

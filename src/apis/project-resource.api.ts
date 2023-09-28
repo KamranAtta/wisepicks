@@ -1,4 +1,4 @@
-import { doGet, doPut, doPost, doDelete } from '../utils/request';
+import { doGet, doPut, doPost, doDelete, doPatch } from '../utils/request';
 
 interface ProjResQuery {
   isPlan?: boolean;
@@ -27,6 +27,15 @@ export const allocateResource = async (body: object) => {
 export const updateProjectResource = async (id: string, body: object) => {
   try {
     const response = await doPut(`/project-resources/${id}`, body);
+    return response?.data;
+  } catch (err) {
+    return [];
+  }
+};
+
+export const assignProjectResources = async (body: object) => {
+  try {
+    const response = await doPatch('/project-resources/', body);
     return response?.data;
   } catch (err) {
     return [];
