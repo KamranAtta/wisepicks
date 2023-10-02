@@ -10,6 +10,7 @@ import TypographyTitle from '../../common/Title';
 import { assignResource } from '../../../apis/resources.api';
 import propsInterface from './interfaces/propsInterface';
 import { getProjectList } from '../../../apis/projects.api';
+import { getTeams } from '../../../apis/teams.api';
 import vacationTableInterface from './interfaces/vacationTableInterface';
 import NotificationComponent, { NotificationHandlerProps } from '../../common/Notification';
 
@@ -28,15 +29,21 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
   const [vacationData, setVacationData] = useState<vacationTableInterface[]>([]);
   const [formEndDate] = useState<string>('');
   const [formStartDate] = useState<string>('');
-
+  const [selectedProject, setSelectedProject] = useState<any>('');
   const preFetchData = async () => {
     const projectList = await getProjectList();
     setProjects(projectList);
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+    setSelectedProject(projectId);
   };
 
-  const formDataTransformation = (values: any, resourceData = data as any) => {
+  const formDataTransformation = async (values: any, resourceData = data as any) => {
     const { project, weeklyHours, ...rest } = values;
     let transformedData = { ...rest, projectId: project, fte: weeklyHours, ...rest };
+    if (!transformedData?.projectId) {
+      transformedData = { ...transformedData, projectId: selectedProject };
+    }
     if (transformedData?.startDate) {
       transformedData = {
         ...transformedData,
@@ -55,23 +62,58 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
       ? { ...transformedData, teamId: resourceData?.team_id }
       : transformedData;
     transformedData = resourceData?.assigned_level
-      ? { ...transformedData, level: resourceData?.assigned_level }
+      ? { ...resourceData, level: resourceData?.assigned_level }
       : transformedData;
     transformedData = resourceData?.id
       ? { ...transformedData, resourceId: resourceData?.id }
+      : resourceData?.resource_id
+      ? { ...transformedData, resourceId: resourceData?.resource_id }
       : transformedData;
+    if (!resourceData?.team_id) {
+      if (resourceData?.team_name) {
+        const team = await getTeams([resourceData?.team_name[0]] as any);
+        transformedData.teamId = team.id;
+      }
+    } else {
+      transformedData.teamId = resourceData?.team_id;
+    }
     return transformedData;
   };
 
-  const onFinish = async (values: object) => {
+  const onFinish = async (values: any) => {
     let notificationConfig: NotificationHandlerProps = {
       type: 'success',
       message: 'Resource Assigned',
       description: 'Resource has been assigned',
     };
     setLoader(true);
-    const tranformedValues = formDataTransformation(values);
-    const response = await assignResource(tranformedValues);
+    const tranformedValues = await formDataTransformation({ ...values });
+    const payload = { ...tranformedValues };
+    if (!payload.projectId) {
+      if (selectedProject) {
+        payload.projectId = selectedProject;
+      } else {
+        payload.projectId = values.project;
+      }
+    }
+    if (!payload.fte) {
+      payload.fte = parseInt(values.weeklyHours);
+    }
+    if (!payload?.startDate) {
+      payload.startDate = values?.startDate?.toISOString();
+    }
+    if (!payload?.endDate) {
+      payload.endDate = values?.endDate?.toISOString();
+    }
+    if (!(payload?.expectedDate?.length > 0)) {
+      const expectedDate = values?.expectedDate?.map((date: any) => date?.toISOString());
+      payload.expectedStartDate = expectedDate[0];
+      payload.expectedEndDate = expectedDate[1];
+    }
+    if (!payload.teamId) {
+      payload.teamId = values?.team_id;
+    }
+    const response = await assignResource(payload);
     if (response.statusCode == 201) {
       (resetRef?.current as any)?.click();
     } else {
@@ -158,7 +200,7 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
             form={form}
             labelCol={{ span: 9 }}
             wrapperCol={{ span: 16 }}
-            initialValues={{ resourceName: data?.name }}
+            initialValues={{ resourceName: data?.name, project: selectedProject }}
             autoComplete='off'
             onFinish={onFinish}
           >
@@ -173,6 +215,8 @@ const AssignProject = ({ title, data, open, onClose }: propsInterface) => {
             >
               <Select
                 placeholder='Select a Project'
+                value={selectedProject}
+                disabled={selectedProject ?? false}
                 options={projects?.map((project: any) => ({
                   value: project?.id,
                   label: project?.name,
