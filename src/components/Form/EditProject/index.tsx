@@ -10,11 +10,18 @@ import {
   Row,
   Select,
   Space,
-  Divider,
+  // Divider,
   notification,
 } from 'antd';
 import { Fragment, useState, useEffect } from 'react';
-import { getClients, getSkills, getTeams, getProject, editProject } from '../../../apis/index';
+import {
+  getClients,
+  getSkills,
+  getTeams,
+  getProject,
+  editProject,
+  // getProjectResourceAllocation
+} from '../../../apis/index';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import AddClient from '../../Drawer/AddClient';
@@ -92,6 +99,9 @@ const EditProjectForm = () => {
       });
       return;
     }
+    // const response2: any = await getProjectResourceAllocation(queryParams?.id as string);
+    // console.log('Project Resources', response2.data);
+    // const projectResources = response2?.data;
     const data = response.data;
     data;
     data?.start_date != null ? (data.start_date = moment(data.start_date)) : null;
@@ -102,16 +112,7 @@ const EditProjectForm = () => {
     data?.expected_end_date != null
       ? (data.expected_end_date = moment(data.expected_end_date))
       : null;
-    data?.projectResources.forEach((element: any) => {
-      element.start_date != null ? (element.start_date = moment(element.start_date)) : null;
-      element.end_date != null ? (element.end_date = moment(element.end_date)) : null;
-      element.expected_start_date != null
-        ? (element.expected_start_date = moment(element.expected_start_date))
-        : null;
-      element.expected_end_date != null
-        ? (element.expected_end_date = moment(element.expected_end_date))
-        : null;
-    });
+    // data.projectResources = projectResources;
 
     ('data is');
     data;
@@ -148,21 +149,13 @@ const EditProjectForm = () => {
       values.start_date != undefined ? values.start_date.format(FORMATS.DATE_FORMAT) : null;
     values.end_date =
       values.end_date != undefined ? values.end_date.format(FORMATS.DATE_FORMAT) : null;
-    values.expected_start_date =
-      values.expected_start_date != undefined
-        ? values.expected_start_date.format(FORMATS.DATE_FORMAT)
-        : null;
-    values.expected_end_date =
-      values.expected_end_date != undefined
-        ? values.expected_end_date.format(FORMATS.DATE_FORMAT)
-        : null;
 
-    values.projectResources.forEach((element: any) => {
-      element.start_date = element.start_date?.format(FORMATS.DATE_FORMAT);
-      element.end_date = element.end_date?.format(FORMATS.DATE_FORMAT);
-      element.expected_start_date = element.expected_start_date?.format(FORMATS.DATE_FORMAT);
-      element.expected_end_date = element.expected_end_date?.format(FORMATS.DATE_FORMAT);
-    });
+    // values.projectResources.forEach((element: any) => {
+    //   element.start_date = element.start_date?.format(FORMATS.DATE_FORMAT);
+    //   element.end_date = element.end_date?.format(FORMATS.DATE_FORMAT);
+    //   element.expected_start_date = element.expected_start_date?.format(FORMATS.DATE_FORMAT);
+    //   element.expected_end_date = element.expected_end_date?.format(FORMATS.DATE_FORMAT);
+    // });
     values;
     values = { ...values, id: projectId };
     const response: response = await editProject(values);
@@ -332,11 +325,6 @@ const EditProjectForm = () => {
           <Form.List name='projectResources'>
             {(fields, { add, remove }) => (
               <>
-                <Form.Item>
-                  <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
-                    Add a Resource
-                  </Button>
-                </Form.Item>
                 {fields.map(({ key, name, ...restField }) => (
                   <>
                     <Fragment>
@@ -550,10 +538,14 @@ const EditProjectForm = () => {
                           </Col>
                         </Row>
                       </Space>
-                      <Divider />
                     </Fragment>
                   </>
                 ))}
+                <Form.Item>
+                  <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
+                    Add a Resource
+                  </Button>
+                </Form.Item>
               </>
             )}
           </Form.List>

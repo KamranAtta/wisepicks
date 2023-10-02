@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable camelcase */
 import type { ColumnsType } from 'antd/es/table';
@@ -210,24 +211,24 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
 
     const allocationResources = await getProjectResourceAllocation(projectId as string);
     const resourceList = [];
-    // for (const projectResource of allocationResources.data) {
-    const r = {
-      key: allocationResources.data.project_resource_id,
-      name: allocationResources.data?.resource_name,
-      team: allocationResources.data?.team_name,
-      level: allocationResources.data?.level,
-      fte: allocationResources.data?.fte,
-      joiningDate: allocationResources.data?.start_date,
-      type: allocationResources.data?.resource_type,
-      status: '',
-      resourceId: allocationResources.data?.resource_id,
-      projectResourceId: allocationResources.data?.project_resource_id,
-      assignedResources: allocationResources.data?.assigned_resources,
-      projectPlanId: allocationResources.data?.project_plan_id,
-      teamId: allocationResources.data?.team_id,
-    };
-    resourceList.push(r);
-    // }/
+    for (const projectResource of allocationResources.data) {
+      const r = {
+        key: projectResource?.project_resource_id,
+        name: projectResource?.resource_name,
+        team: projectResource?.team_name,
+        level: projectResource?.level,
+        fte: projectResource?.fte,
+        joiningDate: projectResource?.start_date,
+        type: projectResource?.resource_type,
+        status: '',
+        resourceId: projectResource?.resource_id,
+        projectResourceId: projectResource?.project_resource_id,
+        assignedResources: projectResource?.assigned_resources,
+        projectPlanId: projectResource?.project_plan_id,
+        teamId: projectResource?.team_id,
+      };
+      resourceList.push(r);
+    }
     setResources(resourceList);
     // setVacationData([]);
     setLoader(false);
@@ -443,6 +444,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   // };
 
   const renderCustomCell = (objects: Array<any>) => {
+    console.log(objects)
     if (objects.length > 0) {
       return (
         <List
@@ -972,16 +974,16 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         }
         left={[]}
         right={[]}
-        // right={[
-        //   {
-        //     children: 'Add Project Resource',
-        //     props: {
-        //       type: 'primary',
-        //       icon: <PlusOutlined />,
-        //       onClick: () => handleAddProjectResource(),
-        //     },
-        //   },
-        // ]}
+      // right={[
+      //   {
+      //     children: 'Add Project Resource',
+      //     props: {
+      //       type: 'primary',
+      //       icon: <PlusOutlined />,
+      //       onClick: () => handleAddProjectResource(),
+      //     },
+      //   },
+      // ]}
       />
       {/* <Row style={{ marginBottom: 8 }}>
         <TypographyTitle level={4}>Manage Resources for {project?.name}</TypographyTitle>

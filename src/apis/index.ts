@@ -20,7 +20,7 @@ import {
 } from './resources.api';
 import { getSkills } from './skills.api';
 import { getTeams } from './teams.api';
-import { getProjectResource } from './project-resource.api';
+import { getProjectResource, getProjectResourceAllocation } from './project-resource.api';
 export {
   getResource,
   getResources,
@@ -42,4 +42,5 @@ export {
   getProject,
   getAllResourcesSorted,
   getProjectResource,
+  getProjectResourceAllocation,
 };
