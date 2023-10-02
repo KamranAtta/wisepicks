@@ -7,7 +7,7 @@ import { Row, Col, Steps, Collapse, Table, StepProps, List, Space, notification 
 
 import { columnsSort } from '../Table/utils';
 import { StepsProps } from './interfaces/StepsInterface';
-import { getResources, getProject, getAllResourcesSorted } from '../../apis';
+import { getProject, getAllResourcesSorted } from '../../apis';
 import ResourcesInterface from './interfaces/resourceInterface';
 import AssignProject from '../Drawer/AssignProject/AssignProject';
 import { resourceListDataType } from '../Table/ResourceTable/interfaces/resourceListInterface';
@@ -69,8 +69,8 @@ export default function StepsComponent({ id }: StepsProps) {
   };
 
   const showFormDrawer = (element: any) => {
-    // setFormOpen(true);
-    // setResourceData(element as SortedResourcesInterface);
+    setFormOpen(true);
+    setResourceData(element as resourceListDataType);
   };
 
   const renderCustomCell = (object: Array<SortedResourcesProjectsInterface>) => {
