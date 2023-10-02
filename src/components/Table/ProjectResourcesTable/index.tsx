@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable camelcase */
 import type { ColumnsType } from 'antd/es/table';
@@ -13,36 +12,25 @@ import {
   Select,
   Button,
   notification,
-  // Input,
-  // Divider,
   Checkbox,
   List,
   Tag,
   Card,
-  // Input,
   InputNumber,
 } from 'antd';
-// import {
-//   PlusOutlined,
-//   MinusCircleOutlined
-// } from '@ant-design/icons';
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-// import { MESSAGES } from '../../../utils/constant';
 import { columnsSort } from '../utils';
 import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import SuggestedEngineerInterface from './interface';
 // import VacationTableInterface from '../../../components/Drawer/AssignProject/interfaces/vacationTableInterface';
 import { getProjectDetails } from '../../../apis';
-// import { getSkills } from '../../../apis/skills.api';
-// import { getTeams } from '../../../apis/teams.api';
 import {
   removeProjectResource,
   updateProjectResource,
   getProjectResourceAllocation,
   getSuggestedEngineers,
   assignResource,
-  // allocateResource,
   assignProjectResources,
 } from '../../../apis/project-resource.api';
 import TypographyTitle from '../../common/Title';
@@ -60,16 +48,8 @@ import {
   ScheduleOutlined,
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-// import Loader from '../../common/Loader';
-// import Title from 'antd/lib/typography/Title';
-// import { skill } from '../../../components/Form/interfaces/skillInterface';
-// import { team } from '../../../components/Form/interfaces/teamInterface';
+import dayjs from 'dayjs';
 
-// interface response {
-//   statusCode: number;
-//   err: any;
-//   data: [];
-// }
 
 const styles = {
   datePicker: { width: '100%' } as React.CSSProperties,
@@ -98,17 +78,6 @@ const styles = {
   },
   addResourceDateStyle: { minWidth: '100px', width: 'auto' },
 };
-
-// const formItemLayout = {
-//   labelCol: {
-//     span: 6,
-//   },
-//   wrapperCol: {
-//     xs: { span: 13 },
-//     sm: { span: 13 },
-//     lg: { span: 13 },
-//   },
-// };
 
 const hourAvailability = [
   {
@@ -144,22 +113,11 @@ const resourceTypes = [
   },
 ];
 
-// const selectedEngineersDefault = {
-//   assigned_level: '',
-//   available_fte: '',
-//   resource_id: '',
-//   resource_name: '',
-//   team_id: '',
-//   team_name: '',
-//   total_fte: '',
-// };
-
-// const initialValues = {
-//   start_date: null,
-//   end_date: null,
-//   expected_start_date: null,
-//   expected_end_date: null,
-// };
+const assignResourceDefaults = {
+  resource_type: 'Planned',
+  fte: 10,
+  start_date: dayjs(new Date())
+}
 
 export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
   const navigate = useNavigate();
@@ -176,21 +134,15 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   const { contextHolder, notificationHandler } = NotificationComponent();
   const [availabilityOptions] = useState<any>(hourAvailability);
   const [projectResourceId, setProjectResourceId] = useState<string>('');
-  // const [technologies, setTechnologies] = useState<skill[]>([]);
-  // const [teams, setTeams] = useState<team[]>([]);
-  // const [openAddProjectResourceModal, setOpenAddProjectResourceModal] = useState<boolean>(false);
   const [projectCompletionTime, setProjectCompletionTime] = useState<any>();
   const now = new Date();
   const [selectProjectResource, setSelectProjectResource] = useState<any>({});
 
   function convertMillisecondsToDaysHours(milliseconds: number) {
-    // Calculate the number of days
     const d = Math.floor(milliseconds / (24 * 60 * 60 * 1000));
     const days = d > 1 ? d + ' days' : d + ' day';
-    // Calculate the remaining milliseconds after subtracting days
     const remainingMilliseconds = milliseconds % (24 * 60 * 60 * 1000);
 
-    // Calculate the number of hours
     const h = Math.floor(remainingMilliseconds / (60 * 60 * 1000));
     const hours = h > 1 ? h + ' hours' : h + ' hour';
 
@@ -444,7 +396,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   // };
 
   const renderCustomCell = (objects: Array<any>) => {
-    console.log(objects)
     if (objects.length > 0) {
       return (
         <List
@@ -580,7 +531,12 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const engineers = [...suggestedEngineers];
     const updatedData = engineers.map((item) => {
       if (item.resource_id === record.resource_id) {
-        return { ...item, selected: e.target.checked };
+        return {
+          ...item,
+          selected: e.target.checked,
+          selected_resource_type: assignResourceDefaults.resource_type,
+          selectedPercentage: assignResourceDefaults.fte
+        };
       }
       return item;
     });
@@ -616,7 +572,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
 
   const handleResourceTypeChange = (value: any, record: any) => {
     const updatedData = suggestedEngineers.map((item: any) => {
-      if (item.selected && item.resource_id === record.resource_id) {
+      if (item.resource_id === record.resource_id) {
         return { ...item, selected_resource_type: value };
       }
       return item;
@@ -627,7 +583,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   const renderResourceType = (record: any) => {
     return (
       <Select
-        defaultValue={'Select type '}
+        defaultValue={'Planned'}
         onChange={(value) => handleResourceTypeChange(value, record)}
       >
         {resourceTypes.map((option: any) => (
@@ -652,7 +608,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
 
   const handleNumericInputChange = (input: any, record: any) => {
     const updatedData = suggestedEngineers.map((item: any) => {
-      if (item.selected && item.resource_id === record.resource_id) {
+      if (item.resource_id === record.resource_id) {
         return { ...item, selectedPercentage: input };
       }
       return item;
@@ -706,9 +662,9 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       key: 'available_fte',
       render: (text, record) => (
         <InputNumber
-          min={1}
+          min={10}
           max={100}
-          defaultValue={0}
+          defaultValue={100 - parseInt(record.total_fte)}
           onChange={(e) => handleNumericInputChange(e, record)}
         />
       ),
@@ -717,24 +673,14 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       title: 'Start Date',
       dataIndex: 'startDate',
       key: 'startDate',
-      render: () => <DatePicker onChange={(date, record) => handleDateChange(record)} />,
+      render: () => <DatePicker defaultValue={dayjs(new Date())} onChange={(date, record) => handleDateChange(record)} />,
     },
     {
       title: 'Resource Type',
       dataIndex: 'resource_type',
       key: 'resource_type',
       render: (text, record) => renderResourceType(record),
-      // sorter: (a, b) => columnsSort(a.available_fte, b.available_fte),
     },
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (element) => (
-    //     <Space size='middle'>
-    //       {<a onClick={() => renderAssignResourceModal(element)}>Assign Resource</a>}
-    //     </Space>
-    //   ),
-    // },
   ];
 
   // const vacationColumnns: ColumnsType<VacationTableInterface> = [
@@ -791,27 +737,25 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     }
     setLoader(false);
     notificationHandler(notificationConfig);
-
-    // Close the modal
     setOpenModal(false);
   };
 
-  // // Custom function for handling Cancel button click
   const handleCancelAssignResources = () => {
     setOpenModal(false);
   };
 
   const cardStyle = {
-    border: '1px solid rgba(0, 0, 0, 0.1)', // Transparent border with a 0.1 opacity
-    borderRadius: '8px', // Add rounded corners
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Add a box shadow,
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     height: '100%',
   };
 
   const iconStyle = {
-    color: '#1d39c4',
+    color: '#adc6ff',
     marginLeft: '10px',
-    fontSize: '18px',
+    fontSize: '21px',
+    strokeWidth: '15px',
   };
 
   return (
@@ -829,7 +773,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
               children: 'Edit Project',
               props: {
                 type: 'primary',
-                // eslint-disable-next-line react/jsx-no-undef
                 icon: <PlusOutlined />,
                 onClick: () => navigate('/edit-project?id=' + project?.id),
               },
@@ -901,71 +844,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
           </Col>
         </Row>
       </div>
-      {/* <Col>
-        <Row gutter={12} style={{ marginBottom: 16 }}>
-          <Col span={16}>
-            <Space direction='vertical' size='small'>
-              <Row gutter={12}>
-                <Col span={12}>
-                  <TypographyTitle level={5}>Project Name</TypographyTitle>
-                  <TypographyText>{project?.name}</TypographyText>
-                </Col>
-                <Col span={8}>
-                  <TypographyTitle level={5}>Client Name</TypographyTitle>
-                  <TypographyText>{project?.client?.name}</TypographyText>
-                </Col>
-              </Row>
-
-              <Row gutter={12}>
-                <Col span={12}>
-                  <TypographyTitle level={5}>Start Date</TypographyTitle>
-                  <TypographyText>{project?.start_date || '-'}</TypographyText>
-                </Col>
-                <Col span={12}>
-                  <TypographyTitle level={5}>End Date</TypographyTitle>
-                  <TypographyText>{project?.end_date || '-'}</TypographyText>
-                </Col>
-              </Row>
-
-              <Row gutter={12}>
-                <Col span={12}>
-                  <TypographyTitle level={5}>Expected Start Date</TypographyTitle>
-                  <TypographyText>{project?.expected_start_date || '-'}</TypographyText>
-                </Col>
-                <Col span={12}>
-                  <TypographyTitle level={5}>Expected End Date</TypographyTitle>
-                  <TypographyText>{project?.expected_end_date || '-'}</TypographyText>
-                </Col>
-              </Row>
-            </Space>
-          </Col>
-        </Row>
-      </Col>
-      <Col>
-        <Row gutter={12} style={{ marginTop: 16 }}>
-          <Col span={16}>
-            <Row gutter={12}>
-              <Col span={12}>
-                <TypographyTitle level={5}>Project Completion Time</TypographyTitle>
-                <TypographyText>{projectCompletionTime}</TypographyText>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Col> */}
-      {/* <div className='drawer-components'>
-            <TypographyTitle level={5} style={{ marginBottom: '1em' }}>
-              Vacations
-            </TypographyTitle>
-            <Table
-              columns={vacationColumnns}
-              dataSource={vacationData}
-              bordered
-              rowClassName={(record) =>
-                Date.parse(record.endDate) < Date.parse(new Date().toString()) ? 'gray' : 'black'
-              }
-            ></Table>
-      </div> */}
       <ButtonLayout
         title={
           <TypographyTitle level={3} style={{ marginTop: '30px', marginBottom: '0px' }}>
@@ -974,20 +852,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         }
         left={[]}
         right={[]}
-      // right={[
-      //   {
-      //     children: 'Add Project Resource',
-      //     props: {
-      //       type: 'primary',
-      //       icon: <PlusOutlined />,
-      //       onClick: () => handleAddProjectResource(),
-      //     },
-      //   },
-      // ]}
       />
-      {/* <Row style={{ marginBottom: 8 }}>
-        <TypographyTitle level={4}>Manage Resources for {project?.name}</TypographyTitle>
-      </Row> */}
       <>
         <Modal
           title='Manage Resources'
@@ -1041,11 +906,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
                   disabled
                 />
               </Form.Item>
-
-              {/* <Form.Item label='Project Name' name='project'>
-                  <Select value={project?.name} disabled/>
-                </Form.Item> */}
-
               <Form.Item
                 label='Project Name'
                 name='projectId'
@@ -1128,224 +988,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
           </Modal>
         </Fragment>
       </Row>
-      <>
-        {/* <Fragment>
-          <Modal
-            title='Add Project Resource'
-            centered
-            visible={openAddProjectResourceModal}
-            onCancel={handleOpenProjectResourceCancel}
-            footer={null}
-            width={800}
-          >
-            {contextHolder}
-            <Form
-              name='projectAdditionalResource'
-              form={form}
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 18 }}
-              autoComplete='off'
-              onFinish={onAddProjectResource}
-            >
-              <Space style={{ display: 'flex', marginBottom: 20, marginTop: 20 }} align='baseline'>
-                <Row gutter={10}>
-                  <Col>
-                    <Form.Item name={'resource_name'}>
-                      <Input placeholder='Resource Name' disabled />
-                    </Form.Item>
-
-                    <Form.Item
-                      name={'start_date'}
-                      rules={[
-                        {
-                          required: false,
-                          message: 'Please select date',
-                        },
-                      ]}
-                    >
-                      <DatePicker placeholder='Start Date' />
-                    </Form.Item>
-                  </Col>
-
-                  <Col>
-                    <Form.Item
-                      name={'team_id'}
-                      rules={[{ required: true, message: 'Please select a team!' }]}
-                      style={styles.addResourceDateStyle}
-                    >
-                      <Select
-                        placeholder='Select Team'
-                        options={teams.map((item: team) => ({
-                          label: item.name,
-                          value: item.id,
-                          key: item.id,
-                        }))}
-                      ></Select>
-                    </Form.Item>
-
-                    <Form.Item
-                      name={'end_date'}
-                      rules={[
-                        {
-                          required: false,
-                          message: 'Please select date',
-                        },
-                      ]}
-                    >
-                      <DatePicker placeholder='End Date' />
-                    </Form.Item>
-                  </Col>
-                  <Col>
-                    <Form.Item
-                      name={'skills_id'}
-                      rules={[{ required: true, message: 'Please select skills' }]}
-                      style={styles.addResourceDateStyle}
-                    >
-                      <Select
-                        mode='multiple'
-                        placeholder='Select Technologies'
-                        options={technologies.map((item: skill) => ({
-                          label: item.name,
-                          value: item.id,
-                          key: item.id,
-                        }))}
-                      ></Select>
-                    </Form.Item>
-                    <Form.Item
-                      name={'fte'}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select weekly allocation hours!',
-                        },
-                      ]}
-                    >
-                      <Select
-                        placeholder='Select Allocation hours...'
-                        options={[
-                          {
-                            label: '10%',
-                            value: 10,
-                          },
-                          {
-                            label: '20%',
-                            value: 20,
-                          },
-                          {
-                            label: '30%',
-                            value: 30,
-                          },
-                          {
-                            label: '40%',
-                            value: 40,
-                          },
-                          {
-                            label: '50%',
-                            value: 50,
-                          },
-                          {
-                            label: '60%',
-                            value: 60,
-                          },
-                          {
-                            label: '70%',
-                            value: 70,
-                          },
-                          {
-                            label: '80%',
-                            value: 80,
-                          },
-                          {
-                            label: '90%',
-                            value: 90,
-                          },
-                          {
-                            label: '100%',
-                            value: 100,
-                          },
-                        ]}
-                      ></Select>
-                    </Form.Item>
-                  </Col>
-                  <Col>
-                    <Form.Item
-                      name={'level'}
-                      rules={[{ required: true, message: 'Please select a designation!' }]}
-                    >
-                      <Select
-                        placeholder='Select a designation...'
-                        options={[
-                          {
-                            label: 'L3 Engineer',
-                            value: 'L3',
-                          },
-                          {
-                            label: 'L4 Engineer',
-                            value: 'L4',
-                          },
-                          {
-                            label: 'L5 Engineer',
-                            value: 'L5',
-                          },
-                          {
-                            label: 'L6 Engineer',
-                            value: 'L6',
-                          },
-                          {
-                            label: 'L7 Engineer',
-                            value: 'L7',
-                          },
-                        ]}
-                      ></Select>
-                    </Form.Item>
-                    <Form.Item
-                      name={'resource_type'}
-                      rules={[{ required: true, message: 'Please select a resource type!' }]}
-                    >
-                      <Select
-                        placeholder='Select a resource type...'
-                        options={[
-                          {
-                            label: 'Scoped',
-                            value: 'Scoped',
-                          },
-                          {
-                            label: 'Additional',
-                            value: 'Additional',
-                          },
-                          {
-                            label: 'Bench',
-                            value: 'Bench',
-                          },
-                        ]}
-                      ></Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Space>
-              <Space direction='horizontal' style={styles.center}>
-                <Row gutter={24}>
-                  <Col>
-                    <Form.Item>
-                      <Button type='default' htmlType='reset'>
-                        Reset
-                      </Button>
-                    </Form.Item>
-                  </Col>
-                  <Col>
-                    <Form.Item>
-                      <Button type='primary' htmlType='submit'>
-                        Add Resource
-                      </Button>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Space>
-              <Divider />
-            </Form>
-          </Modal>
-        </Fragment> */}
-      </>
       <Table
         columns={columns}
         dataSource={resources as ProjectResourcesInterface[]}
