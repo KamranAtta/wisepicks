@@ -95,24 +95,10 @@ export default function ProjectTable({ projectQuery }: ProjectTableI) {
       key: 'resources',
       render: (_, record) => (
         <span>
-          {countAllocatedResources(record.projectResources) +
-            ' / ' +
-            record.projectResources.length}
+          {`${record.projectResources.length} / ${record.projectPlannedResources.length}`}
         </span>
       ),
     },
-    // {
-    //   title: (
-    //     <>
-    //       <span>{'Hours'}</span>
-    //       <br />
-    //       <span>{'(Allocated / Planned)'}</span>
-    //     </>
-    //   ),
-    //   dataIndex: 'hours',
-    //   key: 'hours',
-    //   render: (text, record) => <span>{record.allocatedHours + ' / ' + record.plannedHours}</span>,
-    // },
     {
       title: 'Project Type',
       dataIndex: 'project_type',
@@ -244,15 +230,15 @@ export default function ProjectTable({ projectQuery }: ProjectTableI) {
   //   );
   // };
 
-  const countAllocatedResources = (object: object[]) => {
-    let count = 0;
-    object.forEach((element: any) => {
-      if (element.resource_id != null) {
-        count++;
-      }
-    });
-    return count;
-  };
+  // const countAllocatedResources = (object: object[]) => {
+  //   let count = 0;
+  //   object.forEach((element: any) => {
+  //     if (element.resource_id != null) {
+  //       count++;
+  //     }
+  //   });
+  //   return count;
+  // };
 
   useEffect(() => {
     setQueryBag((prev) => ({
