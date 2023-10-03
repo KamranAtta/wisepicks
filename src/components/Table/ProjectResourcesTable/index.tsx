@@ -50,7 +50,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-
 const styles = {
   datePicker: { width: '100%' } as React.CSSProperties,
   center: {
@@ -116,8 +115,8 @@ const resourceTypes = [
 const assignResourceDefaults = {
   resource_type: 'Planned',
   fte: 10,
-  start_date: dayjs(new Date())
-}
+  start_date: dayjs(new Date()),
+};
 
 export default function ProjectResourcesTable({ resourceQuery }: ProjectResourceTableI) {
   const navigate = useNavigate();
@@ -534,8 +533,9 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         return {
           ...item,
           selected: e.target.checked,
-          selected_resource_type: item.selected_resource_type ?? assignResourceDefaults.resource_type,
-          selectedPercentage: item.selectedPercentage ?? assignResourceDefaults.fte
+          selected_resource_type:
+            item.selected_resource_type ?? assignResourceDefaults.resource_type,
+          selectedPercentage: item.selectedPercentage ?? assignResourceDefaults.fte,
         };
       }
       return item;
@@ -673,7 +673,12 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       title: 'Start Date',
       dataIndex: 'startDate',
       key: 'startDate',
-      render: () => <DatePicker defaultValue={dayjs(new Date())} onChange={(date, record) => handleDateChange(record)} />,
+      render: () => (
+        <DatePicker
+          defaultValue={dayjs(new Date())}
+          onChange={(date, record) => handleDateChange(record)}
+        />
+      ),
     },
     {
       title: 'Resource Type',

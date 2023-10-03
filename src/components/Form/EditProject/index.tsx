@@ -201,12 +201,16 @@ const EditProjectForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name='client' label='Client Name' rules={[{ required: true, message: 'Please select a client or add one!' }]}>
+        <Form.Item
+          name='client'
+          label='Client Name'
+          rules={[{ required: true, message: 'Please select a client or add one!' }]}
+        >
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
                 name='client_id'
-              // rules={[{ required: true, message: 'Please select a client or add one!' }]}
+                // rules={[{ required: true, message: 'Please select a client or add one!' }]}
               >
                 <Select
                   options={clients.map((client: client) => ({
