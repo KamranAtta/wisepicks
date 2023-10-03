@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable camelcase */
 import type { ColumnsType } from 'antd/es/table';
@@ -42,6 +44,8 @@ import {
 } from '../../../utils/constant';
 import ButtonLayout from '../../../components/ButtonLayout';
 import {
+  DeleteOutlined,
+  EditOutlined,
   HourglassOutlined,
   InfoCircleOutlined,
   PlusOutlined,
@@ -208,16 +212,39 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     setOpenModal(true);
   };
 
-  const removeResourcce = async (data: any) => {
+  const removeResource = async (data: any) => {
     setLoader(true);
-    const id = data.key;
-    const response = await removeProjectResource(id, {});
+    // const id = data.key;
+    let notificationConfig: NotificationHandlerProps = {
+      type: 'success',
+      message: 'Resources Assignment Removed',
+      description: 'Resources have been unallocated from the plan',
+    };
+
+    const payload = {
+      project_id: project.id,
+      project_plan_id: data?.projectPlanId,
+      selectedEngineers: [],
+    };
+
+    const response: any = await assignProjectResources(payload);
+
     if (response) {
+      (resetRef?.current as any)?.click();
+      setOpenModal(false);
       await fetchResources();
-      notification.open({
-        message: MESSAGES.RESOURCE_REMOVE_SUCCESS,
-      });
+      setOpenAssignResourceModal(false);
+    } else {
+      notificationConfig = {
+        type: 'error',
+        message: 'Error Occured',
+        description: 'Error in Resource assignment',
+      };
     }
+    setLoader(false);
+    notificationHandler(notificationConfig);
+    setOpenModal(false);
+
     setLoader(false);
   };
 
@@ -515,12 +542,14 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       title: 'Action',
       key: 'action',
       render: (element) => (
-        <Space size='middle'>
-          {element?.resourceId ? (
-            <a onClick={() => removeResourcce(element)}>Remove Resource</a>
-          ) : (
-            <a onClick={() => renderManageResource(element)}>Assign Resource</a>
-          )}
+        <Space size='large'>
+          <a onClick={() => renderManageResource(element)}>
+            <EditOutlined />
+          </a>
+
+          <a onClick={() => removeResource(element)}>
+            <DeleteOutlined style={{ color: 'red' }} />
+          </a>
         </Space>
       ),
     },
