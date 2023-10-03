@@ -7,7 +7,7 @@ import { resourceListDataType } from './interfaces/resourceListInterface';
 import { getAllResources } from '../../../apis/resources.api';
 import { getSkills } from '../../../apis/skills.api';
 import { getProjectList } from '../../../apis/projects.api';
-import { Tags } from './interfaces/Tags.interface';
+// import { Tags } from './interfaces/Tags.interface';
 import {
   ASSIGNED_LEVELS,
   EMPLOYMENT_STATUS,
@@ -141,8 +141,18 @@ ResourceTableI) {
     );
   };
 
-  const renderSkillsList = (skills: Array<Tags>) => {
-    const skillsName = skills?.map((skill) => skill?.value);
+  const renderSkillsList = (skillIds: any) => {
+    const skls = skills.filter((obj: any) => skillIds.includes(obj?.id));
+    const skillsName = skls?.map((skill: any) => skill?.name);
+    return (
+      <div style={styles.skillContainer}>
+        {skillsName.map((name, index) => (
+          <Tag key={index} style={{ border: 'none' }} color='geekblue'>
+            {name}
+          </Tag>
+        ))}
+      </div>
+    );
     return <div style={styles.skillContainer}>{skillsName?.join(',')}</div>;
   };
 
