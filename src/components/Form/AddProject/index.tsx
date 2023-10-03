@@ -194,7 +194,12 @@ const AddProjectForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name='client' label='Client Name'>
+        <Form.Item name='client' label='Client Name' rules={[
+          {
+            required: true,
+            message: 'Please enter a name for the Project!',
+          },
+        ]}>
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item

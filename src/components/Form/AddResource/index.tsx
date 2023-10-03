@@ -168,7 +168,11 @@ const AddResourceForm = () => {
           </Form.Item>
         </Form.Item>
 
-        <Form.Item name='team' label='Select Team'>
+        <Form.Item
+          name='team'
+          label='Select Team'
+          rules={[{ required: true, message: 'Please select a team from the dropdown!' }]}
+        >
           <Form.Item
             name='team_id'
             rules={[{ required: true, message: 'Please select a team from the dropdown!' }]}
@@ -180,11 +184,11 @@ const AddResourceForm = () => {
                 value: item.id,
                 key: item.id,
               }))}
-              // options={clients.map((client: client) => ({
-              //   label: client.name,
-              //   value: client.id,
-              //   key: client.id,
-              // }))}
+            // options={clients.map((client: client) => ({
+            //   label: client.name,
+            //   value: client.id,
+            //   key: client.id,
+            // }))}
             />
           </Form.Item>
         </Form.Item>
@@ -261,169 +265,49 @@ const AddResourceForm = () => {
           </Form.Item>
         </Form.Item>
 
-        <Form.Item name='skills' label='Select Skills'>
-          <Form.Item
-            name={['skill_ids']}
-            rules={[{ required: true, message: 'Please select skills' }]}
-          >
-            <Select
-              mode='multiple'
-              placeholder='Select Technologies'
-              options={technologies.map((item: skill) => ({
-                label: item.name,
-                value: item.id,
-                key: item.id,
-              }))}
-            ></Select>
-          </Form.Item>
+        <Form.Item name='skills' label='Select Skills' rules={[{ required: true, message: 'Please select skills' }]}>
+          <Select
+            mode='multiple'
+            placeholder='Select Technologies'
+            options={technologies.map((item: skill) => ({
+              label: item.name,
+              value: item.id,
+              key: item.id,
+            }))}
+          ></Select>
         </Form.Item>
 
-        <Form.Item name='assigned_level' label='Select Designation'>
-          <Form.Item
-            name={'assigned_level'}
-            rules={[{ required: true, message: 'Please select a designation!' }]}
-          >
-            <Select
-              placeholder='Select a designation...'
-              options={[
-                {
-                  label: 'L3 Engineer',
-                  value: 'L3',
-                },
-                {
-                  label: 'L4 Engineer',
-                  value: 'L4',
-                },
-                {
-                  label: 'L5 Engineer',
-                  value: 'L5',
-                },
-                {
-                  label: 'L6 Engineer',
-                  value: 'L6',
-                },
-                {
-                  label: 'L7 Engineer',
-                  value: 'L7',
-                },
-              ]}
-            ></Select>
-          </Form.Item>
+        <Form.Item
+          name={'assigned_level'}
+          label='Select Designation'
+          rules={[{ required: true, message: 'Please select a designation!' }]}
+        >
+          <Select
+            placeholder='Select a designation...'
+            options={[
+              {
+                label: 'L3 Engineer',
+                value: 'L3',
+              },
+              {
+                label: 'L4 Engineer',
+                value: 'L4',
+              },
+              {
+                label: 'L5 Engineer',
+                value: 'L5',
+              },
+              {
+                label: 'L6 Engineer',
+                value: 'L6',
+              },
+              {
+                label: 'L7 Engineer',
+                value: 'L7',
+              },
+            ]}
+          ></Select>
         </Form.Item>
-
-        {/* <Form.Item label='Resource Details'>
-          <Row>
-            <Col>
-              <Form.Item
-                name='start_date'
-                rules={[
-                  {
-                    required: false,
-                    message: 'Please select date',
-                  },
-                ]}
-              >
-                <DatePicker placeholder='Start Date' />
-              </Form.Item>
-            </Col>
-            <Col style={styles.padding}>
-              <Form.Item
-                name='end_date'
-                rules={[
-                  {
-                    required: false,
-                    message: 'Please select date',
-                  },
-                ]}
-              >
-                <DatePicker placeholder='End Date' />
-              </Form.Item>
-            </Col>
-            <Col style={styles.padding}>
-              <Form.Item
-                name='expected_start_date'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select date',
-                  },
-                ]}
-              >
-                <DatePicker placeholder='Expected Start Date' />
-              </Form.Item>
-            </Col>
-            <Col style={styles.padding}>
-              <Form.Item
-                name='expected_end_date'
-                rules={[
-                  {
-                    required: false,
-                    message: 'Please select date',
-                  },
-                ]}
-              >
-                <DatePicker placeholder='Expected End Date' />
-              </Form.Item>
-            </Col>
-            <Col style={styles.padding}>
-            <Form.Item
-              name={['fte']}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select weekly allocation hours!',
-                },
-              ]}
-            >
-              <Select
-                placeholder='Select Allocation hours...'
-                options={[
-                  {
-                    label: '10%',
-                    value: 10,
-                  },
-                  {
-                    label: '20%',
-                    value: 20,
-                  },
-                  {
-                    label: '30%',
-                    value: 30,
-                  },
-                  {
-                    label: '40%',
-                    value: 40,
-                  },
-                  {
-                    label: '50%',
-                    value: 50,
-                  },
-                  {
-                    label: '60%',
-                    value: 60,
-                  },
-                  {
-                    label: '70%',
-                    value: 70,
-                  },
-                  {
-                    label: '80%',
-                    value: 80,
-                  },
-                  {
-                    label: '90%',
-                    value: 90,
-                  },
-                  {
-                    label: '100%',
-                    value: 100,
-                  },
-                ]}
-              ></Select>
-            </Form.Item>
-            </Col>
-          </Row>
-        </Form.Item> */}
 
         <Space direction='horizontal' style={styles.center}>
           <Row gutter={24}>

@@ -201,12 +201,12 @@ const EditProjectForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name='client' label='Client Name'>
+        <Form.Item name='client' label='Client Name' rules={[{ required: true, message: 'Please select a client or add one!' }]}>
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
                 name='client_id'
-                rules={[{ required: true, message: 'Please select a client or add one!' }]}
+              // rules={[{ required: true, message: 'Please select a client or add one!' }]}
               >
                 <Select
                   options={clients.map((client: client) => ({
@@ -367,36 +367,6 @@ const EditProjectForm = () => {
                             >
                               <DatePicker placeholder='End Date' />
                             </Form.Item>
-
-                            {/* <TypographyTitle level={5} style={styles.heading}>
-                              Expected Start Date
-                            </TypographyTitle>
-                            <Form.Item
-                              name={[name, 'expected_start_date']}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please select date',
-                                },
-                              ]}
-                            >
-                              <DatePicker placeholder='Expected Start Date' />
-                            </Form.Item>
-
-                            <TypographyTitle level={5} style={styles.heading}>
-                              Expected End Date
-                            </TypographyTitle>
-                            <Form.Item
-                              name={[name, 'expected_end_date']}
-                              rules={[
-                                {
-                                  required: false,
-                                  message: 'Please select date',
-                                },
-                              ]}
-                            >
-                              <DatePicker placeholder='Expected End Date' />
-                            </Form.Item> */}
                           </Col>
 
                           <Col>
