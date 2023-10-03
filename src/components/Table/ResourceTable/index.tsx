@@ -7,7 +7,7 @@ import { resourceListDataType } from './interfaces/resourceListInterface';
 import { getAllResources } from '../../../apis/resources.api';
 import { getSkills } from '../../../apis/skills.api';
 import { getProjectList } from '../../../apis/projects.api';
-import { Tags } from './interfaces/Tags.interface';
+// import { Tags } from './interfaces/Tags.interface';
 import {
   ASSIGNED_LEVELS,
   EMPLOYMENT_STATUS,
@@ -25,7 +25,7 @@ export default function ResourceTable({
   resourceQuery,
   handleResourceDetail,
 }: // handleAssignProject,
-ResourceTableI) {
+  ResourceTableI) {
   const location = useLocation();
   const [resources, setResources] = useState<object>([]);
   const [count, setCount] = useState(0);
@@ -141,13 +141,29 @@ ResourceTableI) {
     );
   };
 
-  const renderSkillsList = (skills: Array<Tags>) => {
-    const skillsName = skills?.map((skill) => skill?.value);
+  const renderSkillsList = (skillIds: any) => {
+    const skls = skills.filter((obj: any) => skillIds.includes(obj?.id));
+    const skillsName = skls?.map((skill: any) => skill?.name);
+    return (
+      <div style={styles.skillContainer}>
+        {skillsName.map((name, index) => (
+          <Tag key={index} style={{ border: 'none' }} color='geekblue'>
+            {name}
+          </Tag>
+        ))}
+      </div>
+    );
     return <div style={styles.skillContainer}>{skillsName?.join(',')}</div>;
   };
 
   const renderTeamsColumn = (teams: any) => {
     return <div>{(teams?.team_name as string).toUpperCase()}</div>;
+  };
+
+  const renderAvailableHoursColumn = (row: any) => {
+    const hours = row?.utilization ? (100 - parseInt(row?.utilization)) : 0;
+    const totalAvailibility = Math.ceil((hours / 100) * 8);
+    return <div>{totalAvailibility}</div>;
   };
 
   const renderUtilization = (utilizationETE: any) => {
@@ -183,6 +199,7 @@ ResourceTableI) {
       title: 'Availability In Hours',
       dataIndex: 'daily_hours_availability',
       key: 'daily_hours_availability',
+      render: (element, row) => renderAvailableHoursColumn(row),
     },
     {
       title: 'Level',
@@ -233,10 +250,10 @@ ResourceTableI) {
       filters:
         projects?.length > 0
           ? projects?.map((element: any) => ({
-              text: element?.name,
-              value: element?.id,
-              percentage: element?.percentage,
-            }))
+            text: element?.name,
+            value: element?.id,
+            percentage: element?.percentage,
+          }))
           : [],
       filterSearch: true,
       filterMultiple: true,
