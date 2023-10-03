@@ -534,8 +534,8 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         return {
           ...item,
           selected: e.target.checked,
-          selected_resource_type: assignResourceDefaults.resource_type,
-          selectedPercentage: assignResourceDefaults.fte
+          selected_resource_type: item.selected_resource_type ?? assignResourceDefaults.resource_type,
+          selectedPercentage: item.selectedPercentage ?? assignResourceDefaults.fte
         };
       }
       return item;
@@ -664,7 +664,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         <InputNumber
           min={10}
           max={100}
-          defaultValue={100 - parseInt(record.total_fte)}
+          defaultValue={10}
           onChange={(e) => handleNumericInputChange(e, record)}
         />
       ),
