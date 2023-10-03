@@ -25,7 +25,7 @@ export default function ResourceTable({
   resourceQuery,
   handleResourceDetail,
 }: // handleAssignProject,
-ResourceTableI) {
+  ResourceTableI) {
   const location = useLocation();
   const [resources, setResources] = useState<object>([]);
   const [count, setCount] = useState(0);
@@ -160,6 +160,12 @@ ResourceTableI) {
     return <div>{(teams?.team_name as string).toUpperCase()}</div>;
   };
 
+  const renderAvailableHoursColumn = (row: any) => {
+    const hours = row?.utilization ? (100 - parseInt(row?.utilization)) : 0;
+    const totalAvailibility = Math.ceil((hours / 100) * 8);
+    return <div>{totalAvailibility}</div>;
+  };
+
   const renderUtilization = (utilizationETE: any) => {
     let meta: { color: string; text: string } = { color: 'orange', text: 'UNDER UTILIZED' };
 
@@ -193,6 +199,7 @@ ResourceTableI) {
       title: 'Availability In Hours',
       dataIndex: 'daily_hours_availability',
       key: 'daily_hours_availability',
+      render: (element, row) => renderAvailableHoursColumn(row),
     },
     {
       title: 'Level',
@@ -243,10 +250,10 @@ ResourceTableI) {
       filters:
         projects?.length > 0
           ? projects?.map((element: any) => ({
-              text: element?.name,
-              value: element?.id,
-              percentage: element?.percentage,
-            }))
+            text: element?.name,
+            value: element?.id,
+            percentage: element?.percentage,
+          }))
           : [],
       filterSearch: true,
       filterMultiple: true,
