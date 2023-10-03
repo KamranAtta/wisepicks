@@ -1,4 +1,5 @@
-import { List, Tag, Table } from 'antd';
+/* eslint-disable no-console */
+import { List, Tag, Table, Modal } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect } from 'react';
 
@@ -7,6 +8,7 @@ import { resourceListDataType } from './interfaces/resourceListInterface';
 import { getAllResources } from '../../../apis/resources.api';
 import { getSkills } from '../../../apis/skills.api';
 import { getProjectList } from '../../../apis/projects.api';
+import NotificationComponent from '../../common/Notification';
 // import { Tags } from './interfaces/Tags.interface';
 import {
   ASSIGNED_LEVELS,
@@ -14,6 +16,7 @@ import {
   EMPLOYMENT_UTILIZATION,
 } from '../../../utils/constant';
 import { Link, useLocation } from 'react-router-dom';
+// import TypographyTitle from '../../common/Title';
 
 const styles = {
   projectContainer: { display: 'flex', justifyContent: 'center' } as React.CSSProperties,
@@ -23,9 +26,9 @@ const styles = {
 
 export default function ResourceTable({
   resourceQuery,
-  handleResourceDetail,
-}: // handleAssignProject,
-  ResourceTableI) {
+}: // handleResourceDetail,
+// handleAssignProject,
+ResourceTableI) {
   const location = useLocation();
   const [resources, setResources] = useState<object>([]);
   const [count, setCount] = useState(0);
@@ -33,6 +36,8 @@ export default function ResourceTable({
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
   const [queryBag, setQueryBag] = useState({});
+  const [openVacationModal, setOpenVacationModal] = useState(false);
+  const { contextHolder } = NotificationComponent();
   // const [nameParam, setNameParam] = useState<any>('')
   const paginationConfig = {
     current: 1,
@@ -161,8 +166,9 @@ export default function ResourceTable({
   };
 
   const renderAvailableHoursColumn = (row: any) => {
-    const hours = row?.utilization ? (100 - parseInt(row?.utilization)) : 0;
-    const totalAvailibility = Math.ceil((hours / 100) * 8);
+    const utilPercent = row?.utilization ? Number(row?.utilization) : 0;
+    const hoursPercent = 100 - utilPercent;
+    const totalAvailibility = Math.ceil((hoursPercent / 100) * 8);
     return <div>{totalAvailibility}</div>;
   };
 
@@ -184,10 +190,15 @@ export default function ResourceTable({
     );
   };
 
+  const handleResource = (row: any) => {
+    console.log(row);
+    setOpenVacationModal(false);
+  };
+
   const columns: ColumnsType<resourceListDataType> = [
     {
       title: 'Name',
-      render: (element) => <a onClick={() => handleResourceDetail(element)}>{element?.name}</a>,
+      render: (element) => <a onClick={() => handleResource(element)}>{element?.name}</a>,
     },
     {
       title: 'Team',
@@ -250,10 +261,10 @@ export default function ResourceTable({
       filters:
         projects?.length > 0
           ? projects?.map((element: any) => ({
-            text: element?.name,
-            value: element?.id,
-            percentage: element?.percentage,
-          }))
+              text: element?.name,
+              value: element?.id,
+              percentage: element?.percentage,
+            }))
           : [],
       filterSearch: true,
       filterMultiple: true,
@@ -272,18 +283,55 @@ export default function ResourceTable({
     // },
   ];
 
+  const vacationsColumns: ColumnsType<any> = [
+    {
+      title: 'Employment Status',
+      dataIndex: 'employment_status',
+      key: 'employment_status',
+      filterSearch: true,
+      filterMultiple: false,
+      filters: EMPLOYMENT_STATUS?.map((element) => ({ text: element, value: element })),
+    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (element) => (
+    //     <Space size='middle'>
+    //       <a onClick={() => handleAssignProject(element)}>Assign Project</a>
+    //     </Space>
+    //   ),
+    // },
+  ];
+
   return (
-    <Table
-      onChange={(pagination: any, filter: unknown, sorter: unknown) => {
-        setQueryBag((prev) => ({ ...prev, pagination, filter, sorter }));
-        setPagination(pagination);
-      }}
-      pagination={{ ...pagination, total: count }}
-      columns={columns}
-      dataSource={resources as any}
-      loading={loader}
-      scroll={{ x: 'max-content' }}
-      bordered
-    />
+    <>
+      <Table
+        onChange={(pagination: any, filter: unknown, sorter: unknown) => {
+          setQueryBag((prev) => ({ ...prev, pagination, filter, sorter }));
+          setPagination(pagination);
+        }}
+        pagination={{ ...pagination, total: count }}
+        columns={columns}
+        dataSource={resources as any}
+        loading={loader}
+        scroll={{ x: 'max-content' }}
+        bordered
+      />
+      <Modal title='Assign Resource' centered visible={openVacationModal} width={1000}>
+        {contextHolder}
+        <Table
+          onChange={(pagination: any, filter: unknown, sorter: unknown) => {
+            setQueryBag((prev) => ({ ...prev, pagination, filter, sorter }));
+            setPagination(pagination);
+          }}
+          pagination={{ ...pagination, total: count }}
+          columns={vacationsColumns}
+          dataSource={resources as any}
+          loading={loader}
+          scroll={{ x: 'max-content' }}
+          bordered
+        />
+      </Modal>
+    </>
   );
 }
