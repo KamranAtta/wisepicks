@@ -7,6 +7,7 @@ export const LOCAL_STORAGE = {
 
 export const MESSAGES = {
   PROJECT_ADD_SUCCESS: 'New Project Has Been Added',
+  VACATION_ADD_SUCCESS: 'New Vacation Has Been Added',
   RESOURCE_ALLOCATE_SUCCESS: 'Resource Allocated',
   PROJECT_EDIT_SUCCESS: 'Project Has Been Edited',
   CLIENT_ADD_SUCCESS: 'New Client Has Been Added',
