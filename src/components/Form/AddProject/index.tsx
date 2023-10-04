@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
@@ -85,6 +86,7 @@ const AddProjectForm = () => {
   const [loader, setLoader] = useState<boolean>(false);
 
   const onFinish = async (values: any) => {
+    console.log('values', values);
     setLoader(true);
     values.start_date =
       values.start_date != undefined ? values.start_date.format(FORMATS.DATE_FORMAT) : null;
@@ -195,12 +197,12 @@ const AddProjectForm = () => {
         </Form.Item>
 
         <Form.Item
-          name='client'
+          name='client_id'
           label='Client Name'
           rules={[
             {
               required: true,
-              message: 'Please enter a name for the Project!',
+              message: 'Please select a client or add one!',
             },
           ]}
         >
