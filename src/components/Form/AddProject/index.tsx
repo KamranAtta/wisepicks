@@ -444,7 +444,7 @@ const AddProjectForm = () => {
                             <Form.Item
                               {...restField}
                               name={[name, 'skills_id']}
-                              rules={[{ required: true, message: 'Please select skills' }]}
+                              // rules={[{ required: true, message: 'Please select skills' }]}
                               style={styles.addResourceDateStyle}
                             >
                               <Select
@@ -627,7 +627,7 @@ const AddProjectForm = () => {
         <Form.Item
           name='domain'
           label='Technologies'
-          rules={[{ required: true, message: 'Please select atleast two technologies' }]}
+          // rules={[{ required: true, message: 'Please select atleast two technologies' }]}
         >
           <Select
             mode='multiple'

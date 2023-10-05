@@ -252,46 +252,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     fetchResources();
   }, [resourceQuery]);
 
-  // const renderCustomCell = (object: Array<string>) => {
-  //   return (
-  //     <List size='small' dataSource={object} renderItem={(item) => <List.Item>{item}</List.Item>} />
-  //   );
-  // };
-
-  // const renderAssignResourceModal = async (data: any) => {
-  //   setOpenAssignResourceModal(true);
-  //   setAssignResourceData(data);
-  //   const hoursOptions: any = [];
-  //   hourAvailability.forEach((option) => {
-  //     if (parseInt(data.available_fte) >= parseInt(option.value)) {
-  //       hoursOptions.push(option);
-  //     }
-  //   });
-  //   setAvailabilityOptions(hoursOptions);
-  //   setOpenModal(false);
-  // };
-
-  // const getAvailibilityOptions = async (data: any) => {
-  //   const hoursOptions: any = [];
-  //   hourAvailability.forEach((option) => {
-  //     if (parseInt(data.available_fte) >= parseInt(option.value)) {
-  //       hoursOptions.push(option);
-  //     }
-  //   });
-  //   return hoursOptions;
-  // };
-
-  // const handleOptionChange = (value: any, record: any) => {
-  //   const updatedData = suggestedEngineers.map((item: any) => {
-  //     if (item.selected && item.resource_id === record.resource_id) {
-  //       // Update the 'dropdown' property with the new value
-  //       return { ...item, selectedPercentage: value };
-  //     }
-  //     return item;
-  //   });
-  //   setSuggestedEngineers(updatedData);
-  // };
-
   const formDataTransformation = (values: any) => {
     const { project, weeklyHours, ...rest } = values;
     let transformedData = { ...rest, projectId: project, fte: weeklyHours, ...rest };
@@ -354,73 +314,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     setOpenAssignResourceModal(false);
   };
 
-  // const handleOpenProjectResourceCancel = () => {
-  //   setOpenAddProjectResourceModal(false);
-  // };
-
-  // const getTeamTypes = async () => {
-  //   const data: team[] = await getTeams();
-  //   setTeams(data);
-  // };
-  // const getProjectLeadTypes = async () => {
-  //   const res: any = await getProjectLeads();
-  //   if (res.status == 200) {
-  //     setProjectLeads(res.data.data);
-  //   }
-  // };
-  // const getTechnologiesTypes = async () => {
-  //   const res: skill[] = await getSkills();
-  //   setTechnologies(res);
-  // };
-
-  // const handleAddProjectResource = () => {
-  //   getTeamTypes();
-  //   getTechnologiesTypes();
-  //   setOpenAddProjectResourceModal(true);
-  // };
-
-  // const onAddProjectResource = async (values: any) => {
-  //   setLoader(true);
-  //   values.start_date = values.start_date != undefined ? new Date(values.start_date) : null;
-  //   values.end_date = values.end_date != undefined ? new Date(values.end_date) : null;
-  //   values.expected_start_date =
-  //     values.expected_start_date != undefined ? new Date(values.expected_start_date) : null;
-  //   values.expected_end_date =
-  //     values.expected_end_date != undefined ? new Date(values.expected_end_date) : null;
-
-  //   values.project_id = project?.id;
-
-  //   const response: response = await allocateResource(values);
-
-  //   // const response: response = {
-  //   //   statusCode: 200,
-  //   //   err: {
-  //   //     message: 'Error occured'
-  //   //   },
-  //   //   data: []
-  //   // }
-  //   if (response.statusCode == 201) {
-  //     notification.open({
-  //       message: MESSAGES.RESOURCE_ALLOCATE_SUCCESS,
-  //     });
-  //     setLoader(false);
-  //     fetchResources();
-  //     setOpenAddProjectResourceModal(false);
-  //   } else {
-  //     if (response?.err) {
-  //       notification.open({
-  //         message: response?.err?.message,
-  //       });
-  //       setLoader(false);
-  //     } else {
-  //       setLoader(false);
-  //       notification.open({
-  //         message: MESSAGES.ERROR,
-  //       });
-  //     }
-  //   }
-  // };
-
   const renderCustomCell = (objects: Array<any>) => {
     if (objects.length > 0) {
       return (
@@ -430,11 +323,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
           renderItem={(item: any) => (
             <List.Item>
               <Link to={'/resources?name=' + item?.resource_name}>{item?.resource_name} </Link>
-              {/* <span
-                style={{ cursor: 'pointer', color: '#1d39c4' }}
-                onClick={() => navigate('/resources?name=' + item?.resource_name)}
-              >{item?.resource_name}{' '}
-              </span> */}
               {item?.deployed_percentage ? (
                 <Tag style={{ border: 'none' }} color='geekblue'>
                   {item?.deployed_percentage + '%'}
@@ -464,12 +352,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       dataIndex: 'assignedResources',
       render: (element) => renderCustomCell(element),
     },
-    // {
-    //   title: 'Resource Name',
-    //   dataIndex: 'name',
-    //   key: 'name',
-    //   sorter: (a, b) => columnsSort(a.name, b.name),
-    // },
     {
       title: 'Team',
       dataIndex: 'team',
@@ -488,31 +370,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       key: 'fte',
       sorter: (a, b) => columnsSort(a.fte, b.fte),
     },
-    // {
-    //   title: 'Assigned Projects',
-    //   dataIndex: 'assignedProjects',
-    //   key: 'assignedProjects',
-    //   filters: [
-    //     {
-    //       text: 'Erase',
-    //       value: 'Erase',
-    //     },
-    //     {
-    //       text: 'PES Spills',
-    //       value: 'PES Spills',
-    //     },
-    //     {
-    //       text: 'SNG',
-    //       value: 'SNG',
-    //     },
-    //   ],
-    //   filterMode: 'tree',
-    //   filterSearch: true,
-    //   onFilter: (value, record) => {
-    //     return record.assignedProjects.includes(value as string);
-    //   },
-    //   render: (element) => renderCustomCell(element),
-    // },
     {
       title: 'Type',
       dataIndex: 'type',
@@ -559,45 +416,21 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const engineers = [...suggestedEngineers];
     const updatedData = engineers.map((item) => {
       if (item.resource_id === record.resource_id) {
-        return {
+        const newItem = {
           ...item,
           selected: e.target.checked,
           selected_resource_type:
             item.selected_resource_type ?? assignResourceDefaults.resource_type,
-          selectedPercentage: item.selectedPercentage ?? assignResourceDefaults.fte,
+          selectedPercentage:
+            item.selectedPercentage === '' ? assignResourceDefaults.fte : item.selectedPercentage,
         };
+        return newItem;
+      } else {
+        return item;
       }
-      return item;
     });
     setSuggestedEngineers(updatedData);
   };
-
-  // const AvailibilityOptions = (text: any, record: any) => {
-  //   const hoursOptions: any = [];
-  //   hourAvailability.forEach((option) => {
-  //     if (parseInt(text) >= parseInt(option.value)) {
-  //       if (parseInt(record.total_fte_requirement) >= parseInt(option.value)) {
-  //         hoursOptions.push({
-  //           label: option.value,
-  //           value: option.value,
-  //           disabled: !(parseInt(record.total_fte_requirement) - parseInt(option.value) >= 0),
-  //         });
-  //       }
-  //     }
-  //   });
-  //   return (
-  //     <Select
-  //       defaultValue={'Select assignment % '}
-  //       onChange={(value) => handleOptionChange(value, record)}
-  //     >
-  //       {hoursOptions.map((option: any) => (
-  //         <Select.Option key={option.value} value={option.value} disabled={option.disabled}>
-  //           {option.label}
-  //         </Select.Option>
-  //       ))}
-  //     </Select>
-  //   );
-  // };
 
   const handleResourceTypeChange = (value: any, record: any) => {
     const updatedData = suggestedEngineers.map((item: any) => {
@@ -678,13 +511,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       key: 'total_fte',
       sorter: (a, b) => columnsSort(a.total_fte, b.total_fte),
     },
-    // {
-    //   title: 'Left Availability(%)',
-    //   dataIndex: 'available_fte',
-    //   key: 'available_fte',
-    //   render: (text, record) => AvailibilityOptions(text, record),
-    //   // sorter: (a, b) => columnsSort(a.available_fte, b.available_fte),
-    // },
     {
       title: 'Required Allocation(%)',
       dataIndex: 'available_fte',
@@ -716,27 +542,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       render: (text, record) => renderResourceType(record),
     },
   ];
-
-  // const vacationColumnns: ColumnsType<VacationTableInterface> = [
-  //   {
-  //     title: 'Type',
-  //     dataIndex: 'type',
-  //     key: 'type',
-  //     sorter: (a, b) => columnsSort(a.type, b.type),
-  //   },
-  //   {
-  //     title: 'Start Date',
-  //     dataIndex: 'startDate',
-  //     key: 'startDate',
-  //     sorter: (a, b) => columnsSort(a.startDate, b.startDate),
-  //   },
-  //   {
-  //     title: 'End Date',
-  //     dataIndex: 'endDate',
-  //     key: 'endDate',
-  //     sorter: (a, b) => columnsSort(a.endDate, b.endDate),
-  //   },
-  // ];
 
   const handleAssignResources = async () => {
     let notificationConfig: NotificationHandlerProps = {
@@ -992,14 +797,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
               </Form.Item>
 
               <TypographyTitle level={5}>Vacations</TypographyTitle>
-              {/* <Table
-                  columns={vacationColumns as any}
-                  dataSource={vacationData}
-                  bordered
-                  rowClassName={(record: { endDate: string }) =>
-                    Date.parse(record.endDate) < Date.parse(new Date().toString()) ? 'gray' : 'black'
-                  }
-                ></Table> */}
               <div className='drawer-content'>
                 <Row justify='end' gutter={24}>
                   <Col>

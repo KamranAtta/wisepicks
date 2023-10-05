@@ -1,4 +1,4 @@
-import { doGet, doPost } from '../utils/request';
+import { doDelete, doGet, doPost } from '../utils/request';
 
 export const createVacation = async (body: object) => {
   try {
@@ -18,6 +18,15 @@ export const getVacations = async () => {
     }
   } catch (err) {
     err;
+  }
+};
+
+export const removeResourceVacation = async (id: string) => {
+  try {
+    const response = await doDelete(`/vacations/${id}`, {});
+    return response?.data;
+  } catch (err) {
+    return [];
   }
 };
 

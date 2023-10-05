@@ -524,60 +524,7 @@ const EditProjectForm = () => {
             )}
           </Form.List>
         </Form.Item>
-        {/* <Form.Item label='Project Lead'>
-          <Space style={styles.projectLeadForm}>
-            <Form.Item
-              name='projectLead'
-              rules={[{ required: true, message: 'Please select a project lead' }]}
-            >
-              <Select
-                placeholder='Select Project Lead'
-                options={projectLeads.map((leads: any) => ({
-                  value: leads.name,
-                  key: leads.id,
-                  label: leads.name,
-                }))}
-              />
-            </Form.Item>
-            <Form.Item
-              name='leadStartDate'
-              rules={[{ required: true, message: 'Please select a start Date and end Date' }]}
-            >
-              <RangePicker />
-            </Form.Item>
-            <Form.Item
-              name='hoursPerWeek'
-              rules={[{ required: true, message: 'Please select allocation hours' }]}
-            >
-              <Select
-                placeholder='Select Allocation hours...'
-                options={[
-                  {
-                    label: '20%',
-                    value: '20%',
-                  },
-                  {
-                    label: '50%',
-                    value: '50%',
-                  },
-                  {
-                    label: '80%',
-                    value: '80%',
-                  },
-                  {
-                    label: '100%',
-                    value: '100%',
-                  },
-                ]}
-              ></Select>
-            </Form.Item>
-          </Space>
-        </Form.Item> */}
-        <Form.Item
-          name='domain'
-          label='Technologies'
-          rules={[{ required: true, message: 'Please select atleast two technologies' }]}
-        >
+        <Form.Item name='domain' label='Technologies'>
           <Select
             mode='multiple'
             placeholder='Select Technologies'

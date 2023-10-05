@@ -14,15 +14,19 @@ import {
   Button,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { ResourceTableI } from './interfaces/ResourceTableInterface';
 import { resourceListDataType } from './interfaces/resourceListInterface';
 import { getAllResources } from '../../../apis/resources.api';
 import { getSkills } from '../../../apis/skills.api';
-import { getResourceVacations, createVacation } from '../../../apis/vacations.api';
+import {
+  getResourceVacations,
+  createVacation,
+  removeResourceVacation,
+} from '../../../apis/vacations.api';
 import { getProjectList } from '../../../apis/projects.api';
-import NotificationComponent from '../../common/Notification';
+import NotificationComponent, { NotificationHandlerProps } from '../../common/Notification';
 // import { Tags } from './interfaces/Tags.interface';
 import {
   ASSIGNED_LEVELS,
@@ -36,7 +40,7 @@ import ButtonLayout from '../../ButtonLayout';
 import TypographyTitle from '../../common/Title';
 import { columnsSort } from '../utils';
 import dayjs from 'dayjs';
-import { PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import Loader from '../../common/Loader';
 // import TypographyTitle from '../../common/Title';
 
@@ -64,6 +68,7 @@ export default function ResourceTable({
 ResourceTableI) {
   const [form] = Form.useForm();
   const location = useLocation();
+  const resetRef = useRef(null);
   const [resources, setResources] = useState<object>([]);
   const [count, setCount] = useState(0);
   const [loader, setLoader] = useState<boolean>(false);
@@ -71,7 +76,7 @@ ResourceTableI) {
   const [skills, setSkills] = useState([]);
   const [queryBag, setQueryBag] = useState({});
   const [openVacationModal, setOpenVacationModal] = useState(false);
-  const { contextHolder } = NotificationComponent();
+  const { contextHolder, notificationHandler } = NotificationComponent();
   const [addVacationModal, setAddVacationModal] = useState<any>(false);
   const [selectedResource, setSelectedResource] = useState<any>({});
   const paginationConfig = {
@@ -228,6 +233,9 @@ ResourceTableI) {
       vacation_type: element?.vacation_type,
       start_date: dayjs(element?.start_date).format(FORMATS.DATE_FORMAT),
       end_date: dayjs(element?.end_date).format(FORMATS.DATE_FORMAT),
+      resourceId: resourceId,
+      id: element?.id,
+      resourceName: row?.name,
     }));
     setSelectedResource({ ...row, vacations: vList });
     setOpenVacationModal(true);
@@ -321,6 +329,38 @@ ResourceTableI) {
     // },
   ];
 
+  const removeVacation = async (data: any) => {
+    setLoader(true);
+    // const id = data.key;
+    let notificationConfig: NotificationHandlerProps = {
+      type: 'success',
+      message: 'Vacation Removed',
+      description: 'Vacation has been removed successfully!',
+    };
+
+    const resourceId = data.resourceId;
+    const vacationId = data.id;
+
+    const response: any = await removeResourceVacation(vacationId);
+
+    if (response) {
+      (resetRef?.current as any)?.click();
+      // setOpenVacationModal(false);
+      await handleResource({ id: resourceId, name: data.resourceName });
+      // setOpenAssignResourceModal(false);
+    } else {
+      notificationConfig = {
+        type: 'error',
+        message: 'Error Occured',
+        description: 'Error in Vacation Remove',
+      };
+    }
+    setLoader(false);
+    notificationHandler(notificationConfig);
+
+    setLoader(false);
+  };
+
   const vacationsColumns: ColumnsType<any> = [
     {
       title: 'Vacation Type',
@@ -340,15 +380,18 @@ ResourceTableI) {
       key: 'end_ate',
       sorter: (a, b) => columnsSort(a.endDate, b.endDate),
     },
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (element) => (
-    //     <Space size='middle'>
-    //       <a onClick={() => handleAssignProject(element)}>Assign Project</a>
-    //     </Space>
-    //   ),
-    // },
+    {
+      title: 'Action',
+      key: 'action',
+      align: 'center',
+      render: (element) => (
+        <Space size='small'>
+          <a onClick={() => removeVacation(element)}>
+            <DeleteOutlined style={{ color: 'red' }} />
+          </a>
+        </Space>
+      ),
+    },
   ];
 
   const handleCancel = () => {
@@ -408,7 +451,6 @@ ResourceTableI) {
         bordered
       />
       <Modal
-        title='Vacations'
         centered
         visible={openVacationModal}
         width={1000}
@@ -416,10 +458,10 @@ ResourceTableI) {
         footer={null}
       >
         {contextHolder}
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginTop: '30px' }}>
           <ButtonLayout
             title={
-              <TypographyTitle level={3} style={{ marginTop: '0px', marginBottom: '0px' }}>
+              <TypographyTitle level={3}>
                 Upcoming Vacations for {selectedResource.name}
               </TypographyTitle>
             }
@@ -451,6 +493,7 @@ ResourceTableI) {
           bordered
         />
       </Modal>
+
       <Modal centered visible={addVacationModal} width={600} onCancel={handleCancel} footer={null}>
         {contextHolder}
         <TypographyTitle style={{ textAlign: 'center', marginBottom: '10px' }} level={3}>
