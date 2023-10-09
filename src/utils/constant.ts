@@ -3,6 +3,7 @@ export const AUTH_TOKEN = 'Authorization';
 
 export const LOCAL_STORAGE = {
   ID_TOKEN: 'token',
+  USER: 'user',
 };
 
 export const MESSAGES = {

@@ -9,8 +9,8 @@ export const assignResource = async (body: object) => {
     const response = await doPost('/project-resources/', body);
     response;
     return response?.data;
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -19,8 +19,8 @@ export const allocateResource = async (body: object) => {
     const response = await doPost('/project-resources/allocate', body);
     response;
     return response?.data;
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -28,8 +28,8 @@ export const updateProjectResource = async (id: string, body: object) => {
   try {
     const response = await doPut(`/project-resources/${id}`, body);
     return response?.data;
-  } catch (err) {
-    return [];
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -37,8 +37,8 @@ export const assignProjectResources = async (body: object) => {
   try {
     const response = await doPatch('/project-resources/', body);
     return response?.data;
-  } catch (err) {
-    return [];
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -46,8 +46,8 @@ export const removeProjectResource = async (id: string, body: object) => {
   try {
     const response = await doDelete(`/project-resources/${id}`, body);
     return response?.data;
-  } catch (err) {
-    return [];
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -61,8 +61,8 @@ export const getProjectResource = async (id: string, queryParams: ProjResQuery) 
     if (response?.statusCode == 200) {
       return response?.data;
     }
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -72,8 +72,8 @@ export const getProjectResources = async (projectId: string) => {
     if (response?.statusCode == 200) {
       return response?.data;
     }
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -83,8 +83,8 @@ export const getProjectResourceAllocation = async (projectId: string) => {
     if (response?.statusCode == 200) {
       return response?.data;
     }
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -94,7 +94,7 @@ export const getSuggestedEngineers = async (queryParams: any) => {
     if (response?.statusCode == 200) {
       return response?.data;
     }
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };

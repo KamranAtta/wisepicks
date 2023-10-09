@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable camelcase */
 // import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Input, Row, notification } from 'antd';
@@ -6,11 +7,12 @@ import { MESSAGES } from '../../../../utils/constant';
 import Loader from '../../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../../context/AuthContext';
 import { loginUser } from '../../../../apis/auth.api';
 import { MailOutlined, UnlockOutlined } from '@ant-design/icons';
 import logo from '../../../../assets/logo/logo.png';
 import './index.css';
+import { useSignin } from '../../../../hooks/useLogin';
+
 interface response {
   statusCode: number;
   err: any;
@@ -26,36 +28,31 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loader, setLoader] = useState<boolean>(false);
-  const { token, login, logout } = useAuth();
+  const { login } = useSignin();
 
   const onFinish = async (values: any) => {
     setLoader(true);
 
-    if (token?.access_token) {
-      logout();
+    const response: response = await loginUser(values);
+    if (response?.access_token) {
+      localStorage.setItem('token', JSON.stringify(response));
+      await login();
+      notification.open({
+        message: MESSAGES.LOGIN_SUCCESS,
+      });
       setLoader(false);
-      navigate('/login');
+      navigate('/resources');
     } else {
-      const response: response = await loginUser(values);
-      if (response?.access_token) {
-        await login(response);
+      if (response?.err) {
         notification.open({
-          message: MESSAGES.LOGIN_SUCCESS,
+          message: response?.err?.message,
         });
         setLoader(false);
-        navigate('/resources');
       } else {
-        if (response?.err) {
-          notification.open({
-            message: response?.err?.message,
-          });
-          setLoader(false);
-        } else {
-          setLoader(false);
-          notification.open({
-            message: MESSAGES.ERROR,
-          });
-        }
+        setLoader(false);
+        notification.open({
+          message: MESSAGES.ERROR,
+        });
       }
     }
   };

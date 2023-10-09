@@ -4,7 +4,7 @@ export const getTechnologies = async () => {
   try {
     const response = await doGet('/getTechnologies');
     return response?.data;
-  } catch (err) {
-    return [];
+  } catch (err: any) {
+    return err;
   }
 };

@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 import { Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
 
 function PrivateRoute({ children }: any) {
-  const { token } = useAuth();
-  return token?.access_token ? <>{children}</> : <Navigate to='/login' />;
+  const user = localStorage.getItem('user');
+  return user ? <>{children}</> : <Navigate to='/login' />;
 }
 
 export default PrivateRoute;

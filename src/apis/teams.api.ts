@@ -8,7 +8,7 @@ export const getTeams = async (name = '') => {
       response?.data?.data;
       return response?.data?.data;
     }
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };

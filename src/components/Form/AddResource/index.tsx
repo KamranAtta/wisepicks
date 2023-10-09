@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-// import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Input, Row, Select, Space, notification } from 'antd';
 import { useState, useEffect } from 'react';
 import { createResource } from '../../../apis/index';
@@ -65,18 +64,6 @@ const AddResourceForm = () => {
 
   const onFinish = async (values: any) => {
     setLoader(true);
-    // values.start_date =
-    //   values.start_date != undefined ? values.start_date.format(FORMATS.DATE_FORMAT) : null;
-    // values.end_date =
-    //   values.end_date != undefined ? values.end_date.format(FORMATS.DATE_FORMAT) : null;
-    // values.expected_start_date =
-    //   values.expected_start_date != undefined
-    //     ? values.expected_start_date.format(FORMATS.DATE_FORMAT)
-    //     : null;
-    // values.expected_end_date =
-    //   values.expected_end_date != undefined
-    //     ? values.expected_end_date.format(FORMATS.DATE_FORMAT)
-    //     : null;
     const response: response = await createResource(values);
 
     if (response.statusCode == 200) {

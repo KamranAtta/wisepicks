@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { ConfigProvider, Layout } from 'antd';
@@ -9,7 +10,9 @@ import DrawerComponent from '../common/Drawer';
 import { LogoutOutlined, MenuOutlined } from '@ant-design/icons';
 import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 import { ConfigConsumerProps } from 'antd/lib/config-provider';
-import { useAuth } from '../../context/AuthContext';
+// import { useAuth } from '../../context/AuthContext';
+import { useLogout } from '../../hooks/useLogout';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const { Header } = Layout;
 
@@ -27,7 +30,8 @@ export default function HeaderComponent() {
   const themeConfiguration = useContext(ConfigProvider.ConfigContext);
   const [headerDrawerOpen, setHeaderDrawerOpen] = useState<boolean>(false);
   const matches = useMediaQuery('(min-width: 830px)');
-  const { token, logout } = useAuth();
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
 
   const MenuItems = (
     <>
@@ -78,7 +82,7 @@ export default function HeaderComponent() {
         )}
       </div>
       <div style={{ display: 'flex', background: 'white' }}>
-        {!token ? (
+        {!user ? (
           ''
         ) : (
           <LogoutOutlined

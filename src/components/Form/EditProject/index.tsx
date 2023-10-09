@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
@@ -113,6 +114,11 @@ const EditProjectForm = () => {
       ? (data.expected_end_date = moment(data.expected_end_date))
       : null;
     // data.projectResources = projectResources;
+    const domains = [...data.domain];
+    data.domain = domains.map((item) => ({
+      label: item.value,
+      id: item.id,
+    }));
 
     ('data is');
     data;
@@ -131,6 +137,7 @@ const EditProjectForm = () => {
 
   const getTechnologiesTypes = async () => {
     const res: skill[] = await getSkills();
+    console.log('Skillssss', res);
     setTechnologies(res);
   };
 
@@ -150,12 +157,7 @@ const EditProjectForm = () => {
     values.end_date =
       values.end_date != undefined ? values.end_date.format(FORMATS.DATE_FORMAT) : null;
 
-    // values.projectResources.forEach((element: any) => {
-    //   element.start_date = element.start_date?.format(FORMATS.DATE_FORMAT);
-    //   element.end_date = element.end_date?.format(FORMATS.DATE_FORMAT);
-    //   element.expected_start_date = element.expected_start_date?.format(FORMATS.DATE_FORMAT);
-    //   element.expected_end_date = element.expected_end_date?.format(FORMATS.DATE_FORMAT);
-    // });
+    values.domain = values.domain.map((item: any) => item.id);
     values;
     values = { ...values, id: projectId };
     const response: response = await editProject(values);

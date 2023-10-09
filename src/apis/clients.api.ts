@@ -6,8 +6,8 @@ export const getClients = async () => {
     if (response?.data?.statusCode == 200) {
       return response?.data?.data;
     }
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };
 
@@ -15,7 +15,7 @@ export const addClients = async (body: object) => {
   try {
     const response = await doPost('/client', body);
     return response?.data;
-  } catch (err) {
-    err;
+  } catch (err: any) {
+    return err;
   }
 };
