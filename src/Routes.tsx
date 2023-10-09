@@ -12,14 +12,14 @@ import RequestResource from './views/RequestResource';
 import AssignResource from './views/AssignResource';
 import Login from './views/Auth/Login';
 import PrivateRoute from './ProtectedRoute';
-import { useAuth } from './context/AuthContext';
+import { useAuthContext } from './hooks/useAuthContext';
 
 const Router = () => {
-  const { token } = useAuth();
+  const { user } = useAuthContext();
   return (
     <>
       <Fragment>
-        {token ? <HeaderComponent></HeaderComponent> : ''}
+        {user && <HeaderComponent></HeaderComponent>}
         <Routes>
           <Route
             path='/'

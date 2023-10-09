@@ -1,55 +1,36 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+/* eslint-disable no-console */
+import React, { createContext, useEffect, ReactNode, useReducer } from 'react';
 
-// Define the shape of your user object
-interface Token {
-  access_token: string;
-}
-
-interface AuthContextType {
-  token: Token | null;
-  login: (token: Token) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<any>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  // Function to get user data from local storage
-  const getUserFromLocalStorage = (): Token | null => {
-    const tokenJson = localStorage.getItem('token');
-    return tokenJson ? JSON.parse(tokenJson) : null;
-  };
-
-  // Check local storage for user data when the hook is called
-  const storedTokenn = getUserFromLocalStorage();
-
-  const [token, setToken] = useState<Token | null>(storedTokenn);
-
-  const login = (userToken: Token) => {
-    // Set the user in local storage
-    localStorage.setItem('token', JSON.stringify(userToken));
-    setToken(userToken);
-  };
-
-  const logout = () => {
-    // Remove the user from local storage
-    localStorage.removeItem('token');
-    setToken(null);
-  };
-
-  return <AuthContext.Provider value={{ token, login, logout }}>{children}</AuthContext.Provider>;
+export const authReducer = (state: any, action: any) => {
+  switch (action.type) {
+    case 'LOGIN':
+      return { user: action.payload };
+    case 'LOGOUT':
+      return { user: null };
+    default:
+      return state;
+  }
 };
 
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [state, dispatch] = useReducer(authReducer, {
+    user: null,
+  });
 
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      dispatch({ type: 'LOGIN', payload: JSON.parse(user) });
+    } else {
+      dispatch({ type: 'LOGOUT', payload: null });
+    }
+  }, []);
 
-  return context;
+  return <AuthContext.Provider value={{ ...state, dispatch }}> {children}</AuthContext.Provider>;
 };

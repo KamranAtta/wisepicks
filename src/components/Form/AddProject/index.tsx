@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
@@ -27,9 +26,7 @@ import { skill } from '../interfaces/skillInterface';
 import { client } from '../interfaces/clientInterface';
 import TypographyTitle from '../../common/Title';
 import { useNavigate } from 'react-router-dom';
-// import { project } from './interfaces/projectInterface';
-// import { setUndefinedValuesToNull } from '../../../utils/setUndefinedValuesToNull';
-
+import { useLogout } from '../../../hooks/useLogout';
 interface response {
   statusCode: number;
   err: any;
@@ -84,9 +81,9 @@ const AddProjectForm = () => {
   const [projectType, setProjectType] = useState<any>([]);
   const [technologies, setTechnologies] = useState<skill[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
+  const { logout } = useLogout();
 
   const onFinish = async (values: any) => {
-    console.log('values', values);
     setLoader(true);
     values.start_date =
       values.start_date != undefined ? values.start_date.format(FORMATS.DATE_FORMAT) : null;
@@ -108,23 +105,27 @@ const AddProjectForm = () => {
       element.expected_end_date = element.expected_end_date?.format(FORMATS.DATE_FORMAT);
     });
     const response: response = await createProject(values);
-    if (response.statusCode == 200) {
-      notification.open({
-        message: MESSAGES.PROJECT_ADD_SUCCESS,
-      });
-      setLoader(false);
-      navigate('/projects');
+    if (response?.statusCode == 401) {
+      logout();
     } else {
-      if (response?.err) {
+      if (response.statusCode == 200) {
         notification.open({
-          message: response?.err?.message,
+          message: MESSAGES.PROJECT_ADD_SUCCESS,
         });
         setLoader(false);
+        navigate('/projects');
       } else {
-        setLoader(false);
-        notification.open({
-          message: MESSAGES.ERROR,
-        });
+        if (response?.err) {
+          notification.open({
+            message: response?.err?.message,
+          });
+          setLoader(false);
+        } else {
+          setLoader(false);
+          notification.open({
+            message: MESSAGES.ERROR,
+          });
+        }
       }
     }
   };

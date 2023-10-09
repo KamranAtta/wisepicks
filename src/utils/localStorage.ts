@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // ttl:(in milliseconds)
 export function setLocalStorage<T>(key: string, value: T, ttl = 2592000000) {
   const now = new Date();

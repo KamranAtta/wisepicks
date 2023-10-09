@@ -6,17 +6,14 @@ import './App.css';
 import Router from './Routes';
 import { customTheme } from './theme';
 import { store } from './store/store';
-import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <ConfigProvider theme={customTheme}>
       <Provider store={store}>
-        <AuthProvider>
-          <BrowserRouter>
-            <Router />
-          </BrowserRouter>
-        </AuthProvider>
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
       </Provider>
     </ConfigProvider>
   );

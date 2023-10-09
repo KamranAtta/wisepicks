@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable camelcase */
@@ -53,6 +52,7 @@ import {
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { useLogout } from '../../../hooks/useLogout';
 
 const styles = {
   datePicker: { width: '100%' } as React.CSSProperties,
@@ -140,6 +140,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   const [projectCompletionTime, setProjectCompletionTime] = useState<any>();
   const now = new Date();
   const [selectProjectResource, setSelectProjectResource] = useState<any>({});
+  const { logout } = useLogout();
 
   function convertMillisecondsToDaysHours(milliseconds: number) {
     const d = Math.floor(milliseconds / (24 * 60 * 60 * 1000));
@@ -195,21 +196,25 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       queryParams += 'level=' + data.level + '&fte=' + data.fte + '&team=' + data.team;
     }
     const suggestedResources = await getSuggestedEngineers(queryParams);
-    const engineersList = [];
-    for (const engineer of suggestedResources.data) {
-      const e = {
-        ...engineer,
-        selected: false,
-        selectedPercentage: '',
-        plan_id: data?.projectResourceId,
-        total_fte_requirement: data?.fte,
-      };
-      engineersList.push(e);
+    if (suggestedResources?.statusCode == 401) {
+      logout();
+    } else {
+      const engineersList = [];
+      for (const engineer of suggestedResources.data) {
+        const e = {
+          ...engineer,
+          selected: false,
+          selectedPercentage: '',
+          plan_id: data?.projectResourceId,
+          total_fte_requirement: data?.fte,
+        };
+        engineersList.push(e);
+      }
+      setSuggestedEngineers(engineersList);
+      setProjectResourceId(data.projectResourceId);
+      setSelectProjectResource(data);
+      setOpenModal(true);
     }
-    setSuggestedEngineers(engineersList);
-    setProjectResourceId(data.projectResourceId);
-    setSelectProjectResource(data);
-    setOpenModal(true);
   };
 
   const removeResource = async (data: any) => {

@@ -42,7 +42,7 @@ import { columnsSort } from '../utils';
 import dayjs from 'dayjs';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import Loader from '../../common/Loader';
-// import TypographyTitle from '../../common/Title';
+import { useLogout } from '../../../hooks/useLogout';
 
 const styles = {
   projectContainer: { display: 'flex', justifyContent: 'center' } as React.CSSProperties,
@@ -79,6 +79,8 @@ ResourceTableI) {
   const { contextHolder, notificationHandler } = NotificationComponent();
   const [addVacationModal, setAddVacationModal] = useState<any>(false);
   const [selectedResource, setSelectedResource] = useState<any>({});
+  const { logout } = useLogout();
+
   const paginationConfig = {
     current: 1,
     page: 1,
@@ -128,11 +130,15 @@ ResourceTableI) {
   const fetchResources = async () => {
     setLoader(true);
     const queryParams = prepareQueryBag(queryBag);
-    const resourceList = await getAllResources(queryParams);
-    setResources(resourceList?.rows);
-    setCount(resourceList?.count);
-    setLoader(false);
-    return count;
+    const response = await getAllResources(queryParams);
+    if (response?.statusCode == 401) {
+      logout();
+    } else {
+      setResources(response?.rows);
+      setCount(response?.count);
+      setLoader(false);
+      return count;
+    }
   };
 
   const preFetchingFilter = async () => {
@@ -229,16 +235,20 @@ ResourceTableI) {
   const handleResource = async (row: any) => {
     const resourceId = row.id;
     const resVacations = await getResourceVacations(resourceId);
-    const vList = resVacations.data?.map((element: any) => ({
-      vacation_type: element?.vacation_type,
-      start_date: dayjs(element?.start_date).format(FORMATS.DATE_FORMAT),
-      end_date: dayjs(element?.end_date).format(FORMATS.DATE_FORMAT),
-      resourceId: resourceId,
-      id: element?.id,
-      resourceName: row?.name,
-    }));
-    setSelectedResource({ ...row, vacations: vList });
-    setOpenVacationModal(true);
+    if (resVacations?.statusCode == 401) {
+      logout();
+    } else {
+      const vList = resVacations.data?.map((element: any) => ({
+        vacation_type: element?.vacation_type,
+        start_date: dayjs(element?.start_date).format(FORMATS.DATE_FORMAT),
+        end_date: dayjs(element?.end_date).format(FORMATS.DATE_FORMAT),
+        resourceId: resourceId,
+        id: element?.id,
+        resourceName: row?.name,
+      }));
+      setSelectedResource({ ...row, vacations: vList });
+      setOpenVacationModal(true);
+    }
   };
 
   const columns: ColumnsType<resourceListDataType> = [
@@ -342,23 +352,26 @@ ResourceTableI) {
     const vacationId = data.id;
 
     const response: any = await removeResourceVacation(vacationId);
-
-    if (response) {
-      (resetRef?.current as any)?.click();
-      // setOpenVacationModal(false);
-      await handleResource({ id: resourceId, name: data.resourceName });
-      // setOpenAssignResourceModal(false);
+    if (response?.statusCode == 401) {
+      logout();
     } else {
-      notificationConfig = {
-        type: 'error',
-        message: 'Error Occured',
-        description: 'Error in Vacation Remove',
-      };
-    }
-    setLoader(false);
-    notificationHandler(notificationConfig);
+      if (response) {
+        (resetRef?.current as any)?.click();
+        // setOpenVacationModal(false);
+        await handleResource({ id: resourceId, name: data.resourceName });
+        // setOpenAssignResourceModal(false);
+      } else {
+        notificationConfig = {
+          type: 'error',
+          message: 'Error Occured',
+          description: 'Error in Vacation Remove',
+        };
+      }
+      setLoader(false);
+      notificationHandler(notificationConfig);
 
-    setLoader(false);
+      setLoader(false);
+    }
   };
 
   const vacationsColumns: ColumnsType<any> = [
@@ -414,24 +427,28 @@ ResourceTableI) {
     const payload = { ...values, resource_id: selectedResource?.id };
 
     const response: response = await createVacation(payload);
-    if (response.statusCode == 200) {
-      notification.open({
-        message: MESSAGES.VACATION_ADD_SUCCESS,
-      });
-      setLoader(false);
-      setAddVacationModal(false);
-      handleResource(selectedResource);
+    if (response?.statusCode == 401) {
+      logout();
     } else {
-      if (response?.err) {
+      if (response.statusCode == 200) {
         notification.open({
-          message: response?.err?.message,
+          message: MESSAGES.VACATION_ADD_SUCCESS,
         });
         setLoader(false);
+        setAddVacationModal(false);
+        handleResource(selectedResource);
       } else {
-        setLoader(false);
-        notification.open({
-          message: MESSAGES.ERROR,
-        });
+        if (response?.err) {
+          notification.open({
+            message: response?.err?.message,
+          });
+          setLoader(false);
+        } else {
+          setLoader(false);
+          notification.open({
+            message: MESSAGES.ERROR,
+          });
+        }
       }
     }
   };
