@@ -27,9 +27,7 @@ import ProjectResourcesInterface, { ProjectResourceTableI } from './interface';
 import SuggestedEngineerInterface from './interface';
 // import VacationTableInterface from '../../../components/Drawer/AssignProject/interfaces/vacationTableInterface';
 import { getProjectDetails } from '../../../apis';
-import {
-  getReplacementResources,
-} from '../../../apis/vacations.api';
+import { getReplacementResources } from '../../../apis/vacations.api';
 import {
   removeProjectResource,
   updateProjectResource,
@@ -176,8 +174,8 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         resource_name: projectResource?.resource_name,
         start_date: projectResource?.start_date ? projectResource.start_date.split('T')[0] : '',
         end_date: projectResource?.end_date ? projectResource.end_date.split('T')[0] : '',
-        replacements: projectResource?.replacements
-      }
+        replacements: projectResource?.replacements,
+      };
     });
     setReplacementResources(replacementResourceList);
     setLoader(false);
@@ -213,7 +211,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       };
       if (projectResource?.assigned_resources.length > 0) {
         const arrayOfIds = projectResource.assigned_resources.map((obj: any) => obj.resource_id);
-        assignedResourceIds = [...assignedResourceIds, ...arrayOfIds]
+        assignedResourceIds = [...assignedResourceIds, ...arrayOfIds];
       }
       resourceList.push(r);
     }
@@ -479,7 +477,9 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
           replacement_resource_type:
             item.replacement_resource_type ?? replacementResourceDefaults.replacement_resource_type,
           replacement_selected_percentage:
-            item.replacement_selected_percentage === '' ? replacementResourceDefaults.replacement_selected_percentage : item.replacement_selected_percentage,
+            item.replacement_selected_percentage === ''
+              ? replacementResourceDefaults.replacement_selected_percentage
+              : item.replacement_selected_percentage,
         };
         return newItem;
       } else {
@@ -562,7 +562,10 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       dataIndex: 'replacement_selected',
       key: 'replacement_selected',
       render: (_, record) => (
-        <Checkbox checked={record?.replacement_selected} onChange={(e) => handleReplacementCheckboxChange(e, record)} />
+        <Checkbox
+          checked={record?.replacement_selected}
+          onChange={(e) => handleReplacementCheckboxChange(e, record)}
+        />
       ),
     },
     {
@@ -581,13 +584,15 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       title: 'Level',
       dataIndex: 'replacement_resource_assigned_level',
       key: 'replacement_resource_assigned_level',
-      sorter: (a, b) => columnsSort(a.replacement_resource_assigned_level, b.replacement_resource_assigned_level),
+      sorter: (a, b) =>
+        columnsSort(a.replacement_resource_assigned_level, b.replacement_resource_assigned_level),
     },
     {
       title: 'Current Utilization(%)',
       dataIndex: 'replacement_resource_utilization',
       key: 'replacement_resource_utilization',
-      sorter: (a, b) => columnsSort(a.replacement_resource_utilization, b.replacement_resource_utilization),
+      sorter: (a, b) =>
+        columnsSort(a.replacement_resource_utilization, b.replacement_resource_utilization),
     },
     {
       title: 'Required Allocation(%)',
@@ -731,17 +736,15 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const replacementsEngineers = [];
     for (const rep of replacements) {
       if (rep.replacement_selected) {
-        replacementsEngineers.push(
-          {
-            resource_id: rep.replacement_resource_id,
-            resource_name: rep.replacement_resource_name,
-            team_name: rep.replacement_resource_team,
-            selectedPercentage: rep.replacement_selected_percentage,
-            assigned_level: rep.replacement_resource_assigned_level,
-            selected: rep.replacement_selected,
-            selected_resource_type: replacementResourceDefaults.replacement_resource_type
-          }
-        )
+        replacementsEngineers.push({
+          resource_id: rep.replacement_resource_id,
+          resource_name: rep.replacement_resource_name,
+          team_name: rep.replacement_resource_team,
+          selectedPercentage: rep.replacement_selected_percentage,
+          assigned_level: rep.replacement_resource_assigned_level,
+          selected: rep.replacement_selected,
+          selected_resource_type: replacementResourceDefaults.replacement_resource_type,
+        });
       }
     }
     const payload = {
@@ -757,8 +760,8 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     // const response: any = await assignProjectResources(payload);
     const response: any = {
       statusCode: 200,
-      data: []
-    }
+      data: [],
+    };
 
     if (response) {
       (resetRef?.current as any)?.click();
@@ -798,8 +801,8 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
           replacement_resource_assigned_level: replacement.replacement_resource_assigned_level,
           replacement_selected_percentage: '',
           replacement_resource_type: replacementResourceDefaults.replacement_resource_type,
-          replacement_start_date: replacementResourceDefaults.replacement_start_date
-        }
+          replacement_start_date: replacementResourceDefaults.replacement_start_date,
+        };
       });
     }
     setReplacements(replacementList);
@@ -903,17 +906,23 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
                 style={{ padding: '5px 0', paddingBottom: '0px' }}
                 dataSource={replacementResources}
                 renderItem={(item: any) => (
-                  <List.Item onClick={() => handleOpenReplacement(item)} style={{ padding: '5px 0', textAlign: 'center' }}>
-                    <TypographyText style={{ color: '#1677ff', cursor: 'pointer' }}>{item.resource_name}</TypographyText>
-                    {
-                      item?.start_date ? (
-                        <>
-                          <TypographyText>{item.start_date}</TypographyText>
-                          <TypographyText>{item.end_date}</TypographyText>
-                        </>
-                      ) :
-                        <TypographyText><strong>No Vacations</strong></TypographyText>
-                    }
+                  <List.Item
+                    onClick={() => handleOpenReplacement(item)}
+                    style={{ padding: '5px 0', textAlign: 'center' }}
+                  >
+                    <TypographyText style={{ color: '#1677ff', cursor: 'pointer' }}>
+                      {item.resource_name}
+                    </TypographyText>
+                    {item?.start_date ? (
+                      <>
+                        <TypographyText>{item.start_date}</TypographyText>
+                        <TypographyText>{item.end_date}</TypographyText>
+                      </>
+                    ) : (
+                      <TypographyText>
+                        <strong>No Vacations</strong>
+                      </TypographyText>
+                    )}
                   </List.Item>
                 )}
               />
