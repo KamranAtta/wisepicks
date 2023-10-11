@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
@@ -137,7 +136,6 @@ const EditProjectForm = () => {
 
   const getTechnologiesTypes = async () => {
     const res: skill[] = await getSkills();
-    console.log('Skillssss', res);
     setTechnologies(res);
   };
 

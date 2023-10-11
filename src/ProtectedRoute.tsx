@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Navigate } from 'react-router-dom';
 
 function PrivateRoute({ children }: any) {

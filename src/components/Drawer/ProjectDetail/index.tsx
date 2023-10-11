@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';

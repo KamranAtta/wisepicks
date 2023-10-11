@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
 // import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Input, Row, notification } from 'antd';

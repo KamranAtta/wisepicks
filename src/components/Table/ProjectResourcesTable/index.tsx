@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable camelcase */
@@ -169,58 +168,66 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
 
   const fetchReplacementResources = async (resourceIds: any) => {
     setLoader(true);
-    const replacementResources = await getReplacementResources({ resourcesId: resourceIds });
-    const replacementResourceList = replacementResources.data.map((projectResource: any) => {
-      return {
-        key: projectResource?.resource_id,
-        resource_name: projectResource?.resource_name,
-        start_date: projectResource?.start_date ? projectResource.start_date.split('T')[0] : '',
-        end_date: projectResource?.end_date ? projectResource.end_date.split('T')[0] : '',
-        replacements: projectResource?.replacements,
-      };
-    });
-    setReplacementResources(replacementResourceList);
-    setLoader(false);
+    const response = await getReplacementResources({ resourcesId: resourceIds });
+    if (response.statusCode === 401) {
+      logout();
+    } else {
+      const replacementResourceList = response.data.map((projectResource: any) => {
+        return {
+          key: projectResource?.resource_id,
+          resource_name: projectResource?.resource_name,
+          start_date: projectResource?.start_date ? projectResource.start_date.split('T')[0] : '',
+          end_date: projectResource?.end_date ? projectResource.end_date.split('T')[0] : '',
+          replacements: projectResource?.replacements,
+        };
+      });
+      setReplacementResources(replacementResourceList);
+      setLoader(false);
+    }
   };
   const fetchResources = async () => {
     setLoader(true);
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
-    const projectDetails = await getProjectDetails(projectId as unknown as number);
-    setProject(projectDetails?.data);
-    const milliseconds = Date.parse(projectDetails?.data?.end_date) - now.getTime();
+    const response = await getProjectDetails(projectId as unknown as number);
+    if (response.statusCode === 401) {
+      logout();
+    } else {
+      setProject(response?.data);
+      const milliseconds = Date.parse(response?.data?.end_date) - now.getTime();
 
-    setProjectCompletionTime(convertMillisecondsToDaysHours(milliseconds));
+      setProjectCompletionTime(convertMillisecondsToDaysHours(milliseconds));
 
-    const allocationResources = await getProjectResourceAllocation(projectId as string);
-    const resourceList = [];
-    let assignedResourceIds: any[] = [];
-    for (const projectResource of allocationResources.data) {
-      const r = {
-        key: projectResource?.project_resource_id,
-        name: projectResource?.resource_name,
-        team: projectResource?.team_name,
-        level: projectResource?.level,
-        fte: projectResource?.fte,
-        joiningDate: projectResource?.start_date,
-        type: projectResource?.resource_type,
-        status: '',
-        resourceId: projectResource?.resource_id,
-        projectResourceId: projectResource?.project_resource_id,
-        assignedResources: projectResource?.assigned_resources,
-        projectPlanId: projectResource?.project_plan_id,
-        teamId: projectResource?.team_id,
-        projectId: projectResource?.project_id,
-      };
-      if (projectResource?.assigned_resources.length > 0) {
-        const arrayOfIds = projectResource.assigned_resources.map((obj: any) => obj.resource_id);
-        assignedResourceIds = [...assignedResourceIds, ...arrayOfIds];
+      const allocationResources = await getProjectResourceAllocation(projectId as string);
+      const resourceList = [];
+      let assignedResourceIds: any[] = [];
+      for (const projectResource of allocationResources.data) {
+        const r = {
+          key: projectResource?.project_resource_id,
+          name: projectResource?.resource_name,
+          team: projectResource?.team_name,
+          level: projectResource?.level,
+          fte: projectResource?.fte,
+          joiningDate: projectResource?.start_date,
+          type: projectResource?.resource_type,
+          status: '',
+          resourceId: projectResource?.resource_id,
+          projectResourceId: projectResource?.project_resource_id,
+          assignedResources: projectResource?.assigned_resources,
+          projectPlanId: projectResource?.project_plan_id,
+          teamId: projectResource?.team_id,
+          projectId: projectResource?.project_id,
+        };
+        if (projectResource?.assigned_resources.length > 0) {
+          const arrayOfIds = projectResource.assigned_resources.map((obj: any) => obj.resource_id);
+          assignedResourceIds = [...assignedResourceIds, ...arrayOfIds];
+        }
+        resourceList.push(r);
       }
-      resourceList.push(r);
+      fetchReplacementResources(assignedResourceIds);
+      setResources(resourceList);
+      setLoader(false);
     }
-    fetchReplacementResources(assignedResourceIds);
-    setResources(resourceList);
-    setLoader(false);
   };
 
   const renderManageResource = async (data: any) => {
@@ -268,10 +275,14 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const response: any = await assignProjectResources(payload);
 
     if (response) {
-      (resetRef?.current as any)?.click();
-      setOpenModal(false);
-      await fetchResources();
-      setOpenAssignResourceModal(false);
+      if (response.statusCode === 401) {
+        logout();
+      } else {
+        (resetRef?.current as any)?.click();
+        setOpenModal(false);
+        await fetchResources();
+        setOpenAssignResourceModal(false);
+      }
     } else {
       notificationConfig = {
         type: 'error',
@@ -338,11 +349,15 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       await fetchResources();
       setOpenAssignResourceModal(false);
     } else {
-      notificationConfig = {
-        type: 'error',
-        message: 'Error Occured',
-        description: 'Error in Resource assignment',
-      };
+      if (response?.statusCode == 401) {
+        logout();
+      } else {
+        notificationConfig = {
+          type: 'error',
+          message: 'Error Occured',
+          description: 'Error in Resource assignment',
+        };
+      }
     }
     setLoader(false);
     notificationHandler(notificationConfig);
@@ -714,10 +729,14 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
     const response: any = await assignProjectResources(payload);
 
     if (response) {
-      (resetRef?.current as any)?.click();
-      setOpenModal(false);
-      await fetchResources();
-      setOpenAssignResourceModal(false);
+      if (response.statusCode === 401) {
+        logout();
+      } else {
+        (resetRef?.current as any)?.click();
+        setOpenModal(false);
+        await fetchResources();
+        setOpenAssignResourceModal(false);
+      }
     } else {
       notificationConfig = {
         type: 'error',
@@ -922,7 +941,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
                 dataSource={replacementResources}
                 renderItem={(item: any) => (
                   <List.Item
-                    onClick={() => handleOpenReplacement(item)}
+                    onClick={item.start_date ? () => handleOpenReplacement(item) : undefined}
                     style={{ padding: '5px 0', textAlign: 'center' }}
                   >
                     <TypographyText style={{ color: '#1677ff', cursor: 'pointer' }}>

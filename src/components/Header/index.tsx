@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { ConfigProvider, Layout } from 'antd';
