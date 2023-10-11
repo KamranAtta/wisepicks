@@ -152,6 +152,8 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   const [projectCompletionTime, setProjectCompletionTime] = useState<any>();
   const now = new Date();
   const [selectProjectResource, setSelectProjectResource] = useState<any>({});
+  const [onVacationEngineer, setOnVacationEngineer] = useState<any>({});
+
   const { logout } = useLogout();
 
   function convertMillisecondsToDaysHours(milliseconds: number) {
@@ -208,6 +210,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         assignedResources: projectResource?.assigned_resources,
         projectPlanId: projectResource?.project_plan_id,
         teamId: projectResource?.team_id,
+        projectId: projectResource?.project_id,
       };
       if (projectResource?.assigned_resources.length > 0) {
         const arrayOfIds = projectResource.assigned_resources.map((obj: any) => obj.resource_id);
@@ -728,11 +731,17 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   };
 
   const handleReplacement = async () => {
+    setLoader(true);
     let notificationConfig: NotificationHandlerProps = {
       type: 'success',
       message: 'Resources Assigned',
       description: 'Resources have been assigned',
     };
+    const projectPlanObj = resources.find((obj: any) =>
+      obj.assignedResources.some(
+        (resource: any) => resource.resource_id === onVacationEngineer.key,
+      ),
+    );
     const replacementsEngineers = [];
     for (const rep of replacements) {
       if (rep.replacement_selected) {
@@ -748,26 +757,31 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       }
     }
     const payload = {
+      resource_id: onVacationEngineer.key,
       project_id: project.id,
-      project_plan_id: selectProjectResource?.projectPlanId,
-      resource_type: selectProjectResource?.type,
-      team_name: selectProjectResource?.team,
-      level: selectProjectResource?.level,
-      fte: selectProjectResource?.fte,
-      team_id: selectProjectResource?.teamId,
+      project_plan_id: projectPlanObj?.projectPlanId,
+      resource_type: projectPlanObj?.type,
+      team_name: projectPlanObj?.team,
+      level: projectPlanObj?.level,
+      fte: projectPlanObj?.fte,
+      team_id: projectPlanObj?.teamId,
       selectedEngineers: replacementsEngineers,
     };
-    // const response: any = await assignProjectResources(payload);
-    const response: any = {
-      statusCode: 200,
-      data: [],
-    };
+
+    const response: any = await assignProjectResources(payload);
 
     if (response) {
-      (resetRef?.current as any)?.click();
-      setOpenModal(false);
-      await fetchResources();
-      setOpenAssignResourceModal(false);
+      if (response.statusCode === 401) {
+        logout();
+      } else {
+        (resetRef?.current as any)?.click();
+        setOpenModal(false);
+        await fetchResources();
+        setOpenAssignResourceModal(false);
+        setOpenReplacement(false);
+        setReplacements([]);
+        setReplacementResources([]);
+      }
     } else {
       notificationConfig = {
         type: 'error',
@@ -791,6 +805,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   const handleOpenReplacement = (item: any) => {
     let replacementList = [];
     if (item.replacements.length > 0) {
+      setOnVacationEngineer(item);
       replacementList = item?.replacements.map((replacement: any) => {
         return {
           replacement_selected: false,
