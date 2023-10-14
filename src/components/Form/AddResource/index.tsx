@@ -130,10 +130,10 @@ const AddResourceForm = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder='Resource Name' />
         </Form.Item>
 
-        <Form.Item name='gender' label='Select Gender'>
+        <Form.Item name='gender' label='Gender'>
           <Form.Item name='gender'>
             <Select
               placeholder='Select Gender'
@@ -157,7 +157,7 @@ const AddResourceForm = () => {
 
         <Form.Item
           name='team_id'
-          label='Select Team'
+          label='Team'
           rules={[{ required: true, message: 'Please select a team from the dropdown!' }]}
         >
           <Form.Item
@@ -165,7 +165,7 @@ const AddResourceForm = () => {
             rules={[{ required: true, message: 'Please select a team from the dropdown!' }]}
           >
             <Select
-              placeholder='Select Team'
+              placeholder='Team'
               options={teams.map((item: team) => ({
                 label: item.name,
                 value: item.id,
@@ -175,7 +175,7 @@ const AddResourceForm = () => {
           </Form.Item>
         </Form.Item>
 
-        <Form.Item name='employment_status' label='Select Employment Status'>
+        <Form.Item name='employment_status' label='Employment Status'>
           <Form.Item name='employment_status'>
             <Select
               placeholder='Select Employment Status'
@@ -193,7 +193,7 @@ const AddResourceForm = () => {
           </Form.Item>
         </Form.Item>
 
-        <Form.Item name='experience' label='Select Experience'>
+        <Form.Item name='experience' label='Experience'>
           <Form.Item name='experience'>
             <Select
               placeholder='Select work experience'
@@ -249,7 +249,7 @@ const AddResourceForm = () => {
 
         <Form.Item
           name='skill_ids'
-          label='Select Skills'
+          label='Skills'
           rules={[{ required: true, message: 'Please select skills' }]}
         >
           <Select
@@ -265,7 +265,7 @@ const AddResourceForm = () => {
 
         <Form.Item
           name={'assigned_level'}
-          label='Select Designation'
+          label='Designation'
           rules={[{ required: true, message: 'Please select a designation!' }]}
         >
           <Select

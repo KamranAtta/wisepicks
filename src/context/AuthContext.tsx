@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { createContext, useEffect, ReactNode, useReducer } from 'react';
 
 export const AuthContext = createContext<any>(undefined);

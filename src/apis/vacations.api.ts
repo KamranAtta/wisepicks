@@ -40,3 +40,13 @@ export const getResourceVacations = async (resourceId: string) => {
     return err;
   }
 };
+
+export const getReplacementResources = async (body: object) => {
+  try {
+    const response = await doPost('/vacations/replacement-resources', body);
+    response;
+    return response?.data;
+  } catch (err: any) {
+    return err;
+  }
+};

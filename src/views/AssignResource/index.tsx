@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import StepsComponent from '../../components/Steps';
 import ProjectResourcesTable from '../../components/Table/ProjectResourcesTable';
 import { ProjectResourceQueryI } from '../../components/Table/ProjectResourcesTable/interface';
