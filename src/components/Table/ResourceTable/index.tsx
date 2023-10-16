@@ -87,6 +87,10 @@ ResourceTableI) {
     pageSize: 10,
     total: count,
   };
+  const searchConfig = {
+    pageNo: 1,
+    pageSize: 999,
+  };
   const [pagination, setPagination] = useState(paginationConfig);
   const nameParam = new URLSearchParams(location.search);
   const resourceName = nameParam.get('name');
@@ -118,12 +122,18 @@ ResourceTableI) {
         queryParams += `&assignedLevel[]=${level}`;
       });
     }
-    if (query?.pagination?.current) {
-      queryParams += `&page=${query?.pagination?.current}`;
+    if (query?.name) {
+      queryParams += `&page=${searchConfig?.pageNo}`;
+      queryParams += `&pageSize=${searchConfig?.pageSize}`;
+    } else {
+      if (query?.pagination?.current) {
+        queryParams += `&page=${query?.pagination?.current}`;
+      }
+      if (query?.pagination?.pageSize) {
+        queryParams += `&pageSize=${query?.pagination?.pageSize}`;
+      }
     }
-    if (query?.pagination?.pageSize) {
-      queryParams += `&pageSize=${query?.pagination?.pageSize}`;
-    }
+
     return queryParams;
   };
 

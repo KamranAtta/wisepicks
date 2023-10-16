@@ -70,6 +70,7 @@ export default function ProjectList() {
             value={searchQuery}
             onChange={(e: FormEvent<HTMLElement>) => handleSearchQueryChange(e)}
             onPressEnter={submitSearchInput}
+            placeholder={'Search project'}
           />
           <ButtonComponent type='primary' onClick={submitSearchInput}>
             Search

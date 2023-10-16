@@ -30,11 +30,20 @@ export default function ProjectTable({ projectQuery }: ProjectTableI) {
     total: count,
   };
   const [pagination, setPagination] = useState(paginationConfig);
+  const searchConfig = {
+    pageNo: 1,
+    pageSize: 999,
+  };
 
   const prepareQueryBag = (query: any) => {
     let queryParams = `?name=${query?.name || ''}`;
-    queryParams += `&page=${query?.pagination?.current || 1}`;
-    queryParams += `&pageSize=${query?.pagination?.pageSize || 10}`;
+    if (query?.name) {
+      queryParams += `&page=${searchConfig?.pageNo}`;
+      queryParams += `&pageSize=${searchConfig?.pageSize}`;
+    } else {
+      queryParams += `&page=${query?.pagination?.current || 1}`;
+      queryParams += `&pageSize=${query?.pagination?.pageSize || 10}`;
+    }
     if (query?.filter?.domain?.length > 0) {
       query?.filter?.domain?.forEach((domainId: string) => {
         queryParams += `&domain[]=${domainId}`;
