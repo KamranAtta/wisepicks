@@ -43,6 +43,7 @@ import dayjs from 'dayjs';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import Loader from '../../common/Loader';
 import { useLogout } from '../../../hooks/useLogout';
+import { getTeams } from '../../../apis';
 
 const styles = {
   projectContainer: { display: 'flex', justifyContent: 'center' } as React.CSSProperties,
@@ -74,6 +75,7 @@ ResourceTableI) {
   const [loader, setLoader] = useState<boolean>(false);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [queryBag, setQueryBag] = useState({});
   const [openVacationModal, setOpenVacationModal] = useState(false);
   const { contextHolder, notificationHandler } = NotificationComponent();
@@ -105,6 +107,11 @@ ResourceTableI) {
     if (query?.filter?.skill_ids?.length > 0) {
       query?.filter?.skill_ids?.forEach((skillId: string) => {
         queryParams += `&skills[]=${skillId}`;
+      });
+    }
+    if (query?.filter?.team?.length > 0) {
+      query?.filter?.team?.forEach((teamId: string) => {
+        queryParams += `&teams[]=${teamId}`;
       });
     }
     if (query?.filter?.utilization) {
@@ -154,8 +161,10 @@ ResourceTableI) {
   const preFetchingFilter = async () => {
     const skillList = await getSkills();
     const projectList = await getProjectList();
+    const teams = await getTeams();
     setProjects(projectList);
     setSkills(skillList);
+    setTeams(teams);
   };
 
   useEffect(() => {
@@ -229,7 +238,7 @@ ResourceTableI) {
 
     if (utilizationETE > 100) {
       meta = { color: 'red', text: 'OVER UTILIZED' };
-    } else if (utilizationETE >= 50 && utilizationETE <= 100) {
+    } else if (utilizationETE >= 90 && utilizationETE <= 100) {
       meta = { color: 'green', text: 'NORMAL' };
     }
 
@@ -271,6 +280,12 @@ ResourceTableI) {
       dataIndex: 'team_name',
       key: 'team',
       render: (element, row) => renderTeamsColumn(row),
+      filterSearch: true,
+      filterMultiple: true,
+      filters:
+        teams?.length > 0
+          ? teams?.map((element: any) => ({ text: element?.name, value: element?.id }))
+          : [],
     },
     {
       title: 'Availability In Hours',
