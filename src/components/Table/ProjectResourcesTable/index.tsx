@@ -761,24 +761,31 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         (resource: any) => resource.resource_id === onVacationEngineer.key,
       ),
     );
-    const replacementsEngineers = [];
-    for (const rep of replacements) {
-      if (rep.replacement_selected) {
-        replacementsEngineers.push({
-          resource_id: rep.replacement_resource_id,
-          selectedPercentage: rep.replacement_selected_percentage,
-          selected_resource_type: replacementResourceDefaults.replacement_resource_type,
-        });
-      }
-    }
 
-    const assignedResources = projectPlanObj.assignedResources.map((item: any) => {
+    let assignedResources = projectPlanObj.assignedResources.map((item: any) => {
       return {
         resource_id: item.resource_id,
         selected_resource_type: item?.resource_type,
         selectedPercentage: item?.deployed_percentage,
-      }
+        start_date: item?.start_date ?? null,
+      };
     });
+
+    const replacementsEngineers = [];
+    for (const rep of replacements) {
+      if (rep.replacement_selected) {
+        assignedResources = assignedResources.filter(
+          (obj: any) => obj.resource_id !== rep.replacement_resource_id,
+        );
+        replacementsEngineers.push({
+          resource_id: rep.replacement_resource_id,
+          selectedPercentage: rep.replacement_selected_percentage,
+          selected_resource_type: replacementResourceDefaults.replacement_resource_type,
+          start_date:
+            rep.replacement_start_date != undefined ? new Date(rep.replacement_start_date) : null,
+        });
+      }
+    }
     const payload = {
       project_id: project.id,
       project_plan_id: projectPlanObj?.projectPlanId,
