@@ -74,6 +74,7 @@ export default function ResourceList() {
             value={searchQuery}
             onChange={(e) => handleSearchQueryChange(e)}
             onPressEnter={() => submitSearchInput()}
+            placeholder={'Search resource'}
           />
           <ButtonComponent type='primary' onClick={submitSearchInput}>
             Search

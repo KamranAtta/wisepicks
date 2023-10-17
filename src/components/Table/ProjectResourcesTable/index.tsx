@@ -761,32 +761,36 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         (resource: any) => resource.resource_id === onVacationEngineer.key,
       ),
     );
+
+    let assignedResources = projectPlanObj.assignedResources.map((item: any) => {
+      return {
+        resource_id: item.resource_id,
+        selected_resource_type: item?.resource_type,
+        selectedPercentage: item?.deployed_percentage,
+        start_date: item?.start_date ?? null,
+      };
+    });
+
     const replacementsEngineers = [];
     for (const rep of replacements) {
       if (rep.replacement_selected) {
+        assignedResources = assignedResources.filter(
+          (obj: any) => obj.resource_id !== rep.replacement_resource_id,
+        );
         replacementsEngineers.push({
           resource_id: rep.replacement_resource_id,
-          resource_name: rep.replacement_resource_name,
-          team_name: rep.replacement_resource_team,
           selectedPercentage: rep.replacement_selected_percentage,
-          assigned_level: rep.replacement_resource_assigned_level,
-          selected: rep.replacement_selected,
           selected_resource_type: replacementResourceDefaults.replacement_resource_type,
+          start_date:
+            rep.replacement_start_date != undefined ? new Date(rep.replacement_start_date) : null,
         });
       }
     }
     const payload = {
-      resource_id: onVacationEngineer.key,
       project_id: project.id,
       project_plan_id: projectPlanObj?.projectPlanId,
-      resource_type: projectPlanObj?.type,
-      team_name: projectPlanObj?.team,
-      level: projectPlanObj?.level,
-      fte: projectPlanObj?.fte,
-      team_id: projectPlanObj?.teamId,
-      selectedEngineers: replacementsEngineers,
+      selectedEngineers: [...assignedResources, ...replacementsEngineers],
     };
-
     const response: any = await assignProjectResources(payload);
 
     if (response) {
