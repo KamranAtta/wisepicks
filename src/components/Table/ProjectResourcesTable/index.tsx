@@ -766,27 +766,24 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
       if (rep.replacement_selected) {
         replacementsEngineers.push({
           resource_id: rep.replacement_resource_id,
-          resource_name: rep.replacement_resource_name,
-          team_name: rep.replacement_resource_team,
           selectedPercentage: rep.replacement_selected_percentage,
-          assigned_level: rep.replacement_resource_assigned_level,
-          selected: rep.replacement_selected,
           selected_resource_type: replacementResourceDefaults.replacement_resource_type,
         });
       }
     }
+
+    const assignedResources = projectPlanObj.assignedResources.map((item: any) => {
+      return {
+        resource_id: item.resource_id,
+        selected_resource_type: item?.resource_type,
+        selectedPercentage: item?.deployed_percentage,
+      }
+    });
     const payload = {
-      resource_id: onVacationEngineer.key,
       project_id: project.id,
       project_plan_id: projectPlanObj?.projectPlanId,
-      resource_type: projectPlanObj?.type,
-      team_name: projectPlanObj?.team,
-      level: projectPlanObj?.level,
-      fte: projectPlanObj?.fte,
-      team_id: projectPlanObj?.teamId,
-      selectedEngineers: replacementsEngineers,
+      selectedEngineers: [...assignedResources, ...replacementsEngineers],
     };
-
     const response: any = await assignProjectResources(payload);
 
     if (response) {
