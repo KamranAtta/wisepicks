@@ -944,24 +944,22 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
                 style={{ padding: '5px 0', paddingBottom: '0px' }}
                 dataSource={replacementResources}
                 renderItem={(item: any) => (
-                  <List.Item
-                    onClick={item.start_date ? () => handleOpenReplacement(item) : undefined}
-                    style={{ padding: '5px 0', textAlign: 'center' }}
-                  >
-                    <TypographyText style={{ color: '#1677ff', cursor: 'pointer' }}>
-                      {item.resource_name}
-                    </TypographyText>
+                  <>
                     {item?.start_date ? (
-                      <>
+                      <List.Item
+                        onClick={item.start_date ? () => handleOpenReplacement(item) : undefined}
+                        style={{ padding: '5px 0', textAlign: 'center' }}
+                      >
+                        <TypographyText style={{ color: '#1677ff', cursor: 'pointer' }}>
+                          {item.resource_name}
+                        </TypographyText>
                         <TypographyText>{item.start_date}</TypographyText>
                         <TypographyText>{item.end_date}</TypographyText>
-                      </>
+                      </List.Item>
                     ) : (
-                      <TypographyText>
-                        <strong>No Vacations</strong>
-                      </TypographyText>
+                      ''
                     )}
-                  </List.Item>
+                  </>
                 )}
               />
             </Card>
