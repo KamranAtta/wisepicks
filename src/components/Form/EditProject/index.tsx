@@ -10,7 +10,6 @@ import {
   Row,
   Select,
   Space,
-  // Divider,
   notification,
 } from 'antd';
 import { Fragment, useState, useEffect } from 'react';
@@ -20,17 +19,19 @@ import {
   getTeams,
   getProject,
   editProject,
-  // getProjectResourceAllocation
+  getProjectResourceAllocation,
 } from '../../../apis/index';
 import Loader from '../../common/Loader';
 import Title from 'antd/lib/typography/Title';
 import AddClient from '../../Drawer/AddClient';
-import moment from 'moment';
 import { PROJECT_QUERY_INITIAL, MESSAGES, FORMATS } from '../../../utils/constant';
 import { client } from '../interfaces/clientInterface';
 import { team } from '../interfaces/teamInterface';
 import { skill } from '../interfaces/skillInterface';
 import TypographyTitle from '../../common/Title';
+import dayjs from 'dayjs';
+import { useLogout } from '../../../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
   center: {
@@ -79,10 +80,11 @@ const EditProjectForm = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const [clients, setClients] = useState<client[]>([]);
   const [teams, setTeams] = useState<team[]>([]);
-  // const [projectLeads, setProjectLeads] = useState<any>([]);
   const [technologies, setTechnologies] = useState<skill[]>([]);
   const [clientFormOpen, setClientFormOpen] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const { logout } = useLogout();
+  const navigate = useNavigate();
 
   const [loader, setLoader] = useState<boolean>(false);
   const getProjectDetailsFunction = async (projectId: string | null) => {
@@ -94,30 +96,39 @@ const EditProjectForm = () => {
     queryParams;
     const response: any = await getProject(queryParams?.id as string);
     if (response.statusCode != 200) {
+      if (response == 401) {
+        logout();
+      }
       notification.open({
         message: MESSAGES.ERROR,
       });
       return;
     }
-    // const response2: any = await getProjectResourceAllocation(queryParams?.id as string);
-    // console.log('Project Resources', response2.data);
-    // const projectResources = response2?.data;
+
     const data = response.data;
     data;
-    data?.start_date != null ? (data.start_date = moment(data.start_date)) : null;
-    data?.end_date != null ? (data.end_date = moment(data.end_date)) : null;
-    data?.expected_start_date != null
-      ? (data.expected_start_date = moment(data.expected_start_date))
-      : null;
-    data?.expected_end_date != null
-      ? (data.expected_end_date = moment(data.expected_end_date))
-      : null;
-    // data.projectResources = projectResources;
+    data?.start_date != null ? (data.start_date = dayjs(data.start_date)) : null;
+    data?.end_date != null ? (data.end_date = dayjs(data.end_date)) : null;
     const domains = [...data.domain];
+    data.project_duration = [data?.start_date, data?.end_date];
     data.domain = domains.map((item) => ({
       label: item.value,
       id: item.id,
     }));
+    const response2: any = await getProjectResourceAllocation(queryParams?.id as string);
+
+    const projectResources = response2?.data;
+
+    data.projectResources = projectResources.map((item: any) => {
+      const start_date = item.start_date ? dayjs(item.start_date) : null;
+      const end_date = item.end_date ? dayjs(item.end_date) : null;
+      return {
+        ...item,
+        start_date: start_date,
+        end_date: end_date,
+        date_range: [start_date, end_date],
+      };
+    });
 
     ('data is');
     data;
@@ -151,11 +162,23 @@ const EditProjectForm = () => {
     const projectId: string | null = urlParams.get('id');
     setLoader(true);
     values.start_date =
-      values.start_date != undefined ? values.start_date.format(FORMATS.DATE_FORMAT) : null;
+      values.project_duration != undefined
+        ? values.project_duration[0].format(FORMATS.DATE_FORMAT)
+        : null;
     values.end_date =
-      values.end_date != undefined ? values.end_date.format(FORMATS.DATE_FORMAT) : null;
+      values.project_duration != undefined
+        ? values.project_duration[1].format(FORMATS.DATE_FORMAT)
+        : null;
+    const proResources = values?.projectResources?.map((item: any) => {
+      return {
+        ...item,
+        start_date: item.date_range ? item.date_range[0].format(FORMATS.DATE_FORMAT) : null,
+        end_date: item.date_range ? item.date_range[1].format(FORMATS.DATE_FORMAT) : null,
+      };
+    });
+    values.projectResources = proResources ?? [];
 
-    values.domain = values.domain.map((item: any) => item.id);
+    values.domain = values?.domain.map((item: any) => item?.id);
     values;
     values = { ...values, id: projectId };
     const response: response = await editProject(values);
@@ -164,13 +187,16 @@ const EditProjectForm = () => {
         message: MESSAGES.PROJECT_EDIT_SUCCESS,
       });
       setLoader(false);
-      // navigate('/projects');
-      getProjectDetailsFunction(projectId);
+      navigate('/assign-resource?id=' + projectId);
     } else {
-      setLoader(false);
-      notification.open({
-        message: MESSAGES.ERROR,
-      });
+      if (response.statusCode == 401) {
+        logout();
+      } else {
+        setLoader(false);
+        notification.open({
+          message: MESSAGES.ERROR,
+        });
+      }
     }
   };
 
@@ -208,10 +234,7 @@ const EditProjectForm = () => {
         >
           <Row gutter={16}>
             <Col span={24}>
-              <Form.Item
-                name='client_id'
-                // rules={[{ required: true, message: 'Please select a client or add one!' }]}
-              >
+              <Form.Item name='client_id'>
                 <Select
                   options={clients.map((client: client) => ({
                     label: client.name,
@@ -261,9 +284,20 @@ const EditProjectForm = () => {
           <Row>
             <Col>
               <TypographyTitle level={5} style={styles.heading}>
-                Start Date
+                Duration
               </TypographyTitle>
               <Form.Item
+                name={'project_duration'}
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please select date',
+                  },
+                ]}
+              >
+                <DatePicker.RangePicker />
+              </Form.Item>
+              {/* <Form.Item
                 name='start_date'
                 rules={[
                   {
@@ -272,10 +306,10 @@ const EditProjectForm = () => {
                   },
                 ]}
               >
-                <DatePicker placeholder='Start Date' />
-              </Form.Item>
+                <DatePicker />
+              </Form.Item> */}
             </Col>
-            <Col style={styles.padding}>
+            {/* <Col style={styles.padding}>
               <TypographyTitle level={5} style={styles.heading}>
                 End Date
               </TypographyTitle>
@@ -288,39 +322,7 @@ const EditProjectForm = () => {
                   },
                 ]}
               >
-                <DatePicker placeholder='End Date' />
-              </Form.Item>
-            </Col>
-            {/* <Col style={styles.padding}>
-              <TypographyTitle level={5} style={styles.heading}>
-                Expected Start Date
-              </TypographyTitle>
-              <Form.Item
-                name='expected_start_date'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select date',
-                  },
-                ]}
-              >
-                <DatePicker placeholder='Expected Start Date' />
-              </Form.Item>
-            </Col>
-            <Col style={styles.padding}>
-              <TypographyTitle level={5} style={styles.heading}>
-                Expected End Date
-              </TypographyTitle>
-              <Form.Item
-                name='expected_end_date'
-                rules={[
-                  {
-                    required: false,
-                    message: 'Please select date',
-                  },
-                ]}
-              >
-                <DatePicker placeholder='Expected End Date' />
+                <DatePicker />
               </Form.Item>
             </Col> */}
           </Row>
@@ -343,9 +345,9 @@ const EditProjectForm = () => {
                               <Input disabled />
                             </Form.Item>
                             <TypographyTitle level={5} style={styles.heading}>
-                              Start Date
+                              Duration
                             </TypographyTitle>
-                            <Form.Item
+                            {/* <Form.Item
                               name={[name, 'start_date']}
                               rules={[
                                 {
@@ -359,8 +361,8 @@ const EditProjectForm = () => {
 
                             <TypographyTitle level={5} style={styles.heading}>
                               End Date
-                            </TypographyTitle>
-                            <Form.Item
+                            </TypographyTitle> */}
+                            {/* <Form.Item
                               name={[name, 'end_date']}
                               rules={[
                                 {
@@ -370,9 +372,20 @@ const EditProjectForm = () => {
                               ]}
                             >
                               <DatePicker placeholder='End Date' />
+                            </Form.Item> */}
+
+                            <Form.Item
+                              name={[name, 'date_range']}
+                              rules={[
+                                {
+                                  required: false,
+                                  message: 'Please select date',
+                                },
+                              ]}
+                            >
+                              <DatePicker.RangePicker />
                             </Form.Item>
                           </Col>
-
                           <Col>
                             <Form.Item
                               {...restField}
@@ -390,7 +403,7 @@ const EditProjectForm = () => {
                               ></Select>
                             </Form.Item>
                           </Col>
-                          <Col>
+                          {/* <Col>
                             <Form.Item
                               {...restField}
                               name={[name, 'skills_id']}
@@ -405,6 +418,31 @@ const EditProjectForm = () => {
                                   value: item.id,
                                   key: item.id,
                                 }))}
+                              ></Select>
+                            </Form.Item>
+                          </Col> */}
+                          <Col>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'resource_type']}
+                              rules={[{ required: true, message: 'Please select resource type!' }]}
+                            >
+                              <Select
+                                placeholder='Select resource type...'
+                                options={[
+                                  {
+                                    label: 'Planned',
+                                    value: 'Planned',
+                                  },
+                                  {
+                                    label: 'Planned/Shadow',
+                                    value: 'Planned/Shadow',
+                                  },
+                                  {
+                                    label: 'Additional',
+                                    value: 'Additional',
+                                  },
+                                ]}
                               ></Select>
                             </Form.Item>
                           </Col>
