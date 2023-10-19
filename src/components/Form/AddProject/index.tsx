@@ -209,10 +209,7 @@ const AddProjectForm = () => {
         >
           <Row gutter={16}>
             <Col span={24}>
-              <Form.Item
-                name='client_id'
-                rules={[{ required: true, message: 'Please select a client or add one!' }]}
-              >
+              <Form.Item name='client_id'>
                 <Select
                   options={clients.map((client: client) => ({
                     label: client.name,

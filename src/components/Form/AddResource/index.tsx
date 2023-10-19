@@ -122,7 +122,7 @@ const AddResourceForm = () => {
       >
         <Form.Item
           name='name'
-          label='Resource Name'
+          label='Name'
           rules={[
             {
               required: true,
@@ -160,10 +160,7 @@ const AddResourceForm = () => {
           label='Team'
           rules={[{ required: true, message: 'Please select a team from the dropdown!' }]}
         >
-          <Form.Item
-            name='team_id'
-            rules={[{ required: true, message: 'Please select a team from the dropdown!' }]}
-          >
+          <Form.Item name='team_id'>
             <Select
               placeholder='Team'
               options={teams.map((item: team) => ({
