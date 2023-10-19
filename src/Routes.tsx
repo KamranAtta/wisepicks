@@ -64,7 +64,7 @@ const Router = () => {
             }
           />
           <Route
-            path='/edit-project'
+            path='/edit-project/:id'
             element={
               <PrivateRoute>
                 <EditProject />
@@ -88,7 +88,7 @@ const Router = () => {
             }
           />
           <Route
-            path='/assign-resource'
+            path='/project/:projectId'
             element={
               <PrivateRoute>
                 <AssignResource />

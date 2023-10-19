@@ -52,7 +52,7 @@ import {
   PlusOutlined,
   ScheduleOutlined,
 } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useLogout } from '../../../hooks/useLogout';
 
@@ -152,6 +152,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   const now = new Date();
   const [selectProjectResource, setSelectProjectResource] = useState<any>({});
   const [onVacationEngineer, setOnVacationEngineer] = useState<any>({});
+  const { projectId } = useParams();
 
   const { logout } = useLogout();
 
@@ -187,8 +188,6 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
   };
   const fetchResources = async () => {
     setLoader(true);
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get('id');
     const response = await getProjectDetails(projectId as unknown as number);
     if (response.statusCode === 401) {
       logout();
@@ -224,7 +223,9 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
         }
         resourceList.push(r);
       }
-      fetchReplacementResources(assignedResourceIds);
+      if (assignedResourceIds.length > 0) {
+        fetchReplacementResources(assignedResourceIds);
+      }
       setResources(resourceList);
       setLoader(false);
     }
@@ -877,7 +878,7 @@ export default function ProjectResourcesTable({ resourceQuery }: ProjectResource
               props: {
                 type: 'primary',
                 icon: <PlusOutlined />,
-                onClick: () => navigate('/edit-project?id=' + project?.id),
+                onClick: () => navigate('/edit-project/' + project?.id),
               },
             },
           ]}
