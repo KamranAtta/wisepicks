@@ -138,7 +138,7 @@ export default function ProjectTable({ projectQuery }: ProjectTableI) {
   const renderProjectDetails = (element: any, action: string) => {
     return (
       <Space size='middle'>
-        <Link to={'/assign-resource?id=' + element.id}>{action}</Link>
+        <Link to={'/project/' + element.id}>{action}</Link>
       </Space>
     );
   };
