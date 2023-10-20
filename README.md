@@ -1,6 +1,6 @@
-# RESOURCE ALLY
+# STREAMEAST SOCCER
 
-### Resource management application
+### SPORTS STREAMING PLATFORM
 
 
 ## Available Scripts
