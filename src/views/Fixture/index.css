@@ -1,0 +1,88 @@
+.gutter-box {
+    display: none;
+    padding: 8px 0;
+    background: #00a0e9;
+  }
+.category-name { 
+  margin-top: 0px; 
+  margin-bottom: 16px; 
+  color: #ffffff;
+  text-transform: uppercase; 
+}
+.fixture-card {
+  display: flex;
+  padding-right: 20px;
+  padding-left: 20px;
+  justify-content: space-between;
+  align-items: center; 
+}
+.ant-card-head {
+  background-color: #e1dada !important;
+  min-height: 60px !important;
+}
+.fixture-link {
+  color: #464343;
+  text-transform: capitalize;
+  transition: transform 0.2s;
+}
+.fixture-link:hover {
+  color: #360808;
+  text-transform: capitalize;
+  transform: scale(1.2);
+}
+.flex-display {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.match-time {
+    border: 2px solid #e5e5e5;
+    padding-right: 5px;
+    display: inline-block;
+    border-radius: 4%;
+    padding-left: 6px;
+    background: #e5e5e5;
+    color: #464343
+  }
+.streams-table {
+  padding: 1rem;
+  background-color: #464343;
+  margin: 0 auto;
+}
+.ant-table-cell {
+  background: #1c1c1c;
+  color: white;
+}
+.ant-table-cell:hover {
+  color: #1c1c1c;
+}
+/* Your CSS file or in a style block */
+@media (max-width: 600px) {
+  .ant-col-12 {
+    display: block;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .ant-col-6 {
+    display: block;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .ant-card-body {
+    padding: 0px;
+  }
+  .flex-display {
+    font-size: 11px;
+    text-align: center;
+  }
+
+/* Media query for smaller screens, like mobile devices */
+@media (max-width: 768px) {
+  .streams-table {
+    padding: 0px;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+}

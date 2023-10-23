@@ -1,98 +1,32 @@
 import { Fragment } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import AddProject from './views/AddProject';
-import EditProject from './views/EditProject';
-import ProjectList from './views/ProjectList';
-import ResourceList from './views/ResouceList';
-import AddResource from './views/AddResource';
-import CloneProject from './views/CloneProject';
 import HeaderComponent from './components/Header';
-import RequestResource from './views/RequestResource';
 import AssignResource from './views/AssignResource';
-import Login from './views/Auth/Login';
-import PrivateRoute from './ProtectedRoute';
-import { useAuthContext } from './hooks/useAuthContext';
+import Fixture from './views/Fixture';
 
 const Router = () => {
-  const { user } = useAuthContext();
   return (
     <>
       <Fragment>
-        {user && <HeaderComponent></HeaderComponent>}
+        <HeaderComponent></HeaderComponent>
         <Routes>
+        <Route
+            path='/streams/:categoryName'
+            element={
+              <AssignResource />
+            }
+          />
           <Route
             path='/'
             element={
-              <PrivateRoute>
-                <ResourceList />
-              </PrivateRoute>
-            }
-          />
-          <Route path='/login' element={<Login />} />
-          <Route
-            path='/resources'
-            element={
-              <PrivateRoute>
-                <ResourceList />
-              </PrivateRoute>
+              <AssignResource />
             }
           />
           <Route
-            path='/projects'
+            path='/fixture/:teams'
             element={
-              <PrivateRoute>
-                <ProjectList />
-              </PrivateRoute>
-            }
-          />
-          {/* <Route path='/resources' element={<ResourceList />} /> */}
-          <Route
-            path='/add-resource'
-            element={
-              <PrivateRoute>
-                <AddResource />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/add-project'
-            element={
-              <PrivateRoute>
-                <AddProject />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/edit-project/:id'
-            element={
-              <PrivateRoute>
-                <EditProject />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/clone-project'
-            element={
-              <PrivateRoute>
-                <CloneProject />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/request-resource'
-            element={
-              <PrivateRoute>
-                <RequestResource />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/project/:projectId'
-            element={
-              <PrivateRoute>
-                <AssignResource />
-              </PrivateRoute>
+              <Fixture />
             }
           />
         </Routes>

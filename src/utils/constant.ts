@@ -19,6 +19,33 @@ export const MESSAGES = {
   LOGIN_SUCCESS: 'Logged in successfully',
 };
 
+export const categories = [
+  // {
+  //   label: 'streamsToday',
+  //   value: 'Streams today'
+  // },
+  {
+    label: 'Soccer',
+    value: 'Streams today'
+  },
+  {
+    label: 'Formula 1',
+    value: 'F1'
+  },
+  {
+    label: 'Tennis',
+    value: 'Tennis'
+  },
+  {
+    label: 'Boxing',
+    value: 'Boxing'
+  },
+  {
+    label: 'Cricket',
+    value: 'Cricket'
+  }
+]
+
 export const FORMATS = {
   DATE_FORMAT: 'YYYY-MM-DD',
 };

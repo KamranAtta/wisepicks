@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Axios from 'axios';
 import { getLocalStorage } from './localStorage';
 import { AUTH_TOKEN, LOCAL_STORAGE } from '../utils/constant';

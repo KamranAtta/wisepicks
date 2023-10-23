@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  background: black;
 }
 
 .App-logo {
@@ -41,6 +42,9 @@
 }
 .drawer {
   padding: 2em;
+}
+.body{
+background: black;
 }
 .drawer-content {
   padding: 2em;
