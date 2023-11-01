@@ -4,7 +4,7 @@ import { getLocalStorage } from './localStorage';
 import { AUTH_TOKEN, LOCAL_STORAGE } from '../utils/constant';
 const SERVER_API: string | undefined = process.env.REACT_APP_SERVER_API;
 
-export const doGet = async (path: string, headers: object = {}, baseURL = '') => {
+export const doGet = async (path: string, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
@@ -33,7 +33,7 @@ export const doGet = async (path: string, headers: object = {}, baseURL = '') =>
   }
 };
 
-export const doPost = async (path: string, data: object, headers: object = {}, baseURL = '') => {
+export const doPost = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
@@ -63,7 +63,7 @@ export const doPost = async (path: string, data: object, headers: object = {}, b
   }
 };
 
-export const doPut = async (path: string, data: object, headers: object = {}, baseURL = '') => {
+export const doPut = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
@@ -93,7 +93,7 @@ export const doPut = async (path: string, data: object, headers: object = {}, ba
   }
 };
 
-export const doPatch = async (path: string, data: object, headers: object = {}, baseURL = '') => {
+export const doPatch = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
@@ -123,7 +123,7 @@ export const doPatch = async (path: string, data: object, headers: object = {}, 
   }
 };
 
-export const doDelete = async (path: string, data: object, headers: object = {}, baseURL = '') => {
+export const doDelete = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 

@@ -40,7 +40,7 @@ import Loader from '../../components/common/Loader';
 
 const padding = {display: 'flex', paddingRight: '10px' , paddingLeft: '10px', color: 'black', justifyContent:'center'}
 
-export default  function  AssignResource() {
+export default  function  Home() {
   const matches = useMediaQuery('(min-width: 1000px)');
   const [fixtures, setFixtures] = useState<any>({});
   const { categoryName } = useParams();
@@ -67,8 +67,13 @@ export default  function  AssignResource() {
             size='small'
             title={
               <div  style={headerStyle}>
-                <span style={{color: '#6a0707', fontSize: '15px', textTransform: 'capitalize'}}>
-                <InfoCircleOutlined style={iconStyle} />
+                <span style={{display: 'flex', alignItems: 'center', color: '#6a0707', fontSize: '15px', textTransform: 'capitalize'}}>
+                
+                { subCategory?.subCategoryImage ? 
+                <img style={{width: '20px', paddingRight: '10px'}} 
+                src={subCategory?.subCategoryImage} 
+                alt={subCategory?.subCategoryName} 
+                />: <InfoCircleOutlined style={iconStyle} />}
                 {subCategory?.subCategoryName}
                 </span>
               </div>
@@ -96,9 +101,9 @@ export default  function  AssignResource() {
           to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
           >
             <div className='flex-display'>
-              <p><strong>{fixture.teamA}</strong>{' '}</p>
-              {fixture?.teamB ? <span style={padding}>vs</span>: ''}
-              <p><strong>{fixture.teamB}</strong>{' '}</p>
+              <p className='team-name'><strong>{fixture.teamA}</strong>{' '}</p>
+              {fixture?.teamB ? <p className='team-name' style={padding}>vs</p>: ''}
+              <p className='team-name'><strong>{fixture.teamB}</strong>{' '}</p>
             </div>
           </Link>
         </div>
@@ -131,13 +136,13 @@ export default  function  AssignResource() {
         </TypographyTitle>
         <Row className='flex-display'>
             <Space style={{ marginBottom: '15px' }} wrap>
-              <Button style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
+              <Button className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
                 Yesterday
               </Button>
-              <Button style={{ backgroundColor: '#5AB3BB' }} shape="round" size={'large'}>
+              <Button className='time-button' style={{ backgroundColor: '#5AB3BB' }} shape="round" size={'large'}>
                 Today
               </Button>
-              <Button style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
+              <Button className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
                 Tomorrow
               </Button>
             </Space>

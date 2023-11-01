@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import HeaderComponent from './components/Header';
-import AssignResource from './views/AssignResource';
+import Home from './views/Home';
 import Fixture from './views/Fixture';
 
 const Router = () => {
@@ -14,13 +14,13 @@ const Router = () => {
         <Route
             path='/streams/:categoryName'
             element={
-              <AssignResource />
+              <Home />
             }
           />
           <Route
             path='/'
             element={
-              <AssignResource />
+              <Home />
             }
           />
           <Route

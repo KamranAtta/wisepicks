@@ -1,0 +1,17 @@
+.menu-items {
+    color: white !important;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.ant-drawer-header {
+    background: rgb(149, 16, 13);
+}
+.ant-drawer-title {
+    color: aliceblue;
+}
+.ant-menu {
+    background: rgb(225, 6, 0);
+}
+.li.ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child {
+    background: #95290f;
+}

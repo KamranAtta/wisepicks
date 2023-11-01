@@ -36,14 +36,14 @@
   align-items: center;
 }
 .match-time {
-    border: 2px solid #e5e5e5;
-    padding-right: 5px;
-    display: inline-block;
-    border-radius: 4%;
-    padding-left: 6px;
-    background: #e5e5e5;
-    color: #464343
-  }
+  border: 2px solid #e5e5e5;
+  padding-right: 5px;
+  display: inline-block;
+  border-radius: 4%;
+  padding-left: 6px;
+  background: #e5e5e5;
+  color: #464343
+}
 /* Your CSS file or in a style block */
 @media (max-width: 600px) {
   .ant-col-12 {
@@ -62,5 +62,8 @@
   .flex-display {
     font-size: 11px;
     text-align: center;
+  }
+  .time-button {
+    font-size: 12px !important;
   }
 }

@@ -75,13 +75,22 @@
     font-size: 11px;
     text-align: center;
   }
-
+  .player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* Media query for smaller screens, like mobile devices */
 @media (max-width: 768px) {
   .streams-table {
     padding: 0px;
     width: 100%;
     margin: 0;
+  }
+  .ant-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

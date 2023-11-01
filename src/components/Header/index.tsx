@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { ConfigProvider, Layout } from 'antd';
+import './index.css'
 
 import Menu from '../common/Menu';
 import MenuItem from '../common/MenuItem';
@@ -32,7 +33,7 @@ export default function HeaderComponent() {
     <>
       {categories?.map((cat: any, index: any) => (
       <MenuItem key={index}>
-        <Link style={{color: 'white', fontWeight: '600'}} to={'/streams/' + cat.label} >{cat.label}</Link>
+        <Link className='menu-items' to={'/streams/' + cat.label} >{cat.label}</Link>
       </MenuItem>
       ))}
     </>
@@ -60,7 +61,7 @@ export default function HeaderComponent() {
           justifyContent: matches ? 'flex-start' : 'space-between',
         }}
       >
-        <a href=''>
+        <a href='/'>
           <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
             <img src={logo} width={200} />
           </div>
@@ -76,7 +77,7 @@ export default function HeaderComponent() {
         )}
       </div>
       <DrawerComponent
-        title='Resource Ally'
+        title='Streameast Soccer'
         open={headerDrawerOpen}
         onClose={() => setHeaderDrawerOpen(false)}
       >
