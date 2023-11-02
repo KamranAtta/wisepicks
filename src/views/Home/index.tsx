@@ -45,6 +45,7 @@ export default  function  Home() {
   const [fixtures, setFixtures] = useState<any>({});
   const { categoryName } = useParams();
   const [loader, setLoader] = useState<boolean>(false);
+  const notSoccer = ['Tennis', 'Cricket', 'Formula 1', 'Boxing']
 
   const getAllFixtures = async ()=> {
     setLoader(true);
@@ -67,7 +68,7 @@ export default  function  Home() {
             size='small'
             title={
               <div  style={headerStyle}>
-                <span style={{display: 'flex', alignItems: 'center', color: '#6a0707', fontSize: '15px', textTransform: 'capitalize'}}>
+                <span style={{display: 'flex', alignItems: 'center', color: '#6a0707', fontSize: '18px', textTransform: 'capitalize'}}>
                 
                 { subCategory?.subCategoryImage ? 
                 <img style={{width: '20px', paddingRight: '10px'}} 
@@ -81,7 +82,7 @@ export default  function  Home() {
             style={cardStyle}
           >
           {subCategory?.games?.map((fixture: any, index: any) => (
-            <FixtureCard key={index} fixture={fixture} />
+            <FixtureCard key={index} fixture={{...fixture, subCategoryName: subCategory?.subCategoryName}} />
           ))
           }
           </Card>
@@ -101,7 +102,9 @@ export default  function  Home() {
           to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
           >
             <div className='flex-display'>
-              <p className='team-name'><strong>{fixture.teamA}</strong>{' '}</p>
+              <p className='category'>{!notSoccer.includes(fixture?.subCategoryName) ? 'Soccer': fixture?.subCategoryName} </p>
+              <span className='dash'></span>
+              <p className='team-name'><strong> {fixture.teamA}</strong>{' '}</p>
               {fixture?.teamB ? <p className='team-name' style={padding}>vs</p>: ''}
               <p className='team-name'><strong>{fixture.teamB}</strong>{' '}</p>
             </div>
@@ -148,7 +151,7 @@ export default  function  Home() {
             </Space>
           </Row>
           {fixtures?.subCategories?.map((subCategory: any, index: any) => (
-            <SubCategoryCard key={index} subCategory={subCategory} />
+            <SubCategoryCard key={index} subCategory={{...subCategory}} />
           ))}
       </div>
       {loader ? <Loader /> : <></>}

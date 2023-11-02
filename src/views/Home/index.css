@@ -49,6 +49,17 @@
   background: #d1d1d1;
   color: #464343
 }
+.category {
+  font-weight: 800;
+  color: rgb(149, 16, 13);
+  font-size: 15px;
+}
+.dash {
+  width: 4px;
+  height: 14px;
+  margin: 0 10px;
+  background: #34c7c7;
+}
 /* Your CSS file or in a style block */
 @media (max-width: 600px) {
   .ant-col-16 {
