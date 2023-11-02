@@ -51,12 +51,22 @@
 }
 /* Your CSS file or in a style block */
 @media (max-width: 600px) {
+  .ant-col-16 {
+    display: block;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
   .ant-col-12 {
     display: block;
     flex: 0 0 100%;
     max-width: 100%;
   }
   .ant-col-6 {
+    display: block;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .ant-col-4 {
     display: block;
     flex: 0 0 100%;
     max-width: 100%;
