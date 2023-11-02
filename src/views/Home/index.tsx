@@ -60,9 +60,9 @@ export default  function  Home() {
     return (
       <Row gutter={24} style={{ marginBottom: '8px', justifyContent:'center'}}>
       {/* First Card */}
-        <Col span={6}>
+        <Col span={4}>
         </Col>
-        <Col span={12}>
+        <Col span={16}>
           <Card
             size='small'
             title={
@@ -86,7 +86,7 @@ export default  function  Home() {
           }
           </Card>
         </Col>
-        <Col span={6}>
+        <Col span={4}>
         </Col>
     </Row>
     );
