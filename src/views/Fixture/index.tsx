@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import {
     Row,
@@ -102,6 +103,17 @@ import { getTimeDifference } from '../../utils/timeDifference';
       const response: any = await getFixtureByName({ teamA: teamA, teamB: teamB});
       const streamsObj = response?.data?.game?.streamerLinks;
       setFixture(response.data);
+      console.log('Streams', streamsObj);
+      populateStreams(streamsObj);
+      setLoader(false);
+    }
+
+    const getMatch = async (filter: any)=> {
+      setLoader(true);
+  
+      const response: any = await getFixtureByName(filter);
+      const streamsObj = response?.data?.game?.streamerLinks;
+      setFixture(response.data);
       populateStreams(streamsObj);
       setLoader(false);
     }
@@ -135,13 +147,18 @@ import { getTimeDifference } from '../../utils/timeDifference';
             setTimer('FULL TIME');
           }else {
             if(fixture?.game?.streamerLinks?.length < 1) {
+              const filter = {
+                teamA: fixture?.game?.teamA, 
+                teamB: fixture?.game?.teamB
+              }
               if(!parserRunning){
                 setParserRunning(true);
                 setLoader(true);
-                const links = await getStreamLinks(fixture);
-                fixture.game.streamerLinks = links.data;
-                setStreams(fixture);
-                populateStreams(links.data);
+                // const links = await getStreamLinks(fixture);
+                // fixture.game.streamerLinks = links.data;
+                // setStreams(fixture);
+                // populateStreams(links.data);
+                getMatch(filter);
                 setLoader(false);
                 setParserRunning(false);
                 setTimer('LIVE');
@@ -169,23 +186,33 @@ import { getTimeDifference } from '../../utils/timeDifference';
                   if(timerr === 'LIVE') {
                     if(!parserRunning){
                       setParserRunning(true);
-                      const links = await getStreamLinks(fixture);
-                      fixture.game.streamerLinks = links.data;
-                      populateStreams(links.data);
+                      // const links = await getStreamLinks(fixture);
+                      // fixture.game.streamerLinks = links.data;
+                      // populateStreams(links.data);
+                      const filter = {
+                        teamA: fixture?.game?.teamA, 
+                        teamB: fixture?.game?.teamB
+                      }
+                      getMatch(filter);
                       setFixture(fixture);
                       setLoader(false);
                       setParserRunning(false);
                     }
                   }else{
-                    const secInterval = [0, 15, 30, 45, 59];
+                    const secInterval = [15, 30, 45, 59];
                     if(m < 55 && secInterval.includes(seconds)){
                       if(!parserRunning){
                         setLoader(true);
                         setParserRunning(true);
-                        const links = await getStreamLinks(fixture);
-                        fixture.game.streamerLinks = links.data;
-                        setFixture(fixture);
-                        populateStreams(links.data);
+                        // const links = await getStreamLinks(fixture);
+                        // fixture.game.streamerLinks = links.data;
+                        // setFixture(fixture);
+                        // populateStreams(links.data);
+                        const filter = {
+                          teamA: fixture?.game?.teamA, 
+                          teamB: fixture?.game?.teamB
+                        }
+                        getMatch(filter);
                         setLoader(false);
                         setParserRunning(false);
                       }
@@ -205,7 +232,7 @@ import { getTimeDifference } from '../../utils/timeDifference';
             }
           }
         }
-      }, 10000);
+      }, 1000);
     }
   
     useEffect(() => {
@@ -262,7 +289,7 @@ import { getTimeDifference } from '../../utils/timeDifference';
           { 
             fixture?.game?.streamerLinks.length < 1 && timer != 'FULL TIME' ?        
             <TypographyTitle style={{display: 'flex', justifyContent: 'space-around', textAlign:'center', background: 'rgb(46 44 44 / 68%)'}} level={5}>
-            <p style={{color: '#000000'}}> LINKS WILL BE AVAILABLE 1 HOUR BEFORE THE MATCH STARTS, STAY TUNED!</p>
+            <p style={{color: 'white'}}> LINKS WILL BE AVAILABLE 1 HOUR BEFORE THE MATCH STARTS, STAY TUNED!</p>
             </TypographyTitle>:
             <></>
           }
@@ -271,12 +298,13 @@ import { getTimeDifference } from '../../utils/timeDifference';
           <Row style={{ display: 'flex', justifyContent: 'space-between'}}>
             <Col>
               <Row><img style={{width: '40px', textAlign: 'center'}} src={fixture?.game?.teamAImage} alt={fixture?.game?.teamA} /></Row>
-              <Row><p>{fixture?.game?.teamA}</p></Row>
+              <Row><p>{fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>
             </Col>
             <Col>
               <TypographyTitle level={5}>
-              <p style={{color: '#ffffff'}}>{timer}</p>
-              </TypographyTitle>         
+              <p style={{color: '#ffffff', marginBottom: '10px'}}>{timer}</p>
+              </TypographyTitle>   
+              <Row><p>{!fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>      
             </Col>
             <Col>
               <Row><img style={{width: '40px', textAlign: 'center'}} src={fixture?.game?.teamBImage} alt={fixture?.game?.teamB} /></Row>
@@ -288,7 +316,7 @@ import { getTimeDifference } from '../../utils/timeDifference';
             <Row style={{display: 'flex', justifyContent: 'space-around', textAlign:'center', background: 'rgb(46 44 44 / 68%)'}}>
               <Col>          
                 <TypographyTitle level={5}>
-                <p style={{color: '#000000'}}> LINKS WILL BE AVAILABLE 1 HOUR BEFORE THE MATCH STARTS, STAY TUNED!</p>
+                <p style={{fontSize: '12px', color: 'white'}}> LINKS WILL BE AVAILABLE 1 HOUR BEFORE THE MATCH STARTS, STAY TUNED!</p>
                 </TypographyTitle>            
               </Col>
           </Row>:
