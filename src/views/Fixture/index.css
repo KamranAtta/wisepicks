@@ -53,9 +53,12 @@
   background: #1c1c1c;
   color: white;
 }
-.ant-table-cell:hover {
-  color: #1c1c1c;
+.ant-table-cell-row-hover {
+  background: rgb(149, 16, 13) !important;
 }
+/* .ant-table-cell:hover {
+  color: #1c1c1c;
+} */
 /* Your CSS file or in a style block */
 @media (max-width: 600px) {
   .ant-col-12 {
@@ -79,9 +82,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-/* Media query for smaller screens, like mobile devices */
-@media (max-width: 768px) {
+  }
   .streams-table {
     padding: 0px;
     width: 100%;
@@ -92,6 +93,10 @@
     justify-content: center;
     align-items: center;
   }
-}
-
+  .category-name { 
+    font-size: 11px; 
+  }
+  .ant-table-content { 
+    padding: 10px; 
+  }
 }

@@ -274,7 +274,7 @@ import { getTimeDifference } from '../../utils/timeDifference';
                 <p className='category-name'>{fixture?.game?.teamB ? fixture?.game?.matchTime: fixture?.game?.matchDate}</p>
               </TypographyTitle>
               <TypographyTitle level={5}>
-                <p style={{color: '#ffffff'}}>{timer}</p>
+                <p style={{color: '#ffffff', fontSize: '13px'}}>{timer}</p>
               </TypographyTitle> 
             </Col>
             <Col span={6}>
@@ -302,9 +302,12 @@ import { getTimeDifference } from '../../utils/timeDifference';
             </Col>
             <Col>
               <TypographyTitle level={5}>
-              <p style={{color: '#ffffff', marginBottom: '10px'}}>{timer}</p>
+                <p style={{color: '#ffffff', marginBottom: '10px', fontSize: '10px'}}>{timer}</p>
               </TypographyTitle>   
-              <Row><p>{!fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>      
+              <Row><p>{!fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>  
+              <TypographyTitle level={5}>
+                <p className='category-name'>{fixture?.game?.teamB ? fixture?.game?.matchTime: fixture?.game?.matchDate}</p>
+              </TypographyTitle>    
             </Col>
             <Col>
               <Row><img style={{width: '40px', textAlign: 'center'}} src={fixture?.game?.teamBImage} alt={fixture?.game?.teamB} /></Row>
