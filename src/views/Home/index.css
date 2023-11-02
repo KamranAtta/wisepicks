@@ -14,7 +14,12 @@
   padding-right: 20px;
   padding-left: 20px;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
+  background: #e5e5e5;
+  border: 2px solid #e5e5e5;
+  border-radius: 2%;
+  color: #464343;
+  margin: 10px;
 }
 .ant-card-head {
   background-color: #e1dada !important;
@@ -41,7 +46,7 @@
   display: inline-block;
   border-radius: 4%;
   padding-left: 6px;
-  background: #e5e5e5;
+  background: #d1d1d1;
   color: #464343
 }
 /* Your CSS file or in a style block */
