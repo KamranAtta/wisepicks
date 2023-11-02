@@ -45,7 +45,7 @@ export default  function  Home() {
   const [fixtures, setFixtures] = useState<any>({});
   const { categoryName } = useParams();
   const [loader, setLoader] = useState<boolean>(false);
-  const notSoccer = ['Tennis', 'Cricket', 'Formula 1', 'Boxing']
+  const notSoccer = ['tennis', 'Cricket', 'F1', 'Boxing']
 
   const getAllFixtures = async ()=> {
     setLoader(true);
