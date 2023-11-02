@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import {
     Row,
@@ -103,7 +102,6 @@ import { getTimeDifference } from '../../utils/timeDifference';
       const response: any = await getFixtureByName({ teamA: teamA, teamB: teamB});
       const streamsObj = response?.data?.game?.streamerLinks;
       setFixture(response.data);
-      console.log('Streams', streamsObj);
       populateStreams(streamsObj);
       setLoader(false);
     }
