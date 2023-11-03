@@ -252,7 +252,7 @@ import { getTimeDifference } from '../../utils/timeDifference';
                 <img src={fixture?.game?.teamAImage } alt={fixture?.game?.teamA } />
                 </Col>
                 <Col>
-                <p>
+                <p style={{color: 'white'}}>
                     {fixture?.game?.teamB ? fixture?.game?.teamA: ''}
                 </p>
                 </Col>
@@ -264,7 +264,7 @@ import { getTimeDifference } from '../../utils/timeDifference';
 
               {!fixture?.game?.teamB ?
                 <TypographyTitle level={5}>
-                <p>{fixture?.game?.teamA}</p>
+                <p style={{color: 'white'}}>{fixture?.game?.teamA}</p>
                 </TypographyTitle>: ''
               }
 
@@ -280,7 +280,7 @@ import { getTimeDifference } from '../../utils/timeDifference';
                 <img style={{width: '100px', textAlign: 'center'}} src={fixture?.game?.teamBImage} alt={fixture?.game?.teamB} />
                 </Col>
                 <Col>
-                <p>{fixture?.game?.teamB}</p>
+                <p style={{color: 'white'}}>{fixture?.game?.teamB}</p>
                 </Col>
             </Col>
           </Row>
@@ -293,23 +293,26 @@ import { getTimeDifference } from '../../utils/timeDifference';
           }
         </div>:
         <div style={{ display: 'list-item', justifyContent: 'space-between', padding: '1rem', textAlign:'center', background: 'rgb(46 44 44 / 68%)', marginBottom: '5px'}}>
-          <Row style={{ display: 'flex', justifyContent: 'space-between'}}>
+          <TypographyTitle level={3}>
+            <p className='category-name'>{fixture?.subCategoryName}</p>
+          </TypographyTitle>
+          <Row style={{ display: 'flex', paddingRight: '1rem', paddingLeft: '1rem', justifyContent: 'space-between'}}>
             <Col>
               <Row><img style={{width: '40px', textAlign: 'center'}} src={fixture?.game?.teamAImage} alt={fixture?.game?.teamA} /></Row>
-              <Row><p>{fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>
+              <Row style={{color: 'white'}}><p>{fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>
             </Col>
             <Col>
               <TypographyTitle level={5}>
                 <p style={{color: '#ffffff', marginBottom: '10px', fontSize: '10px'}}>{timer}</p>
               </TypographyTitle>   
-              <Row><p>{!fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>  
+              <Row><p style={{color: 'white'}}>{!fixture?.game?.teamB ? fixture?.game?.teamA : ''}</p></Row>  
               <TypographyTitle level={5}>
                 <p className='category-name'>{fixture?.game?.teamB ? fixture?.game?.matchTime: fixture?.game?.matchDate}</p>
               </TypographyTitle>    
             </Col>
             <Col>
               <Row><img style={{width: '40px', textAlign: 'center'}} src={fixture?.game?.teamBImage} alt={fixture?.game?.teamB} /></Row>
-              <Row><p>{fixture?.game?.teamB}</p></Row>
+              <Row><p style={{color: 'white'}}>{fixture?.game?.teamB}</p></Row>
             </Col>
           </Row>
           {

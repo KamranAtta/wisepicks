@@ -41,31 +41,17 @@ export default function HeaderComponent() {
 
   return (
     <Header
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        background: 'rgb(149 16 13)',
-        borderBottom: 'solid 1px #e8e8e8',
-        boxShadow: '0 0 30px #f3f1f1',
-        gap: '30px',
-        justifyContent: 'space-between',
-      }}
+      className='header'
     >
       <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          background: 'rgb(149 16 13)',
-          borderBottom: 'solid 1px #e8e8e8',
-          gap: '30px',
-          justifyContent: matches ? 'flex-start' : 'space-between',
-        }}
+        className='header-body'
       >
         <a href='/'>
           <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
             <img src={logo} width={200} />
           </div>
         </a>
+        <div aria-hidden="true" className='traingle'></div>
         {matches ? (
           <Menu mode='horizontal' defaultSelectedKeys={['2']} style={{ width: '500px', background: '#e10600' }}>
             {MenuItems}

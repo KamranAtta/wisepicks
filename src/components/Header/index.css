@@ -15,3 +15,35 @@
 .li.ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child {
     background: #95290f;
 }
+.header {
+    display: flex;
+    align-items: center;
+    background: rgb(149 16 13);
+    border-bottom: solid 1px #e8e8e8;
+    box-shadow: 0 0 30px #f3f1f1;
+    gap: 30px;
+    justify-content: space-between,
+}
+.header-body {
+    display: flex;
+    align-items: center;
+    background: rgb(149 16 13);
+    border-bottom: solid 1px #e8e8e8;
+    gap: 0px;
+    justify-content: flex-start;
+}
+.traingle {
+    width: 55px;
+    height: 63px;
+    position: relative;
+    background: linear-gradient(120deg, #931414 50%, rgb(225, 6, 0) 48%);
+}
+@media (max-width: 600px) {
+    .header-body {
+        justify-content: space-between;
+        gap: 30px;
+    }
+   .traingle {
+    display: none;
+   } 
+}

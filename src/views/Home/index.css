@@ -92,4 +92,7 @@
   .time-button {
     font-size: 12px !important;
   }
+  .match-time {
+    font-size: 11px;
+  }
 }
