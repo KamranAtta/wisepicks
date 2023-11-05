@@ -13,6 +13,7 @@ import Loader from '../../components/common/Loader';
 import { useParams } from 'react-router-dom';
 import TypographyTitle from '../../components/common/Title';
 import { getTimeDifference } from '../../utils/timeDifference';
+import Player from '../player';
 
   export default  function  Fixture() {
     const matches = useMediaQuery('(min-width: 1000px)');
@@ -245,7 +246,8 @@ import { getTimeDifference } from '../../utils/timeDifference';
       <>
       {
         matches ?
-        <div style={{padding:'2rem', textAlign:'center', background: 'rgb(46 44 44 / 68%)', marginBottom: '5px'} }>
+  
+        <div style={{paddingTop: '15px', textAlign:'center', background: 'rgb(46 44 44 / 68%)', marginBottom: '5px'} }>
           <Row>
             <Col span={6}>
                 <Col>
@@ -291,6 +293,9 @@ import { getTimeDifference } from '../../utils/timeDifference';
             </TypographyTitle>:
             <></>
           }
+          {fixture?.game?.streamerLinks?.length > 0 ? 
+            <Player fixture={fixture}></Player>: 
+          ''}
         </div>:
         <div style={{ display: 'list-item', justifyContent: 'space-between', padding: '1rem', textAlign:'center', background: 'rgb(46 44 44 / 68%)', marginBottom: '5px'}}>
           <TypographyTitle level={3}>
@@ -326,7 +331,11 @@ import { getTimeDifference } from '../../utils/timeDifference';
           </Row>:
           <></>
           }
+          {fixture?.game?.streamerLinks?.length > 0 ? 
+            <Player fixture={fixture}></Player>: 
+          ''}
         </div>
+        
       }
       <Table className='streams-table' dataSource={streams} columns={matches ? columns: mobilColumns} />
       {loader ? <Loader /> : <></>}

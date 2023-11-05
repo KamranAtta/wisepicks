@@ -115,7 +115,7 @@ export default  function  Home() {
           className='match-time' 
           to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
           >
-            <strong>{fixture.matchDate.split('2023')[1]}
+            <strong>{fixture?.teamB ? fixture?.matchTime :  fixture.matchDate.split('2023')[1]}
             </strong>
           </Link>
         </p>

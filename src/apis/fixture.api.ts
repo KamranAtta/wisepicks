@@ -19,6 +19,15 @@ export const getFixtureByName = async (data: any) => {
   }
 };
 
+export const getIframe = async (data: any) => {
+  try {
+    const response = await doPost('/getIframe', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const getStreamLinks = async (fixture: any) =>{
   const filter = {
     categoryName: fixture?.categoryName,
