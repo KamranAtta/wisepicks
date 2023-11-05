@@ -43,9 +43,9 @@ import Loader from '../../components/common/Loader';
       <>
       {
         matches ?
-          <iframe frame-border="0" margin-height="0" margin-width="0" src={sourceLink} allow-fullscreen="yes" scrolling="yes" width="1300" height="650"></iframe>
+        <iframe frameBorder={0} marginHeight={0} marginWidth={0} height="400" src={sourceLink} allowFullScreen={true} scrolling='yes' width="800"></iframe>
         :
-          <iframe frame-border="0" margin-height="0" margin-width="0" src={sourceLink} allow-fullscreen="yes" scrolling="yes" width="-webkit-fill-available" height="auto"></iframe>
+        <iframe frameBorder={0} marginHeight={0} marginWidth={0} height="auto" src={sourceLink} allowFullScreen={true} scrolling='yes' width="auto"></iframe>
       }
       {loader ? <Loader /> : <></>}
       </>
