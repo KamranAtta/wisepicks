@@ -105,17 +105,22 @@ import Player from '../player';
       setFixture(response.data);
       populateStreams(streamsObj);
       setLoader(false);
+      if(streamsObj.length < 1){
+        countdownInterval();
+      }else{
+        setTimer('LIVE');
+      }
     }
 
-    const getMatch = async (filter: any)=> {
-      setLoader(true);
+    // const getMatch = async (filter: any)=> {
+    //   setLoader(true);
   
-      const response: any = await getFixtureByName(filter);
-      const streamsObj = response?.data?.game?.streamerLinks;
-      setFixture(response.data);
-      populateStreams(streamsObj);
-      setLoader(false);
-    }
+    //   const response: any = await getFixtureByName(filter);
+    //   const streamsObj = response?.data?.game?.streamerLinks;
+    //   setFixture(response.data);
+    //   populateStreams(streamsObj);
+    //   setLoader(false);
+    // }
 
     const populateStreams = async (links: any)=> {
       setLoader(true);
@@ -146,18 +151,18 @@ import Player from '../player';
             setTimer('FULL TIME');
           }else {
             if(fixture?.game?.streamerLinks?.length < 1) {
-              const filter = {
-                teamA: fixture?.game?.teamA, 
-                teamB: fixture?.game?.teamB
-              }
+              // const filter = {
+              //   teamA: fixture?.game?.teamA, 
+              //   teamB: fixture?.game?.teamB
+              // }
               if(!parserRunning){
                 setParserRunning(true);
                 setLoader(true);
-                // const links = await getStreamLinks(fixture);
-                // fixture.game.streamerLinks = links.data;
-                // setStreams(fixture);
-                // populateStreams(links.data);
-                getMatch(filter);
+                const links = await getStreamLinks(fixture);
+                fixture.game.streamerLinks = links.data;
+                setStreams(fixture);
+                populateStreams(links.data);
+                // getMatch(filter);
                 setLoader(false);
                 setParserRunning(false);
                 setTimer('LIVE');
@@ -185,14 +190,14 @@ import Player from '../player';
                   if(timerr === 'LIVE') {
                     if(!parserRunning){
                       setParserRunning(true);
-                      // const links = await getStreamLinks(fixture);
-                      // fixture.game.streamerLinks = links.data;
-                      // populateStreams(links.data);
-                      const filter = {
-                        teamA: fixture?.game?.teamA, 
-                        teamB: fixture?.game?.teamB
-                      }
-                      getMatch(filter);
+                      const links = await getStreamLinks(fixture);
+                      fixture.game.streamerLinks = links.data;
+                      populateStreams(links.data);
+                      // const filter = {
+                      //   teamA: fixture?.game?.teamA, 
+                      //   teamB: fixture?.game?.teamB
+                      // }
+                      // getMatch(filter);
                       setFixture(fixture);
                       setLoader(false);
                       setParserRunning(false);
@@ -203,15 +208,15 @@ import Player from '../player';
                       if(!parserRunning){
                         setLoader(true);
                         setParserRunning(true);
-                        // const links = await getStreamLinks(fixture);
-                        // fixture.game.streamerLinks = links.data;
-                        // setFixture(fixture);
-                        // populateStreams(links.data);
-                        const filter = {
-                          teamA: fixture?.game?.teamA, 
-                          teamB: fixture?.game?.teamB
-                        }
-                        getMatch(filter);
+                        const links = await getStreamLinks(fixture);
+                        fixture.game.streamerLinks = links.data;
+                        setFixture(fixture);
+                        populateStreams(links.data);
+                        // const filter = {
+                        //   teamA: fixture?.game?.teamA, 
+                        //   teamB: fixture?.game?.teamB
+                        // }
+                        // getMatch(filter);
                         setLoader(false);
                         setParserRunning(false);
                       }
@@ -238,9 +243,9 @@ import Player from '../player';
       getFixture();
     }, [teams]);
 
-    useEffect(() => {
-      countdownInterval();
-    }, [fixture]);
+    // useEffect(() => {
+    //   countdownInterval();
+    // }, [fixture]);
   
     return (
       <>

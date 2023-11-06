@@ -20,8 +20,8 @@ import Loader from '../../components/common/Loader';
       const links = fixture?.game?.streamerLinks;
       for (const item of links) {
         if (item.website.trim() === website) {
-          console.log('sourceLink11111:', item.websiteLink);
           setSourceLink(item.websiteLink);
+          setLoader(false);
           break;
         }
       }
@@ -32,7 +32,6 @@ import Loader from '../../components/common/Loader';
   
       // const response: any = await getIframe({ teamA: teamA, teamB: teamB});
       // setIframe(response.data);
-      setLoader(false);
     }
   
     useEffect(() => {
@@ -41,12 +40,7 @@ import Loader from '../../components/common/Loader';
   
     return (
       <>
-      {
-        matches ?
-        <iframe frameBorder={0} marginHeight={0} marginWidth={0} height="400" src={sourceLink} allowFullScreen={true} scrolling='yes' width="800"></iframe>
-        :
-        <iframe frameBorder={0} marginHeight={0} marginWidth={0} height="auto" src={sourceLink} allowFullScreen={true} scrolling='yes' width="auto"></iframe>
-      }
+      <iframe frameBorder={0} marginHeight={0} marginWidth={0} height={matches ? '400':'auto'} width={matches ? '800':'auto'} src={sourceLink} allowFullScreen={true} scrolling='yes'></iframe>
       {loader ? <Loader /> : <></>}
       </>
     );
