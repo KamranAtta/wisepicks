@@ -105,11 +105,9 @@ import Player from '../player';
       setFixture(response.data);
       populateStreams(streamsObj);
       setLoader(false);
-      if(streamsObj.length < 1){
-        countdownInterval();
-      }else{
-        setTimer('LIVE');
-      }
+      // if(streamsObj.length < 1){
+      //   countdownInterval();
+      // }
     }
 
     // const getMatch = async (filter: any)=> {
@@ -198,7 +196,7 @@ import Player from '../player';
                       //   teamB: fixture?.game?.teamB
                       // }
                       // getMatch(filter);
-                      setFixture(fixture);
+                      // setFixture(fixture);
                       setLoader(false);
                       setParserRunning(false);
                     }
@@ -210,7 +208,7 @@ import Player from '../player';
                         setParserRunning(true);
                         const links = await getStreamLinks(fixture);
                         fixture.game.streamerLinks = links.data;
-                        setFixture(fixture);
+                        // setFixture(fixture);
                         populateStreams(links.data);
                         // const filter = {
                         //   teamA: fixture?.game?.teamA, 
@@ -228,8 +226,9 @@ import Player from '../player';
                 setParserRunning(true);
                 setLoader(true);
                 const links = await getStreamLinks(fixture);
-                fixture.game.streamerLinks =  links.data;
-                setFixture(fixture);
+                // fixture.game.streamerLinks =  links.data;
+                // setFixture(fixture);
+                populateStreams(links.data)
                 setLoader(false);
                 setParserRunning(false);
               // }
@@ -243,9 +242,9 @@ import Player from '../player';
       getFixture();
     }, [teams]);
 
-    // useEffect(() => {
-    //   countdownInterval();
-    // }, [fixture]);
+    useEffect(() => {
+      countdownInterval();
+    }, [fixture]);
   
     return (
       <>

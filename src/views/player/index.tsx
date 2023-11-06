@@ -16,7 +16,6 @@ import Loader from '../../components/common/Loader';
     const getFixtureFrame = async ()=> {
       setLoader(true);
       const website = 'freesport';
-      console.log('props:', fixture);
       const links = fixture?.game?.streamerLinks;
       for (const item of links) {
         if (item.website.trim() === website) {
