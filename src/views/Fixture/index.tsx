@@ -270,9 +270,9 @@ import Player from '../player';
                 </TypographyTitle>: ''
               }
 
-              <TypographyTitle level={5}>
+              {!timer ? <TypographyTitle level={5}>
                 <p className='category-name'>{fixture?.game?.teamB ? fixture?.game?.matchTime: fixture?.game?.matchDate}</p>
-              </TypographyTitle>
+              </TypographyTitle>: ''}
               <TypographyTitle level={5}>
                 <p style={{color: '#ffffff', fontSize: '13px'}}>{timer}</p>
               </TypographyTitle> 
