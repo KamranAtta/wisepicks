@@ -48,7 +48,7 @@ export default function HeaderComponent() {
       >
         <a href='/'>
           <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
-            <img src={logo} width={200} />
+            <img src={logo} width={200} alt='website-logo' />
           </div>
         </a>
         <div aria-hidden="true" className='traingle'></div>
