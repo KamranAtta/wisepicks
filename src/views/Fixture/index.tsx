@@ -167,6 +167,7 @@ import Player from '../player';
               }
             }else {
               setTimer('LIVE');
+              setLoader(false);
             }
           }
         } else {

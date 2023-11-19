@@ -20,10 +20,6 @@ export const MESSAGES = {
 };
 
 export const categories = [
-  // {
-  //   label: 'streamsToday',
-  //   value: 'Streams today'
-  // },
   {
     label: 'Soccer',
     value: 'Streams today'
@@ -34,7 +30,7 @@ export const categories = [
   },
   {
     label: 'Tennis',
-    value: 'Tennis'
+    value: 'tennis'
   },
   {
     label: 'Boxing',
@@ -42,8 +38,28 @@ export const categories = [
   },
   {
     label: 'Cricket',
-    value: 'Cricket'
-  }
+    value: 'cricket'
+  },
+  {
+    label: 'UFC',
+    value: 'UFC'
+  },
+  {
+    label: 'Motogp',
+    value: 'motogp'
+  },
+  {
+    label: 'NFL',
+    value: 'NFL'
+  },
+  {
+    label: 'NBA',
+    value: 'NBA'
+  },
+  {
+    label: 'Rugby',
+    value: 'Rugby'
+  },
 ]
 
 export const FORMATS = {
