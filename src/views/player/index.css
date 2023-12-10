@@ -5,6 +5,7 @@
     width: 800px;
     height: 400px;
     background: black;
+    padding: 5px 0px 5px 0px;
   }
 
 .video-player-container-mobile {
