@@ -10,7 +10,7 @@ import Loader from '../../components/common/Loader';
 
   export default  function  Player({ fixture }: any) {
     const matches = useMediaQuery('(min-width: 1000px)');
-    const [sourceLink, setSourceLink] = useState<any>();
+    const [sourceLink, setSourceLink] = useState<any>('');
     const [loader, setLoader] = useState<boolean>(false);
   
     const getFixtureFrame = async ()=> {
@@ -18,12 +18,15 @@ import Loader from '../../components/common/Loader';
       const website = 'freesport';
       const links = fixture?.game?.streamerLinks;
       for (const item of links) {
-        if (item.website.trim() === website || item.website.trim() === 'sheri007') {
+        if (item.website.trim() === website) {
           setSourceLink(item.websiteLink);
-          setLoader(false);
           break;
         }
+        if (!sourceLink && item.website.trim() === 'sheri007') {
+          setSourceLink(item.websiteLink);
+        }
       }
+      setLoader(false);
       // Return a default value if the ID is not found
       // let teamA: string | undefined;
       // let teamB: string | undefined;
@@ -34,13 +37,17 @@ import Loader from '../../components/common/Loader';
     }
   
     useEffect(() => {
+      console.log('matches',matches);
       getFixtureFrame();
     }, []);
   
     return (
       <>
-      <iframe frameBorder={0} marginHeight={0} marginWidth={0} height={matches ? '400':'auto'} width={matches ? '800':'auto'} src={sourceLink} allowFullScreen={true} scrolling='yes'></iframe>
-      {loader ? <Loader /> : <></>}
+      <div className={matches ? 'video-player-container' : 'video-player-container-mobile'}>
+      {!sourceLink && <div className='loading-placeholder'>Loading...</div>}
+        <iframe frameBorder={0} marginHeight={0} marginWidth={0} height={matches ? '400':'auto'} width={matches ? '800':'auto'} src={sourceLink} allowFullScreen={true} scrolling='yes'></iframe>
+        {loader ? <Loader /> : <></>}
+      </div>
       </>
     );
   }
