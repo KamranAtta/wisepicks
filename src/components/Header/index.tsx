@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ConfigProvider, Layout } from 'antd';
 import './index.css'
 
@@ -28,6 +28,26 @@ export default function HeaderComponent() {
   const themeConfiguration = useContext(ConfigProvider.ConfigContext);
   const [headerDrawerOpen, setHeaderDrawerOpen] = useState<boolean>(false);
   const matches = useMediaQuery('(min-width: 1000px)');
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 50) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    // Attach the event listener on mount
+    window.addEventListener('scroll', handleScroll);
+
+    // Detach the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const MenuItems = (
     <>
@@ -41,7 +61,7 @@ export default function HeaderComponent() {
 
   return (
     <Header
-      className='header'
+      className={`header ${isSticky ? 'sticky' : ''}`}
     >
       <div
         className='header-body'
