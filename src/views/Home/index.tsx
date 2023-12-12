@@ -38,8 +38,6 @@ import Loader from '../../components/common/Loader';
     alignItems: 'middle'
   };
 
-const padding = {display: 'flex', paddingRight: '10px' , paddingLeft: '10px', color: 'black', justifyContent:'center'}
-
 export default  function  Home() {
   const matches = useMediaQuery('(min-width: 1000px)');
   const [fixtures, setFixtures] = useState<any>({});
@@ -105,7 +103,7 @@ export default  function  Home() {
               <p className='category'>{!notSoccer.includes(fixture?.subCategoryName) ? 'Soccer': fixture?.subCategoryName} </p>
               <span className='dash'></span>
               <p className='team-name'><strong> {fixture.teamA}</strong>{' '}</p>
-              {fixture?.teamB ? <p className='team-name' style={padding}>vs</p>: ''}
+              {fixture?.teamB ? <p className='verses'>vs</p>: ''}
               <p className='team-name'><strong>{fixture.teamB}</strong>{' '}</p>
             </div>
           </Link>

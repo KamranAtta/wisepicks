@@ -21,6 +21,19 @@
   color: #464343;
   margin: 10px;
 }
+.team-name {
+  font-family: F1Bold;
+}
+.fixture-card:hover {
+  background-color: #38383f;
+  transition: background-color .7s ease;
+}
+.fixture-card:hover .category,
+.fixture-card:hover .team-name,
+.fixture-card:hover .verses{
+  color: #f5f1f1;
+  transition: color 0.3s ease;
+}
 .ant-card-head {
   background-color: #e1dada !important;
   min-height: 60px !important;
@@ -59,6 +72,13 @@
   height: 14px;
   margin: 0 10px;
   background: #34c7c7;
+}
+.verses {
+  display: flex;
+  padding-right: 6px;
+  padding-left: 6px;
+  justify-content: center;
+  text-transform: lowercase;
 }
 /* Your CSS file or in a style block */
 @media (max-width: 600px) {

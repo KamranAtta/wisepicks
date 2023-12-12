@@ -43,11 +43,13 @@ import Loader from '../../components/common/Loader';
   
     return (
       <>
-      <div className={matches ? 'video-player-container' : 'video-player-container-mobile'}>
-      {!sourceLink && <div className='loading-placeholder'>Loading...</div>}
-        <iframe frameBorder={0} marginHeight={0} marginWidth={0} height={matches ? '400':'auto'} width={matches ? '800':'auto'} src={sourceLink} allowFullScreen={true} scrolling='yes'></iframe>
-        {loader ? <Loader /> : <></>}
-      </div>
+      {sourceLink &&
+        <div className={matches ? 'video-player-container' : 'video-player-container-mobile'}>
+        {!sourceLink && <div className='loading-placeholder'>Loading...</div>}
+          <iframe frameBorder={0} marginHeight={0} marginWidth={0} height={matches ? '400':'auto'} width={matches ? '800':'auto'} src={sourceLink} allowFullScreen={true} scrolling='yes'></iframe>
+          {loader ? <Loader /> : <></>}
+        </div>
+      }
       </>
     );
   }
