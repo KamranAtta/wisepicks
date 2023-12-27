@@ -93,33 +93,41 @@ export default  function  Home() {
 
   function FixtureCard({ fixture }: any) {
     return (
-      <div className='fixture-card'>
-        <div>
-          <Link 
-          className='fixture-link' 
-          to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
-          >
-            <div className='flex-display'>
-              <p className='category'>{!notSoccer.includes(fixture?.subCategoryName) ? 'Soccer': fixture?.subCategoryName} </p>
-              <span className='dash'></span>
-              <p className='team-name'><strong> {fixture.teamA}</strong>{' '}</p>
-              {fixture?.teamB ? <p className='verses'>vs</p>: ''}
-              <p className='team-name'><strong>{fixture.teamB}</strong>{' '}</p>
-            </div>
-          </Link>
+      <Link 
+      to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
+      >
+        <div className='fixture-card'>
+          <div>
+            <Link 
+            className='fixture-link' 
+            to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
+            >
+              <div className='flex-display'>
+                <p className='category'>{!notSoccer.includes(fixture?.subCategoryName) ? 'Soccer': fixture?.subCategoryName} </p>
+                <span className='dash'></span>
+                <p className='team-name'><strong> {fixture.teamA}</strong>{' '}</p>
+                {fixture?.teamB ? <p className='verses'>vs</p>: ''}
+                <p className='team-name'><strong>{fixture.teamB}</strong>{' '}</p>
+              </div>
+            </Link>
+          </div>
+          <p>
+            <Link 
+            className='match-time' 
+            to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
+            >
+              <strong>{fixture?.teamB ? fixture?.matchTime :  fixture.matchDate.split('2023')[1]}
+              </strong>
+            </Link>
+          </p>
         </div>
-        <p>
-          <Link 
-          className='match-time' 
-          to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
-          >
-            <strong>{fixture?.teamB ? fixture?.matchTime :  fixture.matchDate.split('2023')[1]}
-            </strong>
-          </Link>
-        </p>
-      </div>
+      </Link>
     );
   }
+
+  const handleButtonClick = () => {
+    window.open('https://www.buymeacoffee.com/streameast', '_blank');
+  };
 
   useEffect(() => {
     getAllFixtures();
@@ -137,14 +145,14 @@ export default  function  Home() {
         </TypographyTitle>
         <Row className='flex-display'>
             <Space style={{ marginBottom: '15px' }} wrap>
-              <Button className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
+              {/* <Button className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
                 Yesterday
-              </Button>
-              <Button className='time-button' style={{ backgroundColor: '#5AB3BB' }} shape="round" size={'large'}>
-                Today
-              </Button>
-              <Button className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
-                Tomorrow
+              </Button> */}
+              {/* <Button className='time-button' style={{ backgroundColor: '#5AB3BB' }} shape="round" size={'large'}>
+                Streams
+              </Button> */}
+              <Button onClick={handleButtonClick} className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
+                Donate
               </Button>
             </Space>
           </Row>
