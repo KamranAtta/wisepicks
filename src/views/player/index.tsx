@@ -18,11 +18,11 @@ import Loader from '../../components/common/Loader';
       const website = 'freesport';
       const links = fixture?.game?.streamerLinks;
       for (const item of links) {
-        if (item.website.trim() === website) {
+        if (item.website.trim() === 'sheri007') {
           setSourceLink(item.websiteLink);
           break;
         }
-        if (!sourceLink && item.website.trim() === 'sheri007') {
+        if (!sourceLink && item.website.trim() === website) {
           setSourceLink(item.websiteLink);
         }
       }
