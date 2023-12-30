@@ -37,13 +37,15 @@ import Loader from '../../components/common/Loader';
     strokeWidth: '15px',
     alignItems: 'middle'
   };
+const adLink = 'https://rooptawu.net/4/6602226';
 
 export default  function  Home() {
   const matches = useMediaQuery('(min-width: 1000px)');
   const [fixtures, setFixtures] = useState<any>({});
   const { categoryName } = useParams();
   const [loader, setLoader] = useState<boolean>(false);
-  const notSoccer = ['tennis', 'Cricket', 'F1', 'Boxing']
+  const notSoccer = ['tennis', 'Cricket', 'F1', 'Boxing'];
+  const [adClicked, setAdClicked] = useState<boolean>(false);
 
   const getAllFixtures = async ()=> {
     setLoader(true);
@@ -53,6 +55,10 @@ export default  function  Home() {
     const response: any = await getFixtures({ categoryName: categoryObj ? categoryObj.value : category });
     setFixtures(response.data);
     setLoader(false);
+  }
+
+  const handleClick = async () => {
+    setAdClicked(!adClicked)
   }
 
   function SubCategoryCard({ subCategory }: any) {
@@ -94,14 +100,17 @@ export default  function  Home() {
   function FixtureCard({ fixture }: any) {
     return (
       <Link 
-      to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
+      onClick={handleClick}
+      to={adClicked ? fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA: adLink}
+      target="_blank" 
+      rel="noopener noreferrer"
       >
         <div className='fixture-card'>
-          <div>
-            <Link 
+          <div className='fixture-link'>
+            {/* <Link 
             className='fixture-link' 
             to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
-            >
+            > */}
               <div className='flex-display'>
                 <p className='category'>{!notSoccer.includes(fixture?.subCategoryName) ? 'Soccer': fixture?.subCategoryName} </p>
                 <span className='dash'></span>
@@ -109,16 +118,16 @@ export default  function  Home() {
                 {fixture?.teamB ? <p className='verses'>vs</p>: ''}
                 <p className='team-name'><strong>{fixture.teamB}</strong>{' '}</p>
               </div>
-            </Link>
+            {/* </Link> */}
           </div>
-          <p>
-            <Link 
+          <p className='match-time'>
+            {/* <Link 
             className='match-time' 
             to={fixture?.teamB ? '/fixture/' + fixture.teamA + '-vs-' + fixture.teamB: '/fixture/' + fixture.teamA}
-            >
+            > */}
               <strong>{fixture?.teamB ? fixture?.matchTime :  fixture.matchDate.split('2023')[1]}
               </strong>
-            </Link>
+            {/* </Link> */}
           </p>
         </div>
       </Link>

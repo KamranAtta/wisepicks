@@ -21,7 +21,7 @@
 .fixture-link:hover {
   color: #360808;
   text-transform: capitalize;
-  transform: scale(1.2);
+  transform: scale(1.05);
 }
 .flex-display {
   display: inline-flex;
