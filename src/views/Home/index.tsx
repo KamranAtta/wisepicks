@@ -150,12 +150,6 @@ export default  function  Home() {
     <>
       <div style={matches ? {padding:'3rem', textAlign:'center', background: '#222121'} : {padding:'5px', textAlign:'center', background: '#222121'} }>
         <TypographyTitle level={3}>
-          <div >
-            <h1 style={matches ? {color: 'red'}:{color: 'red', fontSize: '20px'} }><strong>Happy New Year 2024!</strong></h1>
-            <p style={matches ? {color: 'red'}:{color: 'red', fontSize: '13px'} }>Wishing you a year filled with joy, prosperity, and success.</p>
-          </div>
-        </TypographyTitle>
-        <TypographyTitle level={3}>
           <p className='category-name'>{fixtures?.categoryName}</p>
         </TypographyTitle>
         <Row className='flex-display'>
