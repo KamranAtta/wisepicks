@@ -1,14 +1,3 @@
-// ttl:(in milliseconds)
-export function setLocalStorage<T>(key: string, value: T, ttl = 2592000000) {
-  const now = new Date();
-
-  const item = {
-    value: value,
-    expiry: now.getTime() + ttl,
-  };
-  localStorage.setItem(key, JSON.stringify(item));
-}
-
 export function getLocalStorage(key: string) {
   try {
     const itemStr = localStorage.getItem(key);
