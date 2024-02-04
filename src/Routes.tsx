@@ -1,17 +1,29 @@
-import { Fragment } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import HeaderComponent from './components/Header';
 import Home from './views/Home';
 import Fixture from './views/Fixture';
+import Layout, { Content, Footer, Header } from 'antd/es/layout/layout';
+import FooterComponent from './components/Footer';
+import ContactUsComponent from './components/ContactUs';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import AboutUs from './components/AboutUs';
+
+const footerStyle: React.CSSProperties = {
+  textAlign: 'center',
+  color: '#fff',
+  backgroundColor: '#95100d',
+}
 
 const Router = () => {
   return (
-    <>
-      <Fragment>
+    <Layout>
+      <Header style={{paddingInline: '0px'}}>
         <HeaderComponent></HeaderComponent>
+      </Header>
+      <Content>
         <Routes>
-        <Route
+          <Route
             path='/streams/:categoryName'
             element={
               <Home />
@@ -29,9 +41,30 @@ const Router = () => {
               <Fixture />
             }
           />
+          <Route
+            path='/about-us'
+            element={
+              <AboutUs />
+            }
+          />
+          <Route
+            path='/contact'
+            element={
+              <ContactUsComponent />
+            }
+          />
+          <Route
+            path='/privacy-policy'
+            element={
+              <PrivacyPolicy />
+            }
+          />
         </Routes>
-      </Fragment>
-    </>
+      </Content>
+      <Footer style={footerStyle}>
+        <FooterComponent></FooterComponent>
+      </Footer>
+    </Layout>
   );
 };
 

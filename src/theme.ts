@@ -12,7 +12,12 @@ export const customTheme = {
   },
   // Wants to change the styling of any specific component, then use method mentioned below
   components: {
-    // Input : {
-    // }
+    Input : {
+      borderRadius: 6
+    },
+    Card : {
+      borderRadiusLG: 10,
+      colorBorder: 'red'
+    }
   },
 };

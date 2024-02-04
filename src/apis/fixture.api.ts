@@ -43,3 +43,12 @@ export const getStreamLinks = async (fixture: any) =>{
     return err;
   }
 }
+
+export const sendMail = async (body: any) =>{
+  try {
+    const response = await doPost('/sendMessage', body);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+}

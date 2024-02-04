@@ -4,13 +4,13 @@
     font-weight: 600;
 }
 .ant-drawer-header {
-    background: rgb(149, 16, 13);
+    background: #95100d;
 }
 .ant-drawer-title {
     color: aliceblue;
 }
 .ant-menu {
-    background: rgb(225, 6, 0);
+    background: #e10600;
 }
 .li.ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child {
     background: #95290f;
@@ -18,7 +18,7 @@
 .header {
     display: flex;
     align-items: center;
-    background: rgb(149 16 13);
+    background: #95100d;
     border-bottom: solid 1px #e8e8e8;
     box-shadow: 0 0 30px #f3f1f1;
     gap: 30px;
@@ -34,7 +34,7 @@
 .header-body {
     display: flex;
     align-items: center;
-    background: rgb(149 16 13);
+    background: #95100d;
     border-bottom: solid 1px #e8e8e8;
     gap: 0px;
     justify-content: flex-start;

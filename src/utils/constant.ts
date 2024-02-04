@@ -5,6 +5,11 @@ export const LOCAL_STORAGE = {
   USER: 'user',
 };
 
+export const MESSAGES = {
+  EMAIL_SUCCESS: 'Your email has been sent successfully!',
+  EMAIL_FAILURE: 'Unable to sent email!'
+}
+
 export const categories = [
   {
     label: 'Soccer',
@@ -47,20 +52,3 @@ export const categories = [
     value: 'Rugby'
   },
 ]
-
-export const FORMATS = {
-  DATE_FORMAT: 'YYYY-MM-DD',
-};
-
-export const PROJECT_QUERY_INITIAL = {
-  query: {
-    page: 1,
-    pageSize: 10,
-  },
-  status: '',
-};
-
-export const EMPLOYMENT_UTILIZATION = ['Under-Utilized', 'Normal', 'Over-Utilized'];
-export const ASSIGNED_LEVELS = ['L3', 'L4', 'L5', 'L6', 'L7'];
-export const EMPLOYMENT_STATUS = ['Full-Time', 'Part-Time'];
-export const FTE_RANGES = [20, 50, 80, 100];
