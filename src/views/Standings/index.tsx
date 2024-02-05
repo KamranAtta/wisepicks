@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 import { getStandings } from '../../apis/fixture.api';
 import { useEffect, useState } from 'react';
@@ -8,7 +7,6 @@ import { styles } from '../../styles';
 
 export default  function  Standings() {
 const matches = useMediaQuery('(min-width: 1000px)');
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const [standings, setStandings] = useState<any>([]);
 const [loader, setLoader] = useState<boolean>(false);
 
@@ -89,7 +87,6 @@ const getPointsTable = async ()=> {
     setLoader(true);
     const response = await getStandings({});
     setStandings(response?.data[0]);
-    console.log('RES',response?.data[0]);
     setLoader(false);
 }
 
