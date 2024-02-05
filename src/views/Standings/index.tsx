@@ -55,7 +55,7 @@ const mobileColumns = [
         key: 'team',
     },
     {
-        title: 'MP',
+        title: 'P',
         dataIndex: 'matches',
         key: 'matches',
     },
@@ -68,11 +68,6 @@ const mobileColumns = [
         title: 'L',
         dataIndex: 'losses',
         key: 'losses',
-    },
-    {
-        title: 'DR',
-        dataIndex: 'draws',
-        key: 'draws',
     },
     {
         title: 'P',
@@ -95,7 +90,7 @@ useEffect(() => {
 }, []);
 
 return (
-    <Card title='Point Tables' style={{ padding: '20px' }}>
+    <Card title='Point Tables'>
         <Row gutter={24}>
             <Col  span={12}  xs={12} sm={12}>
                 <Card title='Premier League' style={styles.card}>
