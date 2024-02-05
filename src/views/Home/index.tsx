@@ -157,9 +157,9 @@ export default  function  Home() {
               {/* <Button className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
                 Yesterday
               </Button> */}
-              {/* <Button className='time-button' style={{ backgroundColor: '#5AB3BB' }} shape="round" size={'large'}>
-                Streams
-              </Button> */}
+              <Button className='time-button' style={{ backgroundColor: '#5AB3BB' }} shape="round" size={'large'}>
+              <Link to={'/leagues/standings'} >Standings</Link>
+              </Button>
               <Button onClick={handleButtonClick} className='time-button' style={{ backgroundColor: '#bbc0c4' }} shape="round" size={'large'}>
                 Donate
               </Button>

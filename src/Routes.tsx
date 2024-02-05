@@ -8,6 +8,7 @@ import FooterComponent from './components/Footer';
 import ContactUsComponent from './components/ContactUs';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import AboutUs from './components/AboutUs';
+import Standings from './views/Standings';
 
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -39,6 +40,12 @@ const Router = () => {
             path='/fixture/:teams'
             element={
               <Fixture />
+            }
+          />
+          <Route
+            path='/leagues/standings'
+            element={
+              <Standings />
             }
           />
           <Route

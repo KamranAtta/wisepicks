@@ -52,3 +52,12 @@ export const sendMail = async (body: any) =>{
     return err;
   }
 }
+
+export const getStandings = async (body: any) =>{
+  try {
+    const response = await doPost('/getStandings', body);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+}
