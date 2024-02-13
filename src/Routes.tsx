@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 
 import HeaderComponent from './components/Header';
-import Home from './views/Home';
 import Fixture from './views/Fixture';
 import Layout, { Content, Footer, Header } from 'antd/es/layout/layout';
 import FooterComponent from './components/Footer';
@@ -9,6 +8,9 @@ import ContactUsComponent from './components/ContactUs';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import AboutUs from './components/AboutUs';
 import Standings from './views/Standings';
+import LandingPage from './views/Landing';
+import CategoryTalks from './views/CategoryTalk';
+import TalkDetail from './views/TalkDetail';
 
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -22,18 +24,30 @@ const Router = () => {
       <Header style={{paddingInline: '0px'}}>
         <HeaderComponent></HeaderComponent>
       </Header>
-      <Content>
+      <Content style={{background: 'white'}}>
         <Routes>
-          <Route
-            path='/streams/:categoryName'
-            element={
-              <Home />
-            }
-          />
           <Route
             path='/'
             element={
-              <Home />
+              <LandingPage />
+            }
+          />
+          <Route
+            path='/talks/:categoryName'
+            element={
+              <CategoryTalks />
+            }
+          />
+          <Route
+            path='/topic/:categoryName'
+            element={
+              <CategoryTalks />
+            }
+          />
+          <Route
+            path='/talks/:categoryName/:id'
+            element={
+              <TalkDetail />
             }
           />
           <Route

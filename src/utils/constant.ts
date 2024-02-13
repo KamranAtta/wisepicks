@@ -10,45 +10,67 @@ export const MESSAGES = {
   EMAIL_FAILURE: 'Unable to sent email!'
 }
 
+export const talkCategories = [
+  'TED-Ed',
+  'Psychology',
+  'Leadership',
+  'Education',
+  'Artificial Intelligence',
+  'Sleep',
+  'Mental Health',
+  'Business',
+  'Motivation',
+  'Communication',
+  'Personal Growth',
+  'Sports',
+  'Health',
+  'Language'
+];
+
+export const featuredTalk = {
+  title: 'Your creative superpowers can help protect democracy',
+  description: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
+  thumbnail: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+}
+
+export const talkTypes = {
+  trending: {
+    totalCards: 3,
+    spanSize: 8
+  },
+  newTalks: {
+    totalCards: 6,
+    spanSize: 4
+  },
+  categoryTalks: {
+    totalCards: 20,
+    spanSize: 6
+  },
+}
+
 export const categories = [
   {
-    label: 'Soccer',
-    value: 'Streams today'
+    label: 'Newest',
+    value: 'Newest Talks'
   },
   {
-    label: 'Formula 1',
-    value: 'F1'
+    label: 'Trending',
+    value: 'Trending Talks'
   },
   {
-    label: 'Tennis',
-    value: 'tennis'
+    label: 'Fretured',
+    value: 'Featured Talks'
   },
   {
-    label: 'Boxing',
-    value: 'Boxing'
+    label: 'Climate',
+    value: 'Climate Talks'
   },
   {
-    label: 'Cricket',
-    value: 'cricket'
+    label: 'Artificial Intelligence',
+    value: 'AI and the future'
   },
   {
-    label: 'UFC',
-    value: 'UFC'
-  },
-  {
-    label: 'Motogp',
-    value: 'motogp'
-  },
-  {
-    label: 'NFL',
-    value: 'NFL'
-  },
-  {
-    label: 'NBA',
-    value: 'NBA'
-  },
-  {
-    label: 'Rugby',
-    value: 'Rugby'
+    label: 'Space',
+    value: 'Studying space'
   },
 ]

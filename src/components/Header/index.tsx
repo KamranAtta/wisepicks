@@ -53,7 +53,7 @@ export default function HeaderComponent() {
     <>
       {categories?.map((cat: any, index: any) => (
       <MenuItem key={index}>
-        <Link className='menu-items' to={'/streams/' + cat.label} >{cat.label}</Link>
+        <Link className='menu-items' to={'/talks/' + cat.label} >{cat.label}</Link>
       </MenuItem>
       ))}
     </>

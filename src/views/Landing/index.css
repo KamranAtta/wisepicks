@@ -35,7 +35,6 @@
   transition: color 0.3s ease;
 }
 .ant-card-head {
-  background-color: #e1dada !important;
   min-height: 60px !important;
 }
 .fixture-link {

@@ -18,6 +18,9 @@ export const customTheme = {
     Card : {
       borderRadiusLG: 10,
       colorBorder: 'red'
+    },
+    Button : {
+      borderRadiusLG: 8
     }
   },
 };

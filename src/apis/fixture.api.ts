@@ -1,6 +1,24 @@
 /* eslint-disable no-console */
 import { doPost } from '../utils/request';
 
+export const getTedTalks = async (data: any) => {
+  try {
+    const response = await doPost('/getTalks', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+export const getTedTalksById = async (data: any) => {
+  try {
+    const response = await doPost('/getTalks/:id', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const getFixtures = async (data: any) => {
   try {
     const response = await doPost('/getSoccerFixtures', data);
