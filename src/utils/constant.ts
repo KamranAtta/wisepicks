@@ -42,6 +42,14 @@ export const talkTypes = {
     totalCards: 6,
     spanSize: 4
   },
+  climate: {
+    totalCards: 4,
+    spanSize: 6
+  },
+  future: {
+    totalCards: 6,
+    spanSize: 4
+  },
   categoryTalks: {
     totalCards: 20,
     spanSize: 6
@@ -58,11 +66,11 @@ export const categories = [
     value: 'Trending Talks'
   },
   {
-    label: 'Fretured',
+    label: 'Featured',
     value: 'Featured Talks'
   },
   {
-    label: 'Climate',
+    label: 'Climate Change',
     value: 'Climate Talks'
   },
   {
@@ -70,7 +78,7 @@ export const categories = [
     value: 'AI and the future'
   },
   {
-    label: 'Space',
-    value: 'Studying space'
+    label: 'Future',
+    value: 'Studying Future'
   },
 ]

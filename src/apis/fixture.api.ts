@@ -1,6 +1,15 @@
 /* eslint-disable no-console */
 import { doPost } from '../utils/request';
 
+export const getHomeTalks = async (data: any) => {
+  try {
+    const response = await doPost('/getHomeTalks', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const getTedTalks = async (data: any) => {
   try {
     const response = await doPost('/getTalks', data);
@@ -12,7 +21,7 @@ export const getTedTalks = async (data: any) => {
 
 export const getTedTalksById = async (data: any) => {
   try {
-    const response = await doPost('/getTalks/:id', data);
+    const response = await doPost('/getTalksById', data);
     return response;
   } catch (err: any) {
     return err;

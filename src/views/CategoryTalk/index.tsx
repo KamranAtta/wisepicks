@@ -13,11 +13,15 @@ export default function CategoryTalks() {
     const { categoryName } = useParams();
     const [talks, setTalks] = useState<talkDataInterface>();
     const [loader, setLoader] = useState<boolean>(false);
+    // const [queryFilters, setQueryFilters] = useState<any>();
 
+    // const createQueryFilters = () => {
+    //     setQueryFilters({ category: categoryName });
+    // }
 
     const createCategoryTalks = async () => {
         setLoader(true);
-        const response = await getTedTalks({});
+        const response = await getTedTalks({ category: categoryName });
         const allTalks = response?.data;
         setTalks({
             videos: allTalks,
@@ -28,7 +32,7 @@ export default function CategoryTalks() {
 
     useEffect(() => {
         createCategoryTalks();
-      }, []);
+      }, [categoryName]);
 
   return (
     <>
