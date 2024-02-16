@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, Card, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { MailOutlined, UserOutlined } from '@ant-design/icons';
-import { sendMail } from '../../apis/fixture.api';
-import { MESSAGES } from '../../utils/constant';
-import Loader from '../common/Loader';
+import { sendMail } from '../../../apis/fixture.api';
+import { MESSAGES } from '../../../utils/constant';
+import Loader from '../../common/Loader';
 import { useNavigate } from 'react-router-dom';
 
  interface messageInterface {

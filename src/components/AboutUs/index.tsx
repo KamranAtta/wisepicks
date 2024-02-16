@@ -22,7 +22,7 @@ export default function AboutUs() {
         <Card title='About Us' style={{ padding: '20px' }}>
             <Row gutter={24} style={styles.logo}>
                 <Col  span={16}  xs={24} sm={12} md={8} lg={6}>
-                    <Image width={300} src={logo} style={{background:'#95100d'}} />
+                    <Image width={300} src={logo} />
                 </Col>
             </Row>
             <Row gutter={24}>

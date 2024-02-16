@@ -7,7 +7,9 @@ export const LOCAL_STORAGE = {
 
 export const MESSAGES = {
   EMAIL_SUCCESS: 'Your email has been sent successfully!',
-  EMAIL_FAILURE: 'Unable to sent email!'
+  EMAIL_FAILURE: 'Unable to sent email!',
+  COMMENT_SUCCESS: 'Thank you for sharing insights!',
+  COMMENT_FAILURE: 'Unable to comment',
 }
 
 export const talkCategories = [

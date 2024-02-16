@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button } from 'antd';
-import { useMediaQuery } from '../../hooks/MediaQuery.hook';
-import { styles } from '../../styles';
+import { Row, Col, Divider, Image, Typography, Tag } from 'antd';
 import { useParams } from 'react-router-dom';
 import { getTedTalksById } from '../../apis/fixture.api';
 import Loader from '../../components/common/Loader';
 import VideoPlayer from '../VideoPlayer';
+import { talksInterface } from '../interfaces';
+import Title from 'antd/es/typography/Title';
+import { styles } from '../../styles';
+import dayjs from 'dayjs';
+import { useMediaQuery } from '../../hooks/MediaQuery.hook';
+import { CheckCircleOutlined } from '@ant-design/icons';
+import Comments from '../Comments';
 
 export default function TalkDetail() {
-    const matches = useMediaQuery('(min-width: 830px)');
     const { categoryName, id } = useParams();
-    const [videoDetails, setVideoDetails] = useState<any>();
+    const matches = useMediaQuery('(min-width: 1000px)');
+    const [videoDetails, setVideoDetails] = useState<talksInterface>();
+    const [relatedTalks, setRelatedTalks] = useState<talksInterface[]>([]);
     const [loader, setLoader] = useState<boolean>(false);
 
     const getVideodetails = async () => {
         setLoader(true);
         const response = await getTedTalksById({id: id, category: categoryName});
-        // console.log('Details', response?.data);
         setVideoDetails(response?.data?.talk);
+        setRelatedTalks(response?.data?.relatedTalks);
         setLoader(false);
     }
 
@@ -30,16 +36,42 @@ export default function TalkDetail() {
             <Col span={22}>
                 <Row gutter={24}>
                     <Col span={15}  xs={24} sm={15} style={styles.card}>
-                    {/* <div style={{width: '100%', height: '500px',background: 'black'}}> */}
-                        <VideoPlayer videoId={videoDetails?.videoId}></VideoPlayer>
-                    {/* </div> */}
+                        <div style={{height: matches ? '500px': '200px', background: 'black'}}>
+                            <VideoPlayer videoId={videoDetails?.videoId}></VideoPlayer>
+                        </div>
+                        <Divider></Divider>
+                        <Row>
+                            <Typography.Title level={matches ? 2 : 4}>{videoDetails?.title}</Typography.Title>
+                            <p style={{fontSize: '1rem'}}>{videoDetails?.description}</p>
+                            <br />
+                            <Typography.Text>{videoDetails?.views} Views since {dayjs(videoDetails?.publishedAt).format('MMM YYYY')}</Typography.Text>
+                            <Row>
+                                {videoDetails?.tags?.map((tag: string, index: number)=>{
+                                    return <Tag key={index} style={styles.Tag}>#{tag}</Tag>
+                                })}
+                            </Row>
+                        </Row>
+                        <Comments></Comments>
                     </Col>
                     <Col span={8}  xs={24} sm={8} style={styles.card}>
-                        <div>
-                            <h1 style={{fontSize: '2.25rem'}}>{videoDetails?.title}</h1>
-                            <p style={{fontSize: '1rem'}}>{videoDetails?.description}</p>
-                        </div>
-                        <Button style={matches ? {...styles.watchButton, position: 'absolute'} : {}}>Watch Now</Button>
+                        <Title level={3}>Watch Next</Title>
+                        <br />
+                        {relatedTalks?.map((video: talksInterface, index: number)=>{
+                            return <Row key={index} gutter={24}>
+                                <a href={`/talks/${video?.category}/${video?.id}`} style={{display: 'flex'}}>
+                                    <Col span={12}  xs={24} sm={12} style={styles.card}>
+                                        <Image style={styles.relatedVideosImage} src={video?.thumbnail} alt={video?.title}/>
+                                    </Col>
+                                    <Col span={12}  xs={24} sm={12} style={styles.card}>
+                                        <Typography.Text strong>{video?.title}</Typography.Text>
+                                        <br />
+                                        <Typography.Text>{video?.channelTitle} <CheckCircleOutlined /></Typography.Text>
+                                        <br />
+                                        <Typography.Text>{video?.views} views | {dayjs(video?.publishedAt).format('MMM YYYY')}</Typography.Text>
+                                    </Col>
+                                </a>
+                            </Row>
+                        })}
                     </Col>
                 </Row>
             </Col>

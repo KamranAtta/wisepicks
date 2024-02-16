@@ -76,3 +76,22 @@ background: black;
   /* to make calendar responsive */
   display: none !important;
 }
+.ant-card-body {
+  padding: 6px !important;
+}
+.video-container {
+  position: relative;
+}
+
+.play-button {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 30px;
+}
+.video-container:hover .play-button {
+  opacity: 1;
+}

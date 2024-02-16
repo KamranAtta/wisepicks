@@ -21,6 +21,6 @@ export const customTheme = {
     },
     Button : {
       borderRadiusLG: 8
-    }
+    },
   },
 };

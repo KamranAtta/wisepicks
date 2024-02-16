@@ -12,6 +12,14 @@ export const styles = {
     card: {
         paddingBottom:'10px',
     },
+    playButton: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        opacity: 0,
+        transition: 'opacity 0.3s ease',
+    },
     paragraph: {
         paddingTop:'10px'
     },
@@ -33,6 +41,32 @@ export const styles = {
         color: 'white',
         height: '40px',
         borderRadius: '5px',
+    },
+    link: {
+        color: 'black'
+    },
+    duration: { 
+        bottom: '30px', 
+        color: '#fff', 
+        paddingRight: '20px', 
+        borderRadius: '4px' 
+    },
+    relatedVideosImage: {
+        borderRadius: '10px',
+        width: '200px',
+        height: '120px',
+    },
+    bRadius:{
+        borderRadius: '10px',
+    },
+    textWhite: {
+        color: 'white'
+    },
+    Tag: {
+        color: '#2020ad',
+        border: 'none'
+    },
+    commentSection: {
+        paddingTop: '12px',
     }
-
 };

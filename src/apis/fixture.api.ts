@@ -28,6 +28,24 @@ export const getTedTalksById = async (data: any) => {
   }
 };
 
+export const updateComments = async (data: any) => {
+  try {
+    const response = await doPost('/updateComments', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+export const getCommentsByVideo = async (data: any) => {
+  try {
+    const response = await doPost('/getCommentsByVideo', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const getFixtures = async (data: any) => {
   try {
     const response = await doPost('/getSoccerFixtures', data);

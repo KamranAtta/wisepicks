@@ -73,7 +73,7 @@ export default function HeaderComponent() {
         </Link>
         <div aria-hidden="true" className='traingle'></div>
         {matches ? (
-          <Menu mode='horizontal' defaultSelectedKeys={['2']} style={{ width: '100%', background: '#e10600' }}>
+          <Menu mode='horizontal' defaultSelectedKeys={['2']} style={{ width: '100%', background: '#000000' }}>
             {MenuItems}
           </Menu>
         ) : (

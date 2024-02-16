@@ -17,7 +17,7 @@ const VideoPlayer = ({ videoId }: any) => {
           autoplay: 0,
         },
       };
-      return <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady} />;
+      return <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady} /> 
 };
 
 export default VideoPlayer;

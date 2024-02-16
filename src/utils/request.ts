@@ -35,14 +35,14 @@ export const doGet = async (path: string, headers: object = {}, baseURL = 'https
 
 export const doPost = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
   try {
-    const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
+    // const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
     const response = await Axios({
       url: path,
       baseURL: SERVER_API ? SERVER_API : baseURL,
       method: 'POST',
       // withCredentials: true,
-      headers: setHeader(token, headers),
+      // headers: setHeader(token, headers),
       data,
     });
 

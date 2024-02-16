@@ -4,7 +4,7 @@ import HeaderComponent from './components/Header';
 import Fixture from './views/Fixture';
 import Layout, { Content, Footer, Header } from 'antd/es/layout/layout';
 import FooterComponent from './components/Footer';
-import ContactUsComponent from './components/ContactUs';
+import ContactUsComponent from './components/Form/ContactUs';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import AboutUs from './components/AboutUs';
 import Standings from './views/Standings';
@@ -15,7 +15,7 @@ import TalkDetail from './views/TalkDetail';
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
   color: '#fff',
-  backgroundColor: '#95100d',
+  backgroundColor: '#001529',
 }
 
 const Router = () => {
