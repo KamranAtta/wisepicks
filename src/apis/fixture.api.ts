@@ -28,6 +28,33 @@ export const getTedTalksById = async (data: any) => {
   }
 };
 
+export const JustTalkById = async (id: string) => {
+  try {
+    const response = await doPost('/JustTalkById', {id: id});
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+export const createTalk = async (data: any) => {
+  try {
+    const response = await doPost('/createTalk', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+export const updateTalk = async (data: any) => {
+  try {
+    const response = await doPost('/updateTalk', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const updateComments = async (data: any) => {
   try {
     const response = await doPost('/updateComments', data);

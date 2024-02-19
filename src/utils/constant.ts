@@ -12,6 +12,11 @@ export const MESSAGES = {
   COMMENT_FAILURE: 'Unable to comment',
 }
 
+export const PAGE_TITLES = {
+  ADD_NEW_TALK: 'Add new Talk',
+  EDIT_TALK: 'Edit Talk',
+};
+
 export const talkCategories = [
   'TED-Ed',
   'Psychology',

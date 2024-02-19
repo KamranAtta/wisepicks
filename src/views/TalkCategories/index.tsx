@@ -11,12 +11,12 @@ export default function TalkCategories({categoryName}: any) {
 
   return (
     <Row gutter={24} style={{display: 'flex', justifyContent:'center',margin: '10px', textAlign:'center'}}>
-            <Col span={19}>
+            <Col span={matches ? 19 : 24}>
                 <Title level={matches ? 2 : 4}>TED Insights: Inspire or get Inspired</Title>
                 <Row gutter={24}>
                     {
                         talkCategories?.map((category: string, index: number)=> {
-                            return <Col key={index} span={3} xs={24} sm={3} style={{padding:'10px'}}>
+                            return <Col key={index} span={3} xs={matches ? 24: 8} sm={3} style={{padding:'10px'}}>
                                 {
                                     categoryName === category ?
                                     <Link to={`/topic/${category}`} >

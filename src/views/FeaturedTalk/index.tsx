@@ -12,6 +12,15 @@ export default function FeaturedTalk({data}: featuredTalkInterface) {
   return (
         <Row gutter={24}>
             <Col span={12}  xs={24} sm={12} style={styles.card}>
+                <Link to={`/talks/${data.category}/${data.id}`}>
+                    <img
+                        style={{width: '100%'}}
+                        alt={data?.title}
+                        src={data?.thumbnail}
+                    />
+                </Link>
+            </Col>
+            <Col span={12}  xs={24} sm={12} style={styles.card}>
                 <div>
                     <h1 style={{fontSize: matches ? '2.25rem': '1.25rem'}}>{data?.title}</h1>
                     <Typography.Paragraph ellipsis={{ rows: 3, expandable: true }}>{data?.description}</Typography.Paragraph>
@@ -23,16 +32,7 @@ export default function FeaturedTalk({data}: featuredTalkInterface) {
                     })}
                 </div>
                 <Link to={`/talks/${data.category}/${data.id}`}>
-                    <Button style={matches ? {...styles.watchButton, position: 'absolute'} : {}}>Watch Now</Button>
-                </Link>
-            </Col>
-            <Col span={12}  xs={24} sm={12} style={styles.card}>
-                <Link to={`/talks/${data.category}/${data.id}`}>
-                    <img
-                        style={{width: '100%'}}
-                        alt={data?.title}
-                        src={data?.thumbnail}
-                    />
+                    <Button style={matches ? {...styles.watchButton, position: 'absolute'} : {display: 'none'}}>Watch Now</Button>
                 </Link>
             </Col>
         </Row>

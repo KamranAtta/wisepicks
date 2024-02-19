@@ -11,6 +11,8 @@ import Standings from './views/Standings';
 import LandingPage from './views/Landing';
 import CategoryTalks from './views/CategoryTalk';
 import TalkDetail from './views/TalkDetail';
+import { styles } from './styles';
+import TalkForm from './components/Form/Talk';
 
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -21,7 +23,7 @@ const footerStyle: React.CSSProperties = {
 const Router = () => {
   return (
     <Layout>
-      <Header style={{paddingInline: '0px'}}>
+      <Header style={styles.header}>
         <HeaderComponent></HeaderComponent>
       </Header>
       <Content style={{background: 'white'}}>
@@ -48,6 +50,18 @@ const Router = () => {
             path='/talks/:categoryName/:id'
             element={
               <TalkDetail />
+            }
+          />
+          <Route
+            path='/talks/create-talk'
+            element={
+              <TalkForm />
+            }
+          />
+          <Route
+            path='/talks/:categoryName/:id/update'
+            element={
+              <TalkForm />
             }
           />
           <Route

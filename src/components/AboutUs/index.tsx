@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Row, Col, Card, Image } from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
 import logo from '../../assets/logo/logo.png';
@@ -17,6 +17,10 @@ interface categoryInterface {
 }
 
 export default function AboutUs() {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <Card title='About Us' style={{ padding: '20px' }}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Divider, Image, Typography, Tag } from 'antd';
-import { useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { getTedTalksById } from '../../apis/fixture.api';
 import Loader from '../../components/common/Loader';
 import VideoPlayer from '../VideoPlayer';
@@ -28,6 +28,7 @@ export default function TalkDetail() {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         getVideodetails();
     }, [id]);
 
@@ -57,20 +58,21 @@ export default function TalkDetail() {
                         <Title level={3}>Watch Next</Title>
                         <br />
                         {relatedTalks?.map((video: talksInterface, index: number)=>{
-                            return <Row key={index} gutter={24}>
-                                <a href={`/talks/${video?.category}/${video?.id}`} style={{display: 'flex'}}>
-                                    <Col span={12}  xs={24} sm={12} style={styles.card}>
-                                        <Image style={styles.relatedVideosImage} src={video?.thumbnail} alt={video?.title}/>
+                            // Don'tchange atag to Link.
+                            return <a key={index} href={`/talks/${video?.category}/${video?.id}`} style={{display: 'flex'}}>
+                                <Row gutter={24}>
+                                    <Col span={24}  xs={12} sm={12} style={styles.card}>
+                                        <Image style={matches ? styles.relatedVideosImage: styles.relatedVideosImageMobile} src={video?.thumbnail} alt={video?.title}/>
                                     </Col>
-                                    <Col span={12}  xs={24} sm={12} style={styles.card}>
+                                    <Col span={24}  xs={12} sm={12} style={styles.card}>
                                         <Typography.Text strong>{video?.title}</Typography.Text>
                                         <br />
                                         <Typography.Text>{video?.channelTitle} <CheckCircleOutlined /></Typography.Text>
                                         <br />
                                         <Typography.Text>{video?.views} views | {dayjs(video?.publishedAt).format('MMM YYYY')}</Typography.Text>
                                     </Col>
-                                </a>
-                            </Row>
+                                </Row>
+                            </a>
                         })}
                     </Col>
                 </Row>

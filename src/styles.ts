@@ -1,4 +1,14 @@
-export const styles = {
+import { createStyles } from './utils';
+
+export const styles = createStyles({
+    header: {
+        paddingInline: '0px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        width: '100vw',
+        background: 'white',
+    },
     content: {
         display: 'flex',
         justifyContent: 'center',
@@ -30,7 +40,7 @@ export const styles = {
     watchButton: {
         position: 'absolute',
         bottom: '20px',
-        left:'10px',
+        right:'10px',
         background:'black',
         color: 'white',
         height: '40px',
@@ -56,6 +66,11 @@ export const styles = {
         width: '200px',
         height: '120px',
     },
+    relatedVideosImageMobile: {
+        borderRadius: '10px',
+        width: '170px',
+        height: '120px',
+    },
     bRadius:{
         borderRadius: '10px',
     },
@@ -69,4 +84,4 @@ export const styles = {
     commentSection: {
         paddingTop: '12px',
     }
-};
+});

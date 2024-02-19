@@ -6,6 +6,7 @@ import { MESSAGES } from '../../../utils/constant';
 import Loader from '../../common/Loader';
 import { useParams } from 'react-router-dom';
 import TextArea from 'antd/es/input/TextArea';
+import { useMediaQuery } from '../../../hooks/MediaQuery.hook';
 // import { useNavigate } from 'react-router-dom';
 
  interface commentInterface {
@@ -23,6 +24,7 @@ export default function CommentForm() {
     const { id } = useParams();
     const [form] = Form.useForm();
     const [comments, setComments] = useState<commentsInterface[]>([]);
+    const matches = useMediaQuery('(min-width: 1000px)');
 
     const fetchComments = async () => {
         const response = await getCommentsByVideo({ videoId: id });
@@ -77,17 +79,17 @@ export default function CommentForm() {
         <>
             <Form name="form_item_path" form={form} layout="vertical" onFinish={onFinish}>
                 <Row gutter={24}>
-                    <Col span={5} xs={5} sm={5}>
+                    <Col span={matches ? 5: 24}>
                         <Form.Item name="name">
                             <Input placeholder='Your Name' prefix={<UserOutlined />} />
                         </Form.Item>
                     </Col>
-                    <Col span={17} xs={17} sm={17}>
+                    <Col span={matches ? 17 : 24}>
                         <Form.Item name="message" rules={[{ required: true, message: 'Lesson is required' }]}>
                             <TextArea placeholder='Share your thoughts and insights from the video' rows={4} />
                         </Form.Item>
                     </Col>
-                    <Col span={2} xs={2} sm={2}>
+                    <Col span={matches ? 2 : 24}>
                         <Button style={{borderRadius: '5px'}} htmlType="submit">Submit</Button>
                     </Col>
                 </Row>
