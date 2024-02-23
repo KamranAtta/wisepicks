@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import Comments from '../Comments';
+import SearchBar from '../../components/common/Search';
 
 export default function TalkDetail() {
     const { categoryName, id } = useParams();
@@ -33,51 +34,58 @@ export default function TalkDetail() {
     }, [id]);
 
     return (
-        <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px', paddingTop:'10px'}}>
-            <Col span={22}>
-                <Row gutter={24}>
-                    <Col span={15}  xs={24} sm={15} style={styles.card}>
-                        <div style={{height: matches ? '500px': '200px', background: 'black'}}>
-                            <VideoPlayer videoId={videoDetails?.videoId}></VideoPlayer>
-                        </div>
-                        <Divider></Divider>
-                        <Row>
-                            <Typography.Title level={matches ? 2 : 4}>{videoDetails?.title}</Typography.Title>
-                            <p style={{fontSize: '1rem'}}>{videoDetails?.description}</p>
-                            <br />
-                            <Typography.Text>{videoDetails?.views} Views since {dayjs(videoDetails?.publishedAt).format('MMM YYYY')}</Typography.Text>
+        <>
+            <Row  style={styles.searchBarContainer}>
+                <Col span={12}>
+                    <SearchBar/>
+                </Col>
+            </Row>
+            <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px', paddingTop:'10px'}}>
+                <Col span={22}>
+                    <Row gutter={24}>
+                        <Col span={15}  xs={24} sm={15} style={styles.card}>
+                            <div style={{height: matches ? '500px': '200px', background: 'black',marginTop: '20px'}}>
+                                <VideoPlayer videoId={videoDetails?.videoId}></VideoPlayer>
+                            </div>
+                            <Divider></Divider>
                             <Row>
-                                {videoDetails?.tags?.map((tag: string, index: number)=>{
-                                    return <Tag key={index} style={styles.Tag}>#{tag}</Tag>
-                                })}
-                            </Row>
-                        </Row>
-                        <Comments></Comments>
-                    </Col>
-                    <Col span={8}  xs={24} sm={8} style={styles.card}>
-                        <Title level={3}>Watch Next</Title>
-                        <br />
-                        {relatedTalks?.map((video: talksInterface, index: number)=>{
-                            // Don'tchange atag to Link.
-                            return <a key={index} href={`/talks/${video?.category}/${video?.id}`} style={{display: 'flex'}}>
-                                <Row gutter={24}>
-                                    <Col span={24}  xs={12} sm={12} style={styles.card}>
-                                        <Image style={matches ? styles.relatedVideosImage: styles.relatedVideosImageMobile} src={video?.thumbnail} alt={video?.title}/>
-                                    </Col>
-                                    <Col span={24}  xs={12} sm={12} style={styles.card}>
-                                        <Typography.Text strong>{video?.title}</Typography.Text>
-                                        <br />
-                                        <Typography.Text>{video?.channelTitle} <CheckCircleOutlined /></Typography.Text>
-                                        <br />
-                                        <Typography.Text>{video?.views} views | {dayjs(video?.publishedAt).format('MMM YYYY')}</Typography.Text>
-                                    </Col>
+                                <Typography.Title level={matches ? 2 : 4}>{videoDetails?.title}</Typography.Title>
+                                <p style={{fontSize: '1rem'}}>{videoDetails?.description}</p>
+                                <br />
+                                <Typography.Text>{videoDetails?.views} Views since {dayjs(videoDetails?.publishedAt).format('MMM YYYY')}</Typography.Text>
+                                <Row>
+                                    {videoDetails?.tags?.map((tag: string, index: number)=>{
+                                        return <Tag key={index} style={styles.Tag}>#{tag}</Tag>
+                                    })}
                                 </Row>
-                            </a>
-                        })}
-                    </Col>
-                </Row>
-            </Col>
-            {loader ? <Loader /> : <></>}
-        </Row>
+                            </Row>
+                            <Comments></Comments>
+                        </Col>
+                        <Col span={8}  xs={24} sm={8} style={styles.card}>
+                            <Title level={3}>Watch Next</Title>
+                            <br />
+                            {relatedTalks?.map((video: talksInterface, index: number)=>{
+                                // Don'tchange atag to Link.
+                                return <a key={index} href={`/talks/${video?.category}/${video?.id}`} style={{display: 'flex'}}>
+                                    <Row gutter={24}>
+                                        <Col span={24}  xs={12} sm={12} style={styles.card}>
+                                            <Image style={matches ? styles.relatedVideosImage: styles.relatedVideosImageMobile} src={video?.thumbnail} alt={video?.title}/>
+                                        </Col>
+                                        <Col span={24}  xs={12} sm={12} style={styles.card}>
+                                            <Typography.Text strong>{video?.title}</Typography.Text>
+                                            <br />
+                                            <Typography.Text>{video?.channelTitle} <CheckCircleOutlined /></Typography.Text>
+                                            <br />
+                                            <Typography.Text>{video?.views} views | {dayjs(video?.publishedAt).format('MMM YYYY')}</Typography.Text>
+                                        </Col>
+                                    </Row>
+                                </a>
+                            })}
+                        </Col>
+                    </Row>
+                </Col>
+                {loader ? <Loader /> : <></>}
+            </Row>
+        </>
     );
 };

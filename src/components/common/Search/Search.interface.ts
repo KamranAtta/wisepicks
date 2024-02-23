@@ -6,4 +6,7 @@ export interface TransferSearchProps {
   value?: string;
   disabled?: boolean;
   onPressEnter?: () => void;
+  talkDropdown?: any;
+  handleSearchDropdownSelect?: (e: any) => void;
+  handleSearchTalk?: (e: any) => void;
 }

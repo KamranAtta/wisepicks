@@ -41,6 +41,12 @@ const Router = () => {
             }
           />
           <Route
+            path='/talks'
+            element={
+              <CategoryTalks />
+            }
+          />
+          <Route
             path='/topic/:categoryName'
             element={
               <CategoryTalks />

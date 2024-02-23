@@ -46,6 +46,15 @@ export const createTalk = async (data: any) => {
   }
 };
 
+export const authenticateAdmin = async (data: any) => {
+  try {
+    const response = await doPost('/authenticateUser', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const updateTalk = async (data: any) => {
   try {
     const response = await doPost('/updateTalk', data);
@@ -67,6 +76,15 @@ export const updateComments = async (data: any) => {
 export const getCommentsByVideo = async (data: any) => {
   try {
     const response = await doPost('/getCommentsByVideo', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+export const searchTalk = async (searchText: string) => {
+  try {
+    const response = await doPost('/talk/search', {searchText: searchText});
     return response;
   } catch (err: any) {
     return err;

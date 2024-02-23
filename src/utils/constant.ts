@@ -10,6 +10,8 @@ export const MESSAGES = {
   EMAIL_FAILURE: 'Unable to sent email!',
   COMMENT_SUCCESS: 'Thank you for sharing insights!',
   COMMENT_FAILURE: 'Unable to comment',
+  LOGIN_ERROR: 'You dont not have permission to perform this task!',
+  ERROR: 'SOmething went wrong'
 }
 
 export const PAGE_TITLES = {

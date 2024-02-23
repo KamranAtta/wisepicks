@@ -14,6 +14,11 @@ export const styles = createStyles({
         justifyContent: 'center',
         paddingTop: '10px'
     },
+    searchBarContainer: {
+        marginTop: '20px',
+        display: 'flex',
+        justifyContent: 'center',
+    },
     logo:{
         display:'flex',
         justifyContent: 'center', 

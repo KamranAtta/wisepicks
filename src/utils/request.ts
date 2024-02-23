@@ -4,7 +4,7 @@ import { getLocalStorage } from './localStorage';
 import { AUTH_TOKEN, LOCAL_STORAGE } from '../utils/constant';
 const SERVER_API: string | undefined = process.env.REACT_APP_SERVER_API;
 
-export const doGet = async (path: string, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
+export const doGet = async (path: string, headers: object = {}, baseURL = '') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
@@ -33,10 +33,8 @@ export const doGet = async (path: string, headers: object = {}, baseURL = 'https
   }
 };
 
-export const doPost = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
+export const doPost = async (path: string, data: object, baseURL = '') => {
   try {
-    // const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
-
     const response = await Axios({
       url: path,
       baseURL: SERVER_API ? SERVER_API : baseURL,
@@ -63,7 +61,7 @@ export const doPost = async (path: string, data: object, headers: object = {}, b
   }
 };
 
-export const doPut = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
+export const doPut = async (path: string, data: object, headers: object = {}, baseURL = '') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
@@ -93,7 +91,7 @@ export const doPut = async (path: string, data: object, headers: object = {}, ba
   }
 };
 
-export const doPatch = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
+export const doPatch = async (path: string, data: object, headers: object = {}, baseURL = '') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 
@@ -123,7 +121,7 @@ export const doPatch = async (path: string, data: object, headers: object = {}, 
   }
 };
 
-export const doDelete = async (path: string, data: object, headers: object = {}, baseURL = 'https://www.sportsfeed24.com') => {
+export const doDelete = async (path: string, data: object, headers: object = {}, baseURL = '') => {
   try {
     const token = getLocalStorage(LOCAL_STORAGE.ID_TOKEN);
 

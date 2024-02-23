@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Row, Col, Carousel, Divider } from 'antd';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import { Row, Col, Carousel, Divider, notification } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Slider from '../Slider';
 import TalkCategories from '../TalkCategories';
 import FeaturedTalk from '../FeaturedTalk';
-import { talkTypes } from '../../utils/constant';
+import { MESSAGES, talkTypes } from '../../utils/constant';
 import Talks from '../Talks';
 import { 
     talkDataInterface, 
     // talksInterface 
 } from '../interfaces';
 import Loader from '../../components/common/Loader';
-import { getHomeTalks } from '../../apis/fixture.api';
-import { Link } from 'react-router-dom';
+import { getHomeTalks, searchTalk } from '../../apis/fixture.api';
+import { Link, useNavigate } from 'react-router-dom';
 import { styles } from '../../styles';
+import SearchBar from '../../components/common/Search';
 
 export default function LandingPage() {
-    // const [talks, setTalks] = useState<talksInterface[]>([]);
+    const navigate = useNavigate();
     const [trendings, setTrendings] = useState<talkDataInterface>();
     const [newTalks, setNewTalks] = useState<talkDataInterface>();
     const [featured, setFeatured] = useState<any>();
@@ -66,6 +67,11 @@ export default function LandingPage() {
 
   return (
     <>
+        <Row  style={styles.searchBarContainer}>
+            <Col span={12}>
+                <SearchBar/>
+            </Col>
+        </Row>
         <TalkCategories></TalkCategories>
         <Divider></Divider>
         <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px'}}>
