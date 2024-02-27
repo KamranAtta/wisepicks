@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col } from 'antd';
-import Title from 'antd/es/typography/Title';
+import { Row, Col, Typography } from 'antd';
 import { talkTypes } from '../../utils/constant';
 import Talks from '../Talks';
 import { talkDataInterface } from '../interfaces';
@@ -44,12 +43,13 @@ export default function CategoryTalks() {
         <TalkCategories categoryName={categoryName}></TalkCategories>
         <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px'}}>
             <Col span={20}>
-                <Title 
+                <Typography.Title 
                 level={3} 
                 style={{ marginBottom: '20px'}}>
                 Search results for {categoryName ?? searchTerm } Talks
-                </Title>
-                <Talks data={talks}></Talks>
+                </Typography.Title>
+                {talks?.videos.length ? <Talks data={talks}></Talks>: 
+                <Typography.Text style={{display: 'flex', justifyContent: 'center',marginBottom: '20px'}}>No Talks Found</Typography.Text>}
             </Col>
         </Row>
         {loader ? <Loader /> : <></>}

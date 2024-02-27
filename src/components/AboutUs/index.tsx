@@ -4,17 +4,12 @@ import Paragraph from 'antd/es/typography/Paragraph';
 import logo from '../../assets/logo/logo.png';
 import { styles } from './styles';
 import { Link } from 'react-router-dom';
-import { categories } from '../../utils/constant';
+import { talkCategories } from '../../utils/constant';
 
 const gridStyle: React.CSSProperties = {
     width: '25%',
     textAlign: 'center',
 };
-
-interface categoryInterface {
-    label: string;
-    value: string;
-}
 
 export default function AboutUs() {
 
@@ -31,74 +26,77 @@ export default function AboutUs() {
             </Row>
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='What is Streameast Soccer?' style={styles.card}>
+                    <Card title='What is InciteTube?' style={styles.card}>
                         <Card.Meta
-                        title="An open and known website for live sports updates and free live-streaming."
+                        title="A platform for inspirational and Informational videos and talks."
                         />
                         <Paragraph style={styles.paragraph}>
-                            What could be more appealing than having a platform to watch your favorite 
-                            sports online uninterruptedly? If you are in search of a streaming service 
-                            that is free, then streameast is for you to enjoy the live streaming of 
-                            FOOTBALL/SOCCER, NBA, NFL, BOXING, RUGBY, UFC, FORMULA 1, TENNIS and CRICKET. 
-                            This is your safest and most secure go-to site to watch sports at your door without 
-                            worrying about damaging your electronics.
+                            Incite tube brings to the table most interesting, valuable and informational talks by reknowened speakers and professional.
+                            It provides videos related to Food, livestyle, Future, education, climate change, sports, AI, Psychology, social issues an many more.
+                            This platform is to spread awareness about key aspect and most discussed topics which mankind is associated with.
+                            A single platformwhich brings information related to most engaging and necessary topic the society is dealing with.
+                            To provide a platform where people can share their thoughts and participate in discussion about the issues faced by mankind.
+                            Incite tube is eager to provide recent and upto date information and videos related to most important aspects of human life and society.
                         </Paragraph>
                     </Card>
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Who are we? Know more about us below!' style={styles.card}>
+                    <Card title='Know more about INCITETUBE below' style={styles.card}>
                         <Card.Meta
-                        title="A Glimpse of Streameast Soccer Sports live streaming Service"
+                        title="A Glimpse of INCITE TUBE Features and service"
                         />
                         <Paragraph style={styles.paragraph}>
-                            Our mission is to provide the best solutions for our customers. Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                            Our aim to to spread information, to inspire and get inspired and to build a better world by communicating
+                            issues faced by our society. To be a better human, we need to spread positivity and break the ignorance about issues
+                            like climate change and society.
                         </Paragraph>
                         <Paragraph>
-                            Streameast is our streaming service that has been entertaining the enthusiasts of sports for a 
-                            year now and will continue to do so for many more years to come. Our service is our pride 
-                            because of its high-quality streaming and user satisfaction. Our platform is a highly trusted 
-                            platform where you can watch live FOOTBALL, NBA, NHL, UFC, CRICKET, FORMULA, and many more. 
+                            Incite tube will provide its user with a platform where they can watch inspirational and informative video contents.
+                            Our video library will choose videos and information content available on internet and will try to spread it to people 
+                            beynd and border and social barriers.
+
                         </Paragraph>
                         <Paragraph>
-                            In a nutshell, this single sports service encompasses a multitude of sports for you to enjoy 
-                            in your comfort. To save you time and reduce the stress and hassle of searching various sites 
-                            for your favorite sports, we have created this site for you to watch live sports streaming.
+                            In a nutshell, the internet today is crowded with information and people find it difficult to find relevent information
+                            about social, societal issues. Thus Incite tube will provide informational videos focusing only on key topics like Climate Change,
+                            Pyychology, Human behavior, Sports and many more. What makes us unique is out selected content related to issues which mankind face today.
+
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='How can Streameast Soccer help you watch uninterrupted live sports for free?' style={styles.card}>
+                    <Card title='How can Incite Tube help you find relevent information?' style={styles.card}>
                         <Paragraph>
-                        To stream different sports on the website for free, you have to follow the following steps:
+                        Following is a list of instruction on how to find relevent content on incite tube:
                         </Paragraph>
                         <Paragraph>
-                            Step 1. Open your Browser and search Streameast Soccer.
+                            Step 1. Browse out website <Link to='/'>INCITE TYBE</Link>.
                         </Paragraph>
                         <Paragraph>
-                            Step 2. Streameast live streams multiple sports at a time on the website, you need to scroll down until you see streaming sports. 
+                            Step 2. In the home page will find categories for the videos like Newest talks, Featured talks, Trending talks, Climate Change,AI and Future talks. 
                         </Paragraph>
                         <Paragraph>
-                            Step 3. Once you find the sports that you want to watch, click on its icon on the website page. Then you will see all the information related to your favorite sports including the list of events, news, updates, important dates, upcoming matches, etc.
+                            Step 3. If you want to browser and selected Talk categories, we have about 20 different talk categories like sports talks, climate talks, psychology talks
+                            Society talks, Health and life style talks, personal growth talks, communication talks etc.
                         </Paragraph>
                         <Paragraph>
-                            Step 4. When you click on the events tap, it will take you to a separate page where you will see multiple links related to the event link.
+                            Step 4. You can click onany category listed on the home page to nevigate to talk category, where you will find talks related to same category.
                         </Paragraph>
                         <Paragraph>
-                            Step 5. Lastly, click the link for the event you would like to watch. 
+                            Step 5. You open the video about any topic you like and any video you want to watch. 
                         </Paragraph>
                         <Paragraph>
-                            Step 6. Enjoy the live stream of your favorite sports.
+                            Step 6. There will be space to share what you learned form the video and how the video benefitted you.
                         </Paragraph>
                     </Card>
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Which live Sports streams can be watched at Streameast Soccer?' style={styles.card}>
-                        {categories?.map((cat: categoryInterface, index: number) => (
+                    <Card title='Which topic you can watch on INCITE tube?' style={styles.card}>
+                        {talkCategories?.map((cat: string, index: number) => (
                             <Card.Grid key={index} style={gridStyle}>
-                            <Link to={'/streams/' + cat.label} >{cat.label}</Link>
+                            <Link to={'/topic/' + cat} >{cat}</Link>
                             </Card.Grid>
                         ))}
                     </Card>
@@ -106,103 +104,96 @@ export default function AboutUs() {
             </Row>
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Free Live FOOTBALL/SOCCER Streams' style={styles.card}>
+                    <Card title='Newest Ted Talks on INCITE TUBE' style={styles.card}>
                         <Paragraph>
-                            Every important football tournament match is streamed by Streameast from 
-                            the English premier league, Bundesliga, Serie A, Ligue 1, MLS, Saudi pro 
-                            league to La Liga. You can watch and enjoy all the prominent matches on our 
-                            site streameast without interruption. Our streaming service also streams 
-                            matches of well-known and major football events i.e., the World Cup, 
-                            UEFA Cup, Champions cup, etc.To watch free live soccer and today’s 
-                            soccer matches, you can refer to home page of Streameast Soccer.
+                            This category of videos provide recent video talks on most important topics. This is not specific toany category but <thead>
+                            most recent videos on ted talk. 
+                            </thead>
                         </Paragraph>
                     </Card>
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Live UFC Matches and Live UFC Streams' style={styles.card}>
+                    <Card title='Featured Ted Talks on INCITE TUBE' style={styles.card}>
                         <Paragraph>
-                        You can stream the most famous UFC events such as UFC main card on ESPN or another 
-                        important event UFC pay-per-view in addition to other UFC fight night events on Streameast Soccer.
+                        This is a special ted talks category. It provide most interested videos related to any topic based on views, 
+                        Interesting level of the video and importance of the video. It is one of the most important categories on ted talks and features videos 
+                        which are most important.
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Free Live Boxing Streams and Free Live Boxing Matches' style={styles.card}>
+                    <Card title='Trending Ted talks on INCITE TUBE' style={styles.card}>
                         <Paragraph>
-                            The high-quality games of major boxing organizations such as WBA, WBC, or IBF are all available at Streameast Soccer. You can find all the live matches related to Boxing on the home page. 
-                            You can enjoy free live streaming of boxing on this platform.
+                            Trending ted talks on incite tube is one of the most important categories where we focus on selected videos which are on trending.
+                            It is most engaging and significant ted talk category and prople seem to prefer this category very much.
                         </Paragraph>
                     </Card>
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Free live NFL Streams' style={styles.card}>
+                    <Card title='Climate Change, AI and Future' style={styles.card}>
                         <Paragraph>
-                            All sports enthusiasts can access the live stream of NFL 
-                            games such as the Super Bowl, regular season games, and exciting playoff matches on our
-                            website, Streameast Soccer. Live NFL matches and NFL live streaming is available on the 
-                            home page. 
-                        </Paragraph>
-                        <Paragraph>
-                            The NFL final will be played between Kansas City Chiefs vs San Francisco 49ers 
-                            on 12 Feb 2024. You can watch live match between Kansas City Chiefs and San Francisco 49ers 
-                            on Streameast Soccer for free.
+                             AI and Future ted talks is one of the most interesting and exciting ted video category on incite tube. It contain all the videos
+                            which are recently added to the web on AI and Future. This topic is very essential, and contain information which 
+                            erveryone does not want to avoid. 
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Free Live FORMULA 1 or F1' style={styles.card}>
-                        <Paragraph>
-                            Streameast streams the F1 World Championship races at no cost. 
-                            You can find all the F1 live streams and live F1 Matches on the home page.
+                    <Card title='Climate Change' style={styles.card}>
+                    <Paragraph>
+                            Climate change Ted talks on incite tube is most important category on INCITE TUBE. It brings information and awareness among people.
+                            The aim of INCITE TUBE falls within this category. Incite Tube aim to create awareness and Climate change talks help us spread awareness
+                            among people about the future if this very earth we are living in.
                         </Paragraph>
                     </Card>
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Live CRICKET Matches' style={styles.card}>
+                    <Card title='INCITE TUBE: Inspire or get Inspired' style={styles.card}>
                         <Paragraph>
-                            You can stream all formats of crickets 20/20, One Day, and test matches through streameast.
+                            Our mission is to spread awareness about most important issues we mankind face today. Incite tube provides
+                            ted talks highlighting these issues. In out platform you can share your ideas and can inspire prople.
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Free NBA Matches and Live NBA Streams for Free' style={styles.card}>
+                    <Card title='Lets discuss about issues like Climate Change' style={styles.card}>
                         <Paragraph>
-                            The exciting playoff matches and awaited regular season matches of basketball can be 
-                            streamed on Streameast. 
-                            To watch Live NBA and following every match, refer to the home page of Streameast Soccer.
+                            Incite Tube is aplatform where you can find new ted talk videos and burning topics today. Not only that, you can 
+                            also share your thoughts about a topic or a video and inspire or get inspired. Our discustion forum provides This
+                            oopportunity to participate in a discussion about a partucular topic of your interest.
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
             <Row gutter={24}>
                 <Col  span={24}  xs={24} sm={24}>
-                    <Card title='Reasons why you should choose Streameast Soccer to watch Live sports streams.' style={styles.card}>
+                    <Card title='Why you should visit INCITE TUBE?' style={styles.card}>
                         <Paragraph>
-                            There are multiple reasons why you should go for streameast for streaming and to enjoy your favorite sports at your comfort.
+                            There are multiple reason to choose Incite Tube to watch insprational and informative videos.
+                         </Paragraph>
+                        <Paragraph>
+                            Incite Tube filters ted Talks based on special categories and bring most important and recent videos available on Ted talk.
                         </Paragraph>
                         <Paragraph>
-                            Streameast is the secure and safest platform to watch sports without worrying about infecting your computer.
+                            It selects videos based on total views, trends and features.
                         </Paragraph>
                         <Paragraph>
-                            We provide high-quality service and live sports streaming at no cost. You don’t have to empty your pockets to watch your favorite sports.
+                            Its a platform where you can find most recent ted talks on Climate change. 
                         </Paragraph>
                         <Paragraph>
-                            Your data and identity are protected at all costs because protecting your privacy is our priority.
+                            It provide most recent ted talks on AI and Future.
                         </Paragraph>
                         <Paragraph>
-                            You can enjoy live streams in your comfort using a mobile phone, laptop, or computer without interruption
+                            It provides most recent ted talks on Pychology, humanity, sports.
                         </Paragraph>
                         <Paragraph>
-                            You can save time and mental energy. You do not need to search for different websites for different sports streaming; streameast is here! 
-                        </Paragraph>
-                        <Paragraph>
-                            Our goal is to be the best sports streaming platform and to meet the demands of our users by providing a high-quality and uninterrupted sports streaming service.
+                            The content of INCITE TUBE is up to date and it not flooded with irrelevent videos. It has most up to date and recent ted videos.
                         </Paragraph>
                     </Card>
                 </Col>
