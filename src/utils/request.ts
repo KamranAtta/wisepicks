@@ -33,7 +33,7 @@ export const doGet = async (path: string, headers: object = {}, baseURL = '') =>
   }
 };
 
-export const doPost = async (path: string, data: object, baseURL = 'https://starfish-app-9q9tj.ondigitalocean.app') => {
+export const doPost = async (path: string, data: object, baseURL = '') => {
   try {
     const response = await Axios({
       url: path,
