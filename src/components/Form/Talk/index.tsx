@@ -44,7 +44,7 @@ const TalkForm = () => {
       
       const data = response?.data;
       data.publishedAt = data?.publishedAt ? dayjs(new Date(data?.publishedAt)): null;
-      setDisableFiled(true);
+      setDisableFiled(false);
       form.setFieldsValue(data);
     } else {
       form.setFieldsValue([]);
