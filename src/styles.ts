@@ -15,9 +15,10 @@ export const styles = createStyles({
         paddingTop: '10px'
     },
     searchBarContainer: {
-        marginTop: '20px',
+        marginTop: '10px',
         display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center' 
     },
     logo:{
         display:'flex',
@@ -52,9 +53,11 @@ export const styles = createStyles({
         borderRadius: '5px',
     },
     categoryButton: {
+        borderRadius: '5px',
+    },
+    selectedCategoryButton: {
         background:'black',
         color: 'white',
-        height: '40px',
         borderRadius: '5px',
     },
     link: {

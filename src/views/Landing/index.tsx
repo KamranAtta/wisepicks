@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Carousel, Divider } from 'antd';
+import { Row, Col, Carousel } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Slider from '../Slider';
 import TalkCategories from '../TalkCategories';
@@ -15,8 +15,10 @@ import { getHomeTalks } from '../../apis/fixture.api';
 import { Link } from 'react-router-dom';
 import { styles } from '../../styles';
 import SearchBar from '../../components/common/Search';
+import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 
 export default function LandingPage() {
+    const matches = useMediaQuery('(min-width: 768px)');
     const [trendings, setTrendings] = useState<talkDataInterface>();
     const [newTalks, setNewTalks] = useState<talkDataInterface>();
     const [featured, setFeatured] = useState<any>();
@@ -67,12 +69,10 @@ export default function LandingPage() {
   return (
     <>
         <Row  style={styles.searchBarContainer}>
-            <Col span={12}>
-                <SearchBar/>
-            </Col>
+            <h1 style={matches ? {fontSize: '30px',paddingRight: '20px'}: { fontSize: '20px'}}>TED Insights: Inspire or get Inspired</h1>
+            <Col span={12} style={{paddingRight: '10px', paddingLeft: '10px'}}><SearchBar/></Col>
         </Row>
         <TalkCategories></TalkCategories>
-        <Divider></Divider>
         <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px'}}>
             <Col span={22}>
                 <CategoryTitle page={'Featured'} title={'Featured'}></CategoryTitle>
@@ -81,11 +81,9 @@ export default function LandingPage() {
                         return <FeaturedTalk key={index} data={featuredTalk}></FeaturedTalk>
                     })}
                 </Carousel>
-                <Divider></Divider>
                 
                 <CategoryTitle page={'Newest'} title={'Newest Talks'}></CategoryTitle>
                 <Talks data={newTalks}></Talks>
-                <Divider></Divider>
                 
                 <CategoryTitle page={'Trending'} title={'Trending Talks'}></CategoryTitle>
                 <Carousel autoplay>
@@ -94,15 +92,12 @@ export default function LandingPage() {
                     {/* <Slider data={trendings?.videos ? trendings?.videos?.slice(6,9): []}></Slider>
                     <Slider data={trendings?.videos ? trendings?.videos?.slice(9,12): []}></Slider> */}
                 </Carousel>
-                <Divider></Divider>
 
                 <CategoryTitle page={'Climate Change'} title={'Climate Change: What needs to be done'}></CategoryTitle>
                 <Talks data={climate}></Talks>
-                <Divider></Divider>
 
                 <CategoryTitle page={'Future'} title={'Artificial Intelligince and Future'}></CategoryTitle>
                 <Talks data={future}></Talks>
-                <Divider></Divider>
 
             </Col>
         </Row>
