@@ -75,12 +75,6 @@ export default function LandingPage() {
         <TalkCategories></TalkCategories>
         <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px'}}>
             <Col span={22}>
-                <CategoryTitle page={'Featured'} title={'Featured'}></CategoryTitle>
-                <Carousel autoplay>
-                    {featured?.map((featuredTalk: any, index: number)=>{
-                        return <FeaturedTalk key={index} data={featuredTalk}></FeaturedTalk>
-                    })}
-                </Carousel>
                 
                 <CategoryTitle page={'Newest'} title={'Newest Talks'}></CategoryTitle>
                 <Talks data={newTalks}></Talks>
@@ -89,8 +83,13 @@ export default function LandingPage() {
                 <Carousel autoplay>
                     <Slider data={trendings?.videos ? trendings?.videos?.slice(0,3): []}></Slider>
                     <Slider data={trendings?.videos ? trendings?.videos?.slice(3,6): []}></Slider>
-                    {/* <Slider data={trendings?.videos ? trendings?.videos?.slice(6,9): []}></Slider>
-                    <Slider data={trendings?.videos ? trendings?.videos?.slice(9,12): []}></Slider> */}
+                </Carousel>
+
+                <CategoryTitle page={'Featured'} title={'Featured'}></CategoryTitle>
+                <Carousel autoplay>
+                    {featured?.map((featuredTalk: any, index: number)=>{
+                        return <FeaturedTalk key={index} data={featuredTalk}></FeaturedTalk>
+                    })}
                 </Carousel>
 
                 <CategoryTitle page={'Climate Change'} title={'Climate Change: What needs to be done'}></CategoryTitle>

@@ -14,7 +14,7 @@ export default function TalkCategories({categoryName}: any) {
                 <Row gutter={24}>
                     {
                         talkCategories?.map((category: string, index: number)=> {
-                            return <Col key={index} span={3} xs={matches ? 24: 8} sm={3} style={{padding:'10px'}}>
+                            return <Col key={index} span={3} xs={matches ? 24: 8} sm={3} style={{padding:'3px'}}>
                                 {
                                     <Link to={`/topic/${category}`} >
                                         <Button style={categoryName === category ? styles.selectedCategoryButton: styles.categoryButton}>{category}</Button>
