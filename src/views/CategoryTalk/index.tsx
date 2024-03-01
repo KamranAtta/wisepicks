@@ -35,7 +35,7 @@ export default function CategoryTalks() {
 
   return (
     <>
-        <Row  style={styles.searchBarContainer}>
+        <Row style={{...styles.searchBarContainer, paddingBottom: '10px', paddingTop: '10px'}}>
             <Col span={12}>
                 <SearchBar/>
             </Col>

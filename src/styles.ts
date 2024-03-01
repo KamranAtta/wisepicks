@@ -18,7 +18,7 @@ export const styles = createStyles({
         marginTop: '10px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center' 
+        alignItems: 'center'
     },
     logo:{
         display:'flex',
