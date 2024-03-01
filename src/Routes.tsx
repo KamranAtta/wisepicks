@@ -1,13 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 
 import HeaderComponent from './components/Header';
-import Fixture from './views/Fixture';
 import Layout, { Content, Footer, Header } from 'antd/es/layout/layout';
 import FooterComponent from './components/Footer';
 import ContactUsComponent from './components/Form/ContactUs';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import AboutUs from './components/AboutUs';
-import Standings from './views/Standings';
 import LandingPage from './views/Landing';
 import CategoryTalks from './views/CategoryTalk';
 import TalkDetail from './views/TalkDetail';
@@ -68,18 +66,6 @@ const Router = () => {
             path='/talks/:categoryName/:id/update'
             element={
               <TalkForm />
-            }
-          />
-          <Route
-            path='/fixture/:teams'
-            element={
-              <Fixture />
-            }
-          />
-          <Route
-            path='/leagues/standings'
-            element={
-              <Standings />
             }
           />
           <Route
