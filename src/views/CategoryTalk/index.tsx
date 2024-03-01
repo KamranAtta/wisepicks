@@ -49,7 +49,7 @@ export default function CategoryTalks() {
                 Search results for {categoryName ?? searchTerm } Talks
                 </Typography.Title>
                 {talks?.videos.length ? <Talks data={talks}></Talks>: 
-                <Typography.Text style={{display: 'flex', justifyContent: 'center',marginBottom: '20px'}}>No Talks Found</Typography.Text>}
+                loader ? <></>: <Typography.Text style={{display: 'flex', justifyContent: 'center',marginBottom: '20px'}}>No Talks Found</Typography.Text>}
             </Col>
         </Row>
         {loader ? <Loader /> : <></>}
