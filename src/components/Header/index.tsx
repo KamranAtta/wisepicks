@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { ConfigProvider, Layout } from 'antd';
 import './index.css'
@@ -11,6 +11,7 @@ import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 import { ConfigConsumerProps } from 'antd/lib/config-provider';
 import { MenuOutlined } from '@ant-design/icons';
 import { categories } from '../../utils/constant';
+import { getPathName } from '../../utils/pathNames';
 
 const { Header } = Layout;
 
@@ -28,9 +29,10 @@ const styles = {
 };
 
 export default function HeaderComponent() {
+  const { pathname } = useLocation();
   const themeConfiguration = useContext(ConfigProvider.ConfigContext);
   const [headerDrawerOpen, setHeaderDrawerOpen] = useState<boolean>(false);
-  const matches = useMediaQuery('(min-width: 1000px)');
+  const matches = useMediaQuery('(min-width: 768px)');
 
   const MenuItems = (
     <>
@@ -49,14 +51,14 @@ export default function HeaderComponent() {
       <div
         className='header-body'
       >
-        <Link to='/'>
+        <a href='/'>
           <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
             <img src={logo} width={200} alt='website-logo' />
           </div>
-        </Link>
+        </a>
         <div aria-hidden="true" className='traingle'></div>
         {matches ? (
-          <Menu mode='horizontal' defaultSelectedKeys={['2']} style={{ width: '100%', background: '#000000' }}>
+          <Menu mode='horizontal' defaultSelectedKeys={[`${getPathName(pathname)}`]} style={{ width: '100%', background: '#000000' }}>
             {MenuItems}
           </Menu>
         ) : (
@@ -74,7 +76,7 @@ export default function HeaderComponent() {
           <Menu
             onClick={() => setHeaderDrawerOpen(false)}
             mode='vertical'
-            defaultSelectedKeys={['2']}
+            defaultSelectedKeys={['']}
             style={styles.headerDrawer}
           >
             {MenuItems}

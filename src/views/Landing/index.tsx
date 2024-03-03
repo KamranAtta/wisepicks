@@ -70,7 +70,7 @@ export default function LandingPage() {
     <>
         <Row  style={styles.searchBarContainer}>
             <h1 style={matches ? {fontSize: '30px',paddingRight: '20px'}: { fontSize: '20px'}}>TED Insights: Inspire or get Inspired</h1>
-            <Col span={12} style={{paddingRight: '10px', paddingLeft: '10px'}}><SearchBar/></Col>
+            <Col span={matches ? 12: 24} style={{paddingRight: '10px', paddingLeft: '10px'}}><SearchBar/></Col>
         </Row>
         <TalkCategories></TalkCategories>
         <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px'}}>

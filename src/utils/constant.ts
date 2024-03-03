@@ -91,3 +91,12 @@ export const categories = [
     value: 'Studying Future'
   },
 ]
+export const categoryNames = [
+  'Newest',
+  'Trending',
+  'Featured',
+  'Climate',
+  'Artificial',
+  'Future'
+];
+
