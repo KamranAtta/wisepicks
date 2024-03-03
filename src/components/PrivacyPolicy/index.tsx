@@ -13,7 +13,7 @@ export default function PrivacyPolicy(){
     return (
         <Row style={{display: 'flex', justifyContent:'center', margin: '20px'}}>
             <Col span={18}md={18} xs={24}>
-                <Card title='Streameast Soccer' color='red'>
+                <Card title='Incite Tube' color='red'>
                     <Title level={2}>Privacy Policy</Title>
                     <Text strong>Last updated: Feb, 23 2024</Text>
 

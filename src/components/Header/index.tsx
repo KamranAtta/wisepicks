@@ -66,7 +66,7 @@ export default function HeaderComponent() {
         )}
       </div>
       <DrawerComponent
-        title='Streameast Soccer'
+        title='Incite Tube'
         open={headerDrawerOpen}
         onClose={() => setHeaderDrawerOpen(false)}
       >
