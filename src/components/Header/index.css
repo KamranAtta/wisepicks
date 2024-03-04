@@ -1,7 +1,8 @@
 .menu-items {
-    color: #d20909  !important;
-    text-transform: uppercase;
+    color: #d20909 !important;
     font-weight: 600;
+    font-family: monospace;
+    text-transform: uppercase;
 }
 /* .ant-drawer-header {
     background: #95100d;
@@ -31,12 +32,12 @@
     position: relative;
     background: linear-gradient(120deg, #001529 50%, #000000 48%);
 }
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .header-body {
         justify-content: space-between;
         gap: 30px;
     }
    .traingle {
     display: none;
-   } 
+   }
 }
