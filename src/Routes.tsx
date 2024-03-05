@@ -71,7 +71,7 @@ const Router = () => {
           <Route
             path='/about-us'
             element={
-              <AboutUs />
+              <AboutUs noLogo={false}/>
             }
           />
           <Route

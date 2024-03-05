@@ -11,7 +11,7 @@ const gridStyle: React.CSSProperties = {
     textAlign: 'center',
 };
 
-export default function AboutUs() {
+export default function AboutUs({noLogo}: {noLogo: boolean}) {
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -19,11 +19,11 @@ export default function AboutUs() {
 
     return (
         <Card title='About Us' style={{ padding: '20px' }}>
-            <Row gutter={24} style={styles.logo}>
+            {!noLogo ? <Row gutter={24} style={styles.logo}>
                 <Col  span={16}  xs={24} sm={12} md={8} lg={6}>
                     <Image width={300} src={logo} />
                 </Col>
-            </Row>
+            </Row>: <></>}
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
                     <Card title='What is InciteTube?' style={styles.card}>
