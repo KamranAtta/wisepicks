@@ -19,6 +19,24 @@ export const getTedTalks = async (data: any) => {
   }
 };
 
+export const getMovies = async (data: any) => {
+  try {
+    const response = await doPost('/getMovies', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+export const getShows = async (data: any) => {
+  try {
+    const response = await doPost('/getShows', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const getTedTalksById = async (data: any) => {
   try {
     const response = await doPost('/getTalksById', data);

@@ -1,30 +1,28 @@
 import React from 'react';
-import { Row, Col, Card, Typography } from 'antd';
+import { Row, Col, Typography } from 'antd';
 import { styles } from '../../styles';
-import Meta from 'antd/es/card/Meta';
+// import Meta from 'antd/es/card/Meta';
 import { Link } from 'react-router-dom';
 import { PlayCircleOutlined } from '@ant-design/icons';
 import { talksInterface } from '../interfaces';
+import { useMediaQuery } from '../../hooks/MediaQuery.hook';
 
 const contentStyle: React.CSSProperties = {
-    height: '300px',
     color: '#ffffff',
     lineHeight: '300px',
     textAlign: 'center',
   };
 
 export default function Slider({data}: any) {
+  const matches = useMediaQuery('(min-width: 678px)');
 
   return (
-    <Row gutter={24} style={contentStyle}>
+    <Row gutter={24} style={{...contentStyle, height: matches ? '20vw': '100vw'}}>
         {
             data?.map((video: talksInterface, index:number)=> {
-                return <Col key={index} span={8}  xs={24} sm={8} style={styles.card}>
-                  <Link to={`/talks/${video?.category}/${video?._id}`}>
+                return <Col key={index} span={3}  xs={24} sm={3} style={styles.card}>
+                  <Link to={`/videos/${video?.category}/${video?._id}`}>
                     <div className='video-container'>
-                      <Card
-                      style={styles.card}
-                      cover={
                         <>
                         <img
                         alt={video?.title}
@@ -35,13 +33,7 @@ export default function Slider({data}: any) {
                             {video?.duration}
                         </Typography.Text>
                         </>
-                      }
-                  >
-                      <Meta
-                      title={video?.title}
-                      />
-                      </Card>
-                      <div className="play-button" style={{top: '40%'}}>
+                      <div className="play-button" style={{top: '23%'}}>
                         <PlayCircleOutlined />
                       </div>
                     </div>

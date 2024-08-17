@@ -34,19 +34,19 @@ export default function LandingPage() {
         setFeatured(allTalks?.Featured);
         setFuture(allTalks?.Future);
         setTrendings({
-            videos: allTalks?.Trending,
-            spanSize: talkTypes.trending.spanSize
+            videos: allTalks['Most Viewed'],
+            spanSize: talkTypes.trending.spanSize,
         });
         setNewTalks({
-            videos: allTalks?.Newest?.slice(0, talkTypes.newTalks.totalCards),
+            videos: allTalks['Recommended']?.slice(0, talkTypes.newTalks.totalCards),
             spanSize: talkTypes.newTalks.spanSize,
         });
         setClimate({
-            videos: allTalks['Climate Change']?.slice(0, talkTypes.climate.totalCards),
+            videos: allTalks['Latest Movies']?.slice(0, talkTypes.climate.totalCards),
             spanSize: talkTypes.climate.spanSize
         });
         setFuture({
-            videos: allTalks?.Future?.slice(0, talkTypes.future.totalCards),
+            videos: allTalks['Latest TV Shows']?.slice(0, talkTypes.future.totalCards),
             spanSize: talkTypes.future.spanSize,
         });
         setLoader(false);
@@ -54,10 +54,10 @@ export default function LandingPage() {
 
     function CategoryTitle({ page, title }: any){
         return <Row gutter={24} style={{display: 'flex', justifyContent: 'space-between', paddingRight: '12px', paddingLeft: '12px'}}>
-            <Link to={`/talks/${page}`} style={styles.link}>
+            <Link to={`/${page}`} style={styles.link}>
                 <Title level={3}>{title}</Title>
             </Link>
-            <Link to={`/talks/${page}`} style={styles.link}>
+            <Link to={`/videos/${page}`} style={styles.link}>
                 <Title level={5} underline>View All</Title>
             </Link>
         </Row>
@@ -70,33 +70,33 @@ export default function LandingPage() {
   return (
     <>
         <Row  style={styles.searchBarContainer}>
-            <h1 style={matches ? {fontSize: '30px',paddingRight: '20px'}: { fontSize: '20px'}}>TED Insights: Inspire or get Inspired</h1>
-            <Col span={matches ? 12: 24} style={{paddingRight: '10px', paddingLeft: '10px'}}><SearchBar/></Col>
+            {/* <h1 style={matches ? {fontSize: '30px',paddingRight: '20px'}: { fontSize: '20px'}}>Latest movies and series for free</h1> */}
+            {!matches && <Col span={matches ? 12: 24} style={{paddingRight: '10px', paddingLeft: '10px'}}><SearchBar/></Col>}
         </Row>
         <TalkCategories></TalkCategories>
         <Row gutter={24} style={{display: 'flex', justifyContent: 'center', paddingBottom:'10px'}}>
             <Col span={22}>
-                
-                <CategoryTitle page={'Newest'} title={'Newest Talks'}></CategoryTitle>
-                <Talks data={newTalks}></Talks>
-                
-                <CategoryTitle page={'Trending'} title={'Trending Talks'}></CategoryTitle>
-                <Carousel autoplay>
-                    <Slider data={trendings?.videos ? trendings?.videos?.slice(0,3): []}></Slider>
-                    <Slider data={trendings?.videos ? trendings?.videos?.slice(3,6): []}></Slider>
-                </Carousel>
 
                 <CategoryTitle page={'Featured'} title={'Featured'}></CategoryTitle>
-                <Carousel autoplay>
+                <Carousel>
                     {featured?.map((featuredTalk: any, index: number)=>{
                         return <FeaturedTalk key={index} data={featuredTalk}></FeaturedTalk>
                     })}
                 </Carousel>
+                
+                <CategoryTitle page={'Recommended'} title={'Recommended'}></CategoryTitle>
+                <Talks data={newTalks}></Talks>
+                
+                <CategoryTitle page={'Most Viewed'} title={'Top Rated'}></CategoryTitle>
+                <Carousel>
+                    <Slider data={trendings?.videos ? trendings?.videos?.slice(0,8): []}></Slider>
+                    <Slider data={trendings?.videos ? trendings?.videos?.slice(8,16): []}></Slider>
+                </Carousel>
 
-                <CategoryTitle page={'Climate Change'} title={'Climate Change: What needs to be done'}></CategoryTitle>
+                <CategoryTitle page={'Latest Movies'} title={'Latest Movies'}></CategoryTitle>
                 <Talks data={climate}></Talks>
 
-                <CategoryTitle page={'Future'} title={'Artificial Intelligince and Future'}></CategoryTitle>
+                <CategoryTitle page={'Latest TV Shows'} title={'Latest TV Shows'}></CategoryTitle>
                 <Talks data={future}></Talks>
 
             </Col>

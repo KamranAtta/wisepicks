@@ -93,13 +93,19 @@ export default function AboutUs({noLogo}: {noLogo: boolean}) {
                     </Card>
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Which topic you can watch on INCITE Tube?' style={styles.card}>
-                        {talkCategories?.map((cat: string, index: number) => (
-                            <Card.Grid key={index} style={gridStyle}>
-                            <Link to={'/topic/' + cat} >{cat}</Link>
-                            </Card.Grid>
-                        ))}
-                    </Card>
+                    {
+                        talkCategories?.map((item: any, indexx: number) => (
+                            <Row key={indexx} gutter={24}>
+                                <Card title={item?.title} style={styles.card}>
+                                    {item?.categories?.map((cat: any, index: number) => (
+                                        <Card.Grid key={index} style={gridStyle}>
+                                        <Link to={'/videos/' + cat} >{cat}</Link>
+                                        </Card.Grid>
+                                    ))}
+                                </Card>
+                            </Row>
+                        ))
+                    }
                 </Col>
             </Row>
             <Row gutter={24}>

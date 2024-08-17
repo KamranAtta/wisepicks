@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import { ConfigProvider, Layout } from 'antd';
+import { Col, ConfigProvider, Layout } from 'antd';
 import './index.css'
 
 import Menu from '../common/Menu';
@@ -12,6 +12,7 @@ import { ConfigConsumerProps } from 'antd/lib/config-provider';
 import { MenuOutlined } from '@ant-design/icons';
 import { categories } from '../../utils/constant';
 import { getPathName } from '../../utils/pathNames';
+import SearchBar from '../common/Search';
 
 const { Header } = Layout;
 
@@ -25,6 +26,7 @@ const styles = {
   },
   displayFlex: {
     display: 'flex',
+    justifyContent: 'space-between',
   }
 };
 
@@ -38,7 +40,7 @@ export default function HeaderComponent() {
     <>
       {categories?.map((cat: any, index: any) => (
       <MenuItem key={index}>
-        <Link className='menu-items' to={'/talks/' + cat.label} >{cat.label}</Link>
+        <Link className='menu-items' to={'/' + cat.value} >{cat.label}</Link>
       </MenuItem>
       ))}
     </>
@@ -58,15 +60,19 @@ export default function HeaderComponent() {
         </a>
         <div aria-hidden="true" className='traingle'></div>
         {matches ? (
+          <>
           <Menu mode='horizontal' defaultSelectedKeys={[`${getPathName(pathname)}`]} style={{ width: '100%', background: '#000000' }}>
             {MenuItems}
           </Menu>
+          </>
         ) : (
           <div onClick={() => setHeaderDrawerOpen(true)}>
             <MenuOutlined style={styles.headerHamburger(themeConfiguration)} />
           </div>
         )}
       </div>
+      {matches && <Col span={8}><SearchBar/></Col>}
+
       <DrawerComponent
         title='Incite Tube'
         open={headerDrawerOpen}

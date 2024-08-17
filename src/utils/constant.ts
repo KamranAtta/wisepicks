@@ -20,20 +20,15 @@ export const PAGE_TITLES = {
 };
 
 export const talkCategories = [
-  'TED-Ed',
-  'Psychology',
-  'Leadership',
-  'Education',
-  'Artificial Intelligence',
-  'Sleep',
-  'Mental Health',
-  'Business',
-  'Motivation',
-  'Communication',
-  'Personal Growth',
-  'Sports',
-  'Health',
-  'Language'
+  {
+    title: 'Trailers',
+    categories: [
+      'Hollywood Movie Trailer',
+      'Bollywood Movie Trailer',
+      'Hollywood Serie Trailer',
+      'Bollywood Serie Trailers',
+    ]
+  },
 ];
 
 export const featuredTalk = {
@@ -44,52 +39,60 @@ export const featuredTalk = {
 
 export const talkTypes = {
   trending: {
-    totalCards: 3,
-    spanSize: 8
+    totalCards: 8,
+    spanSize: 3
   },
   newTalks: {
     totalCards: 6,
     spanSize: 4
   },
   climate: {
-    totalCards: 4,
-    spanSize: 6
+    totalCards: 8,
+    spanSize: 4
   },
   future: {
-    totalCards: 6,
-    spanSize: 4
+    totalCards: 8,
+    spanSize: 3
   },
   categoryTalks: {
     totalCards: 20,
-    spanSize: 6
+    spanSize: 3
+  },
+  searchVideos: {
+    totalCards: 20,
+    spanSize: 4
   },
 }
 
 export const categories = [
   {
-    label: 'Newest',
-    value: 'Newest Talks'
+    label: 'Movies',
+    value: 'movies',
   },
   {
-    label: 'Trending',
-    value: 'Trending Talks'
+    label: 'TV Shows',
+    value: 'tv-shows',
   },
   {
-    label: 'Featured',
-    value: 'Featured Talks'
+    label: 'Trailers',
+    value: 'Trailers'
   },
-  {
-    label: 'Climate Change',
-    value: 'Climate Talks'
-  },
-  {
-    label: 'Artificial Intelligence',
-    value: 'AI and the future'
-  },
-  {
-    label: 'Future',
-    value: 'Studying Future'
-  },
+  // {
+  //   label: 'Featured',
+  //   value: 'Featured Talks'
+  // },
+  // {
+  //   label: 'Climate Change',
+  //   value: 'Climate Talks'
+  // },
+  // {
+  //   label: 'Artificial Intelligence',
+  //   value: 'AI and the future'
+  // },
+  // {
+  //   label: 'Future',
+  //   value: 'Studying Future'
+  // },
 ]
 export const categoryNames = [
   'Newest',

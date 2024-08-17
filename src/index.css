@@ -11,3 +11,15 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+.ant-layout, .ant-layout-content, .ant-card, .ant-card-body, .ant-modal, .ant-modal-body, .ant-popover {
+  background-color: #464646  !important;
+}
+a {
+  color: #041b4b !important;
+}
+.movie-image:hover {
+  transform: scale(1.1);
+  opacity: 0.7;
+  border: 2px solid #f5f3f3;
+}
+

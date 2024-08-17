@@ -1,5 +1,5 @@
 import { styles } from './styles';
-import { Input, AutoComplete, notification } from 'antd';
+import { Input, AutoComplete, notification, Row, Col } from 'antd';
 // import Search from 'antd/es/transfer/search';
 // import { TransferSearchProps } from './Search.interface';
 import { FormEvent, useEffect, useRef, useState } from 'react';
@@ -44,8 +44,19 @@ const SearchBar = () => {
           if (result?.statusCode == 200) {
               const finalDropdown = result?.data?.map((talk: any) => {
                   return {
-                  value: talk.title,
-                  label: `${talk?.title}`,
+                  value: talk?.title,
+                  label: <>
+                  <span style={{display: 'flex', justifyContent: 'flex-start', alignContent: 'center'}}>
+                    <Row gutter={24}>
+                      <Col><img src={talk?.thumbnail} alt="search-image" style={{width: '60px', height:'60px'}}/>
+                      </Col>
+                      <Col>
+                          <h4 style={{padding:'0px', margin: '0px'}}>{talk?.title}</h4>
+                          <p style={{padding:'0px', margin: '0px'}}>{talk?.rating} {talk?.type} {talk?.year} {talk?.duration}</p>
+                      </Col>
+                    </Row>                 
+                  </span>
+                  </>,
                   };
               });
               setTalkDropdown(finalDropdown);
@@ -76,7 +87,7 @@ const SearchBar = () => {
         value={searchQuery}
         disabled={false}
         onChange={(e: FormEvent<HTMLElement>) => handleSearchQueryChange(e)}
-        placeholder={'Search Talk'}
+        placeholder={'Search'}
         onSearch={submitSearchInput}
       />
     </AutoComplete>    

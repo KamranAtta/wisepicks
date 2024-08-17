@@ -12,16 +12,16 @@ export default function FeaturedTalk({data}: featuredTalkInterface) {
   return (
         <Row gutter={24}>
             <Col span={12}  xs={24} sm={12} style={styles.card}>
-                <Link to={`/talks/${data.category}/${data.id}`}>
+                <Link to={`/videos/${data.category}/${data.id}`}>
                     <img
-                        style={{width: '100%'}}
+                        style={{width: '100%', borderRadius: '2%',maxHeight: '400px'}}
                         alt={data?.title}
-                        src={data?.thumbnail}
+                        src={data?.image}
                     />
                 </Link>
             </Col>
             <Col span={12}  xs={24} sm={12} style={styles.card}>
-                <Link to={`/talks/${data.category}/${data.id}`}>
+                <Link to={`/${data.category}/${data.id}`}>
                     <h1 style={{color: '#000000', fontSize: matches ? '2.25rem': '1.25rem'}}>{data?.title}</h1>
                 </Link>
                 <Typography.Paragraph ellipsis={{ rows: 3, expandable: true }}>{data?.description}</Typography.Paragraph>
@@ -31,7 +31,7 @@ export default function FeaturedTalk({data}: featuredTalkInterface) {
                 {data?.tags?.map((tag: string, index: number)=>{
                     return <Tag key={index} style={styles.Tag}>#{tag}</Tag>
                 })}
-                {/* <Link to={`/talks/${data.category}/${data.id}`}>
+                {/* <Link to={`/${data.category}/${data.id}`}>
                     <Button style={matches ? {...styles.watchButton, position: 'absolute'} : {display: 'none'}}>Watch Now</Button>
                 </Link> */}
             </Col>

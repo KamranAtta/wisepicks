@@ -1,5 +1,6 @@
 export interface talksInterface {
     videoId: string;
+    iframeURL: string;
     _id: string;
     id: string;
     title: string;
@@ -17,7 +18,7 @@ export interface talksInterface {
 
 export interface talkDataInterface {
     videos: talksInterface[],
-    spanSize: number;
+    spanSize: number,
 }
 
 export interface featuredTalkInterface {
@@ -31,9 +32,10 @@ export interface featuredTalkInterface {
         views: string;
         publishedAt: string;
         tags: string[];
+        image: string;
     }
 }
 
 export interface DynammicTalksArray {
-    data: talkDataInterface | undefined
+    data: talkDataInterface | undefined,
 }

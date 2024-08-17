@@ -24,7 +24,7 @@ const Router = () => {
       <Header style={styles.header}>
         <HeaderComponent></HeaderComponent>
       </Header>
-      <Content style={{background: 'white'}}>
+      <Content style={{background: '#5b5555'}}>
         <Routes>
           <Route
             path='/'
@@ -33,7 +33,19 @@ const Router = () => {
             }
           />
           <Route
-            path='/talks/:categoryName'
+            path='/videos/:categoryName'
+            element={
+              <CategoryTalks />
+            }
+          />
+          <Route
+            path='/:categoryName'
+            element={
+              <CategoryTalks />
+            }
+          />
+          <Route
+            path='/:categoryName/:subCategoryName'
             element={
               <CategoryTalks />
             }
@@ -45,25 +57,19 @@ const Router = () => {
             }
           />
           <Route
-            path='/topic/:categoryName'
-            element={
-              <CategoryTalks />
-            }
-          />
-          <Route
-            path='/talks/:categoryName/:id'
+            path='/videos/:categoryName/:id'
             element={
               <TalkDetail />
             }
           />
           <Route
-            path='/talks/create-talk'
+            path='/create-talk'
             element={
               <TalkForm />
             }
           />
           <Route
-            path='/talks/:categoryName/:id/update'
+            path='/videos/:categoryName/:id/update'
             element={
               <TalkForm />
             }

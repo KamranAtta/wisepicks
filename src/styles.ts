@@ -54,6 +54,7 @@ export const styles = createStyles({
     },
     categoryButton: {
         borderRadius: '5px',
+        background: '#d9d9d9'
     },
     selectedCategoryButton: {
         background:'black',
@@ -65,14 +66,14 @@ export const styles = createStyles({
     },
     duration: { 
         bottom: '30px', 
-        color: '#fff', 
+        color: '#80858c', 
         paddingRight: '20px', 
         borderRadius: '4px' 
     },
     relatedVideosImage: {
         borderRadius: '10px',
         width: '200px',
-        height: '120px',
+        
     },
     relatedVideosImageMobile: {
         borderRadius: '10px',
@@ -81,6 +82,8 @@ export const styles = createStyles({
     },
     bRadius:{
         borderRadius: '10px',
+        width: '100%',
+        display:'flex'
     },
     textWhite: {
         color: 'white'

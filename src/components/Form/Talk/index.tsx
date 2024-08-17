@@ -92,7 +92,7 @@ const TalkForm = () => {
           });
           setLoader(false);
         } else {
-          navigate(`/talks/${values?.category}/${id}`);
+          navigate(`/videos/${values?.category}/${id}`);
         }
       }
     } else {
@@ -110,7 +110,7 @@ const TalkForm = () => {
           setLoader(false);
         } else {
           const videoId = id ?? response?.data?.id;
-          navigate(`/talks/${values?.category}/${videoId}`);
+          navigate(`/videos/${values?.category}/${videoId}`);
         }
       }
     }
@@ -148,7 +148,7 @@ const TalkForm = () => {
               </Col>
             </Row>
             <Row>
-              <Col span={24} xs={24} sm={24}>
+              <Col span={12} xs={24} sm={12}>
                 <Form.Item
                   name='category'
                   label={'Category'}
@@ -162,18 +162,26 @@ const TalkForm = () => {
                   <Input placeholder={'Category'} />
                 </Form.Item>
               </Col>
+              <Col span={12} xs={24} sm={12}>
+                <Form.Item
+                  name='iframeURL'
+                  label={'IFrame URL'}
+                >
+                  <Input placeholder={'IFream URL'} />
+                </Form.Item>
+              </Col>
             </Row>
             <Row gutter={24}>
               <Col span={12} xs={24} sm={12}>
                 <Form.Item
                   name='videoId'
                   label={'Video ID'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Video ID is required!',
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: 'Video ID is required!',
+                  //   },
+                  // ]}
                 >
                   <Input disabled={disableField} placeholder={'Video ID'} />
                 </Form.Item>
@@ -182,12 +190,12 @@ const TalkForm = () => {
                 <Form.Item
                   name='channelTitle'
                   label={'Channel Title'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Channel title is required!',
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: 'Channel title is required!',
+                  //   },
+                  // ]}
                 >
                   <Input disabled={disableField} placeholder={'Channel Title'} />
                 </Form.Item>
@@ -228,12 +236,12 @@ const TalkForm = () => {
                 <Form.Item
                   name='views'
                   label={'Total Views'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Total Views is required!',
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: 'Total Views is required!',
+                  //   },
+                  // ]}
                 >
                   <Input placeholder={'Total Views'} />
                 </Form.Item>
@@ -242,12 +250,12 @@ const TalkForm = () => {
                 <Form.Item
                   name='publishedAt'
                   label={'Published Date'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Published Date is required!',
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: 'Published Date is required!',
+                  //   },
+                  // ]}
                 >
                   <DatePicker
                     style={styles.fullWidth}

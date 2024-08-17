@@ -1,0 +1,29 @@
+/* styles.css */
+
+
+.movie-player {
+    position: relative;
+    background-color: #000;
+}
+.grid-style {
+    width:'100%' !important;
+    text-align: center;
+    margin: 4px;
+    cursor: grabbing;
+    font-size:18px;
+    background-color: #5d5d5d;
+    padding: 15px;
+    border-radius: 5px;
+}
+.grid-style-mobile {
+    background-color: #5d5d5d;
+    padding: 5px;
+    border-radius: 5px;
+}
+.grid-style:hover {
+    background-color: #575a5e;;
+    color: aliceblue;
+    border: none;
+    border-radius: 5px;
+}
+
