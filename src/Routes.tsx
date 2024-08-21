@@ -34,13 +34,25 @@ const Router = () => {
             }
           />
           <Route
-            path='/videos/:categoryName'
+            path='/videos/:categoryName/:id/update'
+            element={
+              <TalkForm />
+            }
+          />
+          <Route
+            path='/videos/:categoryName/:id'
+            element={
+              <TalkDetail />
+            }
+          />
+          <Route
+            path='/videos/:categoryName/:subCategoryName'
             element={
               <CategoryTalks />
             }
           />
           <Route
-            path='/:categoryName'
+            path='/videos/:categoryName'
             element={
               <CategoryTalks />
             }
@@ -52,15 +64,15 @@ const Router = () => {
             }
           />
           <Route
-            path='/talks'
+            path='/:categoryName'
             element={
               <CategoryTalks />
             }
           />
           <Route
-            path='/videos/:categoryName/:id'
+            path='/talks'
             element={
-              <TalkDetail />
+              <CategoryTalks />
             }
           />
           <Route
@@ -73,12 +85,6 @@ const Router = () => {
             path='/video/add'
             element={
               <VideoForm />
-            }
-          />
-          <Route
-            path='/videos/:categoryName/:id/update'
-            element={
-              <TalkForm />
             }
           />
           <Route
