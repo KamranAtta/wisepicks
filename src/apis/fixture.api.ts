@@ -91,6 +91,15 @@ export const updateTalk = async (data: any) => {
   }
 };
 
+export const deleteVideo = async (data: any) => {
+  try {
+    const response = await doPost('/deleteVideo', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const updateComments = async (data: any) => {
   try {
     const response = await doPost('/updateComments', data);

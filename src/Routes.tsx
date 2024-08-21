@@ -12,6 +12,7 @@ import TalkDetail from './views/TalkDetail';
 import { styles } from './styles';
 import TalkForm from './components/Form/Talk';
 import VideoForm from './components/Form/AddVideo';
+import DeleteVideo from './components/Form/Talk/delete';
 
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -37,6 +38,12 @@ const Router = () => {
             path='/videos/:categoryName/:id/update'
             element={
               <TalkForm />
+            }
+          />
+          <Route
+            path='/videos/:categoryName/:id/delete'
+            element={
+              <DeleteVideo />
             }
           />
           <Route
