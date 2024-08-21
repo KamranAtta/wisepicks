@@ -26,7 +26,7 @@ export default function FeaturedTalk({data}: featuredTalkInterface) {
                 </Link>
                 <Typography.Paragraph ellipsis={{ rows: 3, expandable: true }}>{data?.description}</Typography.Paragraph>
                 <br />
-                <Typography.Text>{data?.views} Views since {dayjs(data?.publishedAt).format('MMM YYYY')}</Typography.Text>
+                {data?.views && <Typography.Text>{data?.views} Views since {dayjs(data?.publishedAt).format('MMM YYYY')}</Typography.Text>}
                 <br />
                 {data?.tags?.map((tag: string, index: number)=>{
                     return <Tag key={index} style={styles.Tag}>#{tag}</Tag>

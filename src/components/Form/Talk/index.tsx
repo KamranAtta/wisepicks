@@ -10,6 +10,7 @@ import {
   Space,
   Card,
   notification,
+  Select,
 } from 'antd';
 import { useEffect, useState } from 'react';
 import Loader from '../../common/Loader';
@@ -18,7 +19,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import weekday from 'dayjs/plugin/weekday';
 import localeData from 'dayjs/plugin/localeData';
 import { formItemLayout, styles } from './styles';
-import { MESSAGES, PAGE_TITLES } from '../../../utils/constant';
+import { MESSAGES, PAGE_TITLES, VIDEO_CATEGORY_OPTIONS, VIDEO_TYPE_OPTIONS } from '../../../utils/constant';
 import { JustTalkById, authenticateAdmin, createTalk, updateTalk } from '../../../apis/fixture.api';
 import TextArea from 'antd/es/input/TextArea';
 import LoginForm from '../Login';
@@ -109,7 +110,7 @@ const TalkForm = () => {
           });
           setLoader(false);
         } else {
-          const videoId = id ?? response?.data?.id;
+          const videoId = id ?? response?.data?._id;
           navigate(`/videos/${values?.category}/${videoId}`);
         }
       }
@@ -132,7 +133,7 @@ const TalkForm = () => {
             onFinish={onFinish}
           >
             <Row gutter={24}>
-              <Col span={24} xs={24} sm={24}>
+              <Col span={12} xs={24} sm={12}>
                 <Form.Item
                   name='title'
                   label={'Title'}
@@ -146,20 +147,40 @@ const TalkForm = () => {
                   <Input placeholder={'Title'} />
                 </Form.Item>
               </Col>
+              <Col span={12} xs={24} sm={12}>
+                <Form.Item
+                  name='type'
+                  label={'Type'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Type is required',
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder={'Select Video Type'}
+                    options={VIDEO_TYPE_OPTIONS}
+                  ></Select>
+                </Form.Item>
+              </Col>
             </Row>
             <Row>
               <Col span={12} xs={24} sm={12}>
                 <Form.Item
                   name='category'
                   label={'Category'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Category is required!',
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: 'Category is required',
+                  //   },
+                  // ]}
                 >
-                  <Input placeholder={'Category'} />
+                  <Select
+                    placeholder={'Select Video Category'}
+                    options={VIDEO_CATEGORY_OPTIONS}
+                  ></Select>
                 </Form.Item>
               </Col>
               <Col span={12} xs={24} sm={12}>
@@ -204,6 +225,30 @@ const TalkForm = () => {
             <Row gutter={24}>
               <Col span={12} xs={24} sm={12}>
                 <Form.Item
+                  name='image'
+                  label={'Image'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Image is required!',
+                    },
+                  ]}
+                >
+                  <Input disabled={disableField} placeholder={'Image'} />
+                </Form.Item>
+              </Col>
+              <Col span={12} xs={24} sm={12}>
+                <Form.Item
+                  name='detailsURL'
+                  label={'Details URL'}
+                >
+                  <Input disabled={disableField} placeholder={'Details URL'} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col span={12} xs={24} sm={12}>
+                <Form.Item
                   name='thumbnail'
                   label={'Thumbnail'}
                   rules={[
@@ -234,14 +279,32 @@ const TalkForm = () => {
             <Row gutter={24}>
               <Col span={12} xs={24} sm={12}>
                 <Form.Item
-                  name='views'
-                  label={'Total Views'}
+                  name='rating'
+                  label={'Rating'}
+                >
+                  <Input placeholder={'Rating'} />
+                </Form.Item>
+              </Col>
+              {<Col span={12} xs={24} sm={12}>
+                <Form.Item
+                  name='year'
+                  label={'Year'}
                   // rules={[
                   //   {
                   //     required: true,
-                  //     message: 'Total Views is required!',
+                  //     message: 'Published Date is required!',
                   //   },
                   // ]}
+                >
+                  <Input placeholder={'Year'} />
+                </Form.Item>
+              </Col>}
+            </Row>
+            <Row gutter={24}>
+              <Col span={12} xs={24} sm={12}>
+                <Form.Item
+                  name='views'
+                  label={'Total Views'}
                 >
                   <Input placeholder={'Total Views'} />
                 </Form.Item>

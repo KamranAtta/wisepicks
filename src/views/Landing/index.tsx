@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { styles } from '../../styles';
 import SearchBar from '../../components/common/Search';
 import { useMediaQuery } from '../../hooks/MediaQuery.hook';
-import AboutUs from '../../components/AboutUs';
+import Description from '../Description';
 
 export default function LandingPage() {
     const matches = useMediaQuery('(min-width: 768px)');
@@ -101,7 +101,7 @@ export default function LandingPage() {
 
             </Col>
         </Row>
-        <div style={{paddingLeft: '10px', paddingRight: '10px'}}><AboutUs noLogo={true}></AboutUs></div>
+        <div style={{paddingLeft: '10px', paddingRight: '10px'}}><Description></Description></div>
         {loader ? <Loader /> : <></>}
     </>
   );

@@ -27,70 +27,65 @@ export default function AboutUs({noLogo}: {noLogo: boolean}) {
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
                     <Card title='What is InciteTube?' style={styles.card}>
-                        <Card.Meta
-                        title="A platform for inspirational and Informational videos and talks."
-                        />
-                        <Paragraph style={styles.paragraph}>
-                            Incite tube brings to the table most interesting, valuable, and informational talks by renowened speakers and professional.
-                            It provides videos related to Food, livestyle, Future, education, climate change, sports, AI, Psychology, social issues and many more.
-                            This platform is to spread awareness about key aspects and most discussed topics which mankind is associated with.
-                            A single platform which brings information related to most engaging and necessary topics the society is dealing with.
-                            To provide a platform where people can share their thoughts and participate in discussion about the issues faced by mankind.
-                            Incite tube is eager to provide recent and upto date information and videos related to most important aspects of human life and society.
-                        </Paragraph>
+                    <Card.Meta
+                        title="Your Source for Free Movies and Series."
+                    />
+                    <Paragraph style={styles.paragraph}>
+                        Incite Tube offers an extensive library of free movies and series across various genres. 
+                        From thrilling dramas to lighthearted comedies, our platform provides unlimited entertainment for everyone. 
+                        We are committed to bringing you the latest releases as well as timeless classics, ensuring a diverse selection that caters to all tastes. 
+                        Incite Tube is your go-to destination for seamless streaming and a great viewing experience, anytime and anywhere.
+                    </Paragraph>
+
                     </Card>
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
                     <Card title='Know more about INCITETUBE below' style={styles.card}>
-                        <Card.Meta
-                        title="A Glimpse of INCITE TUBE Features and service"
-                        />
-                        <Paragraph style={styles.paragraph}>
-                            Our aim to to spread information, to inspire and get inspired, and to build a better world by communicating
-                            issues faced by our society. To be a better human, we need to spread positivity and break the silence about issues
-                            like climate change and society.
-                        </Paragraph>
-                        <Paragraph>
-                            Incite tube will provide its users with a platform where they can watch inspirational and informative contents.
-                            Our video library will choose videos and information content available on internet and will try to make it available to people 
-                            beyond the borders and social barriers.
+                    <Card.Meta
+                        title="Discover the Features and Services of INCITE TUBE"
+                    />
+                    <Paragraph style={styles.paragraph}>
+                        Our mission is to entertain and bring the world closer through movies and series that captivate, inspire, and connect. 
+                        We believe in the power of storytelling to bridge gaps, spread positivity, and explore meaningful themes that impact our society.
+                    </Paragraph>
+                    <Paragraph>
+                        Incite Tube offers a diverse collection of free movies and series, carefully curated to provide endless entertainment for users worldwide. 
+                        We aim to break barriers and bring quality content that resonates with people, regardless of borders or backgrounds.
+                    </Paragraph>
+                    <Paragraph>
+                        In a nutshell, the entertainment landscape today is vast and overwhelming, making it hard to find what truly speaks to you. 
+                        Incite Tube stands out by offering a unique selection of movies and series focused on themes like human connection, social issues, and personal growth—stories that reflect the world we live in and the challenges we face.
+                    </Paragraph>
 
-                        </Paragraph>
-                        <Paragraph>
-                            In a nutshell, the internet today is crowded with information and people find it difficult to find relevent information
-                            about social and societal issues. Thus, Incite tube will provide informational videos focusing only on key topics like Climate Change,
-                            Psychology, Human behavior, Sports and many more. What makes us unique is our selected content related to issues which mankind face today.
-
-                        </Paragraph>
                     </Card>
                 </Col>
             </Row>
             <Row gutter={24}>
                 <Col  span={12}  xs={24} sm={12}>
-                    <Card title='How can Incite Tube help you find relevent information?' style={styles.card}>
+                    <Card title='How Can Incite Tube Help You Find Relevant Content?' style={styles.card}>
                         <Paragraph>
-                        Following is a list of instruction on how to find relevent content on incite tube:
+                            Here is a step-by-step guide to help you find the right movies and series on Incite Tube:
                         </Paragraph>
                         <Paragraph>
-                            Step 1. Browse out website <Link to='/'>INCITE TUBE</Link>.
+                            Step 1. Visit our website <Link to='/'>INCITE TUBE</Link>.
                         </Paragraph>
                         <Paragraph>
-                            Step 2. In the home page will find categories for the videos like Newest talks, Featured talks, Trending talks, Climate Change,AI and Future talks. 
+                            Step 2. On the home page, you will find categories such as New Releases, Featured Movies, Trending Series, and more.
                         </Paragraph>
                         <Paragraph>
-                            Step 3. If you want to browser and selected Talk categories, we have about 20 different talk categories like sports talks, climate talks, psychology talks,
-                            Society talks, Health and life style talks, personal growth talks, communication talks etc.
+                            Step 3. If you are looking to browse specific genres, we offer around 20 different categories including Action, Drama, Comedy, Thriller, Documentary, Romance, Sci-Fi, and more.
                         </Paragraph>
                         <Paragraph>
-                            Step 4. You can click on any category listed on the home page to navigate to talk category, where you will find talks related to same category.
+                            Step 4. Click on any category on the home page to explore content related to that genre or theme.
                         </Paragraph>
                         <Paragraph>
-                            Step 5. You open the video about any topic you like and any video you want to watch. 
+                            Step 5. Select and watch any movie or series that catches your interest, all free of charge.
                         </Paragraph>
                         <Paragraph>
-                            Step 6. There will be space to share what you learned form the video and how the video benefitted you.
+                            Step 6. Feel free to share your thoughts, reviews, or favorite moments with the community after watching.
                         </Paragraph>
                     </Card>
+
                 </Col>
                 <Col  span={12}  xs={24} sm={12}>
                     {
@@ -109,100 +104,66 @@ export default function AboutUs({noLogo}: {noLogo: boolean}) {
                 </Col>
             </Row>
             <Row gutter={24}>
-                <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Newest Ted Talks on INCITE TUBE' style={styles.card}>
+                <Col span={12} xs={24} sm={12}>
+                    <Card title='Newest Movies and Shows on INCITE TUBE' style={styles.card}>
                         <Paragraph>
-                            This category of videos provide recent video talks on most important topics. This is not specific to any category but
-                            most recent videos on ted talk. 
+                            This category features the latest movies and series added to our platform. It includes the most recent releases, offering fresh content across a variety of genres.
                         </Paragraph>
                     </Card>
                 </Col>
-                <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Featured Ted Talks on INCITE TUBE' style={styles.card}>
+                <Col span={12} xs={24} sm={12}>
+                    <Card title='Featured Movies and Shows on INCITE TUBE' style={styles.card}>
                         <Paragraph>
-                        This is a special ted talks category. It provides most interesting videos related to any topic based on views, 
-                        interest level of the video and importance of the video. It is one of the most important categories on ted talks and features videos 
-                        which are more prominent.
+                            This special category highlights the most popular movies and series. Content is selected based on views, audience engagement, and overall impact, making it a must-watch for all users.
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
+
             <Row gutter={24}>
-                <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Trending Ted talks on INCITE TUBE' style={styles.card}>
+                <Col span={12} xs={24} sm={12}>
+                    <Card title='Trending Movies and Series on INCITE TUBE' style={styles.card}>
                         <Paragraph>
-                            Trending ted talks on incite tube is one of the most important categories where we focus on selected videos which are on trending.
-                            It is most engaging and significant ted talk category and people seem to prefer this category very much.
+                            The Trending category on Incite Tube showcases the most popular and engaging movies and series currently captivating audiences. This is one of our most visited sections, offering content that everyone is talking about.
                         </Paragraph>
                     </Card>
                 </Col>
-                <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Climate Change, AI and Future' style={styles.card}>
+                <Col span={12} xs={24} sm={12}>
+                    <Card title='Climate Change, AI, and The Future' style={styles.card}>
                         <Paragraph>
-                             AI and Future ted talks is one of the most interesting and exciting ted video category on incite tube. It contain all the videos
-                            which are recently added to the web on AI and Future. This topic is very essential, and contains information which 
-                            erveryone does not want to avoid. 
+                            Our Climate Change, AI, and The Future category features thought-provoking films and documentaries covering these crucial topics. It offers the latest content that explores the impact of technology and climate change on our world, making it essential viewing for anyone looking to stay informed about these important issues.
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
+
             <Row gutter={24}>
-                <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Climate Change' style={styles.card}>
-                    <Paragraph>
-                            Climate change Ted talks on incite tube is most important category on INCITE TUBE. It brings information and awareness among people.
-                            The aim of INCITE TUBE falls within this category. Incite Tube aims to create awareness and Climate change talks help us spread awareness
-                            among people about the future if this very earth we are living in.
+                <Col span={12} xs={24} sm={12}>
+                    <Card title='Movie Trailers' style={styles.card}>
+                        <Paragraph>
+                            Discover the latest movie trailers on Incite Tube. Stay up-to-date with previews of upcoming films, giving you a sneak peek into the hottest releases before they hit the screen. Whether you are into blockbusters or indie gems, we have got the trailers that will get you excited for what is to come.
                         </Paragraph>
                     </Card>
                 </Col>
-                <Col  span={12}  xs={24} sm={12}>
-                    <Card title='INCITE TUBE: Inspire or get Inspired' style={styles.card}>
+                <Col span={12} xs={24} sm={12}>
+                    <Card title='Latest Movies' style={styles.card}>
                         <Paragraph>
-                            Our mission is to spread awareness about most important issues mankind faces today. Incite tube provides
-                            ted talks highlighting these issues. In out platform you can share your ideas and can inspire people.
+                            Explore our collection of the latest movies added to Incite Tube. From action-packed adventures to heartwarming dramas, our platform brings you fresh releases across all genres. Stay entertained with our constantly updated movie library, offering something for every movie lover.
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
+
             <Row gutter={24}>
-                <Col  span={12}  xs={24} sm={12}>
-                    <Card title='Lets discuss about issues like Climate Change' style={styles.card}>
+                <Col span={12} xs={24} sm={12}>
+                    <Card title='Latest Series' style={styles.card}>
                         <Paragraph>
-                            Incite Tube is a platform where you can find new ted talk videos and burning topics of present time. Not only that, you can 
-                            also share your thoughts about a topic or a video and inspire or get inspired. Our discussion forum provides an
-                            opportunity to participate in a discussion about a partucular topic of your interest.
+                            Catch the newest series on Incite Tube, featuring episodes from the most talked-about shows. Whether you are into binge-worthy dramas, thrilling mysteries, or laugh-out-loud comedies, our platform provides the latest episodes as soon as they become available. Stay ahead of the curve and never miss out on the latest TV trends.
                         </Paragraph>
                     </Card>
                 </Col>
             </Row>
-            <Row gutter={24}>
-                <Col  span={24}  xs={24} sm={24}>
-                    <Card title='Why you should visit INCITE TUBE?' style={styles.card}>
-                        <Paragraph>
-                            There are multiple reason to choose Incite Tube to watch insprational and informative videos.
-                         </Paragraph>
-                        <Paragraph>
-                            Incite Tube filters ted Talks based on special categories and brings most important and recent videos available on Ted Talk.
-                        </Paragraph>
-                        <Paragraph>
-                            It selects videos based on total views, trends and features.
-                        </Paragraph>
-                        <Paragraph>
-                            Its a platform where you can find most recent ted talks on Climate change. 
-                        </Paragraph>
-                        <Paragraph>
-                            It provide most recent ted talks on AI and Future.
-                        </Paragraph>
-                        <Paragraph>
-                            It provides most recent ted talks on Psychology, humanity, sports etc.
-                        </Paragraph>
-                        <Paragraph>
-                            The content of INCITE TUBE is up to date and it not flooded with irrelevent videos. It has most up to date and recent Ted videos.
-                        </Paragraph>
-                    </Card>
-                </Col>
-            </Row>
+
         </Card>
     );
 };

@@ -11,6 +11,7 @@ import CategoryTalks from './views/CategoryTalk';
 import TalkDetail from './views/TalkDetail';
 import { styles } from './styles';
 import TalkForm from './components/Form/Talk';
+import VideoForm from './components/Form/AddVideo';
 
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -66,6 +67,12 @@ const Router = () => {
             path='/create-talk'
             element={
               <TalkForm />
+            }
+          />
+          <Route
+            path='/video/add'
+            element={
+              <VideoForm />
             }
           />
           <Route

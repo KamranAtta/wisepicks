@@ -64,6 +64,15 @@ export const createTalk = async (data: any) => {
   }
 };
 
+export const addVideo = async (data: any) => {
+  try {
+    const response = await doPost('/addVideo', data);
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+};
+
 export const authenticateAdmin = async (data: any) => {
   try {
     const response = await doPost('/authenticateUser', data);

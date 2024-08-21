@@ -1,0 +1,43 @@
+.heading {
+    padding-left: 10px;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(45deg, #81fff5, #23349f);
+    color: transparent;
+    font-size: 33px;
+    font-weight: 600;
+    text-align: center;
+}
+.heading-list {
+    padding: 5px;
+    list-style-type: none;
+}
+.card-description {
+    font-size: 20px;
+    color: #cec6c6;
+}
+.site-title{
+    font-size: 33px;
+    padding: 0px;
+    margin: 7px;
+    color: #ff4b44;
+    font-family: fantasy;
+    font-weight: 500;
+}
+.site-title:hover{
+    color: #be3333;
+    cursor: pointer;
+}
+.feed {
+    color: #d0dcd9;
+}
+.collection {
+    padding-left: 10px ;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(45deg, #ff5d5d, #ee6a2b);
+    color: transparent;
+    font-size: 24px;
+    font-weight: 500;
+}
+.collection a{
+    color: #4782ff !important;
+}

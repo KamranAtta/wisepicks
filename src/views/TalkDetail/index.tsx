@@ -18,7 +18,7 @@ import Episodes from './episodes';
 
 export default function TalkDetail() {
     const { categoryName, id } = useParams();
-    const matches = useMediaQuery('(min-width: 1000px)');
+    const matches = useMediaQuery('(min-width: 768px)');
     const [videoDetails, setVideoDetails] = useState<talksInterface>();
     const [relatedTalks, setRelatedTalks] = useState<talksInterface[]>([]);
     const [loader, setLoader] = useState<boolean>(false);

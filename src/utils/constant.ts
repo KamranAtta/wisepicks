@@ -5,6 +5,94 @@ export const LOCAL_STORAGE = {
   USER: 'user',
 };
 
+export const VIDEO_TYPE_OPTIONS = [
+  {
+    value: 'Show',
+    label: 'Show',
+  },
+  {
+    value: 'Movies',
+    label: 'Movies',
+  },
+  {
+    value: 'Trailers',
+    label: 'Trailers',
+  },
+];
+
+export const VIDEO_CATEGORY_OPTIONS = [
+  {
+    value: 'Recommended',
+    label: 'Recommended',
+  },
+  {
+    value: 'Featured',
+    label: 'Featured',
+  },
+  {
+    value: 'Most Viewed',
+    label: 'Most Viewed',
+  },
+  {
+    value: 'Latest Movies',
+    label: 'Latest Movies',
+  },
+  {
+    value: 'Latest TV Shows',
+    label: 'Latest TV Shows',
+  },
+  {
+    value: 'Hollywood Movie Trailer',
+    label: 'Hollywood Movie Trailer',
+  },
+  {
+    value: 'Bollywood Movie Trailer',
+    label: 'Bollywood Movie Trailer',
+  },
+  {
+    value: 'Hollywood Serie Trailer',
+    label: 'Hollywood Serie Trailer',
+  },
+  {
+    value: 'Bollywood Serie Trailers',
+    label: 'Bollywood Serie Trailers',
+  },
+];
+
+export const ADD_VIDEO_TYPE_OPTIONS = [
+  {
+    value: 'Show',
+    label: 'Show',
+  },
+  {
+    value: 'Movies',
+    label: 'Movies',
+  },
+];
+
+export const ADD_VIDEO_CATEGORY_OPTIONS = [
+  {
+    value: 'Recommended',
+    label: 'Recommended',
+  },
+  {
+    value: 'Featured',
+    label: 'Featured',
+  },
+  {
+    value: 'Most Viewed',
+    label: 'Most Viewed',
+  },
+  {
+    value: 'Latest Movies',
+    label: 'Latest Movies',
+  },
+  {
+    value: 'Latest TV Shows',
+    label: 'Latest TV Shows',
+  },
+];
+
 export const MESSAGES = {
   EMAIL_SUCCESS: 'Your email has been sent successfully!',
   EMAIL_FAILURE: 'Unable to sent email!',
@@ -17,6 +105,7 @@ export const MESSAGES = {
 export const PAGE_TITLES = {
   ADD_NEW_TALK: 'Add new Talk',
   EDIT_TALK: 'Edit Talk',
+  ADD_NEW_VIDEO: 'Add new Video',
 };
 
 export const talkCategories = [

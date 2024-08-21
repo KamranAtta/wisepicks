@@ -13,7 +13,7 @@ export default function TalkCategories({categoryName}: any) {
     }, []);
 
   return (
-    <Row gutter={24} style={{display: 'flex', justifyContent:'center', textAlign:'center'}}>
+    <Row gutter={24} style={{display: 'flex', justifyContent:'center', textAlign:'center',marginTop: '10px'}}>
             <Col span={matches ? 19 : 24}>
                 <Row gutter={24}>
                     {
